@@ -1,0 +1,22 @@
+{% load i18n static %}
+{% block nav-breadcrumbs %}
+<nav aria-label="{% translate 'Breadcrumbs' %}">
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+
+        <a href="{% url 'home' %}">{% translate 'Home' %}</a>
+        &rsaquo;
+        {% if function_name == "views_all" %}
+        <!--- {% for breadcrumb in breadcrumbs %}
+        <a href="#">{{ breadcrumb }}</a> &rsaquo;
+        {% endfor %} ---!>
+        {{ breadcrumb_ru }}
+
+        {% endif %}
+
+    </div>
+    {% endblock %}
+</nav>
+
+
+{% endblock %}

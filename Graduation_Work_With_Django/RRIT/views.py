@@ -17,9 +17,12 @@ def index(request):
         if model._meta.app_label == 'users' or model._meta.app_label == 'Incidents':
             app_models.append({
                 'name': model._meta.verbose_name_plural,
-                'test': '123',
+                'app_label': model._meta.app_label,
+                'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
+                'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
+                'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
             }
-    )
-    app_list = apps.get_models()
+            )
+    # app_list = apps.get_models()
     return render(request, 'RRIT/index.html',
-                  {'app_models': app_models, 'app_list': app_list, 'title': 'Отслеживание происшествий ОАО "РЖД"'})
+                  {'app_models': app_models, 'title': 'Отслеживание происшествий ОАО "РЖД"'})

@@ -29,7 +29,7 @@
     <meta name="robots" content="NONE,NOARCHIVE">
     {% endblock %}
 </head>
-<body class="dashboard" data-admin-utc-offset="{% now "Z" %}">
+<body class="dashboard" data-admin-utc-offset="{% now " Z" %}">
 
 
 <!-- Container -->
@@ -77,23 +77,13 @@
 
 
     {% block nav-breadcrumbs %}
-    <nav aria-label="{% translate 'Breadcrumbs' %}">
-        {% block breadcrumbs %}
-        <div class="breadcrumbs">
-            <a href="#">{% translate 'Home' %}</a>
-            {% if title %} &rsaquo; {{ title }}{% endif %}
-        </div>
-        {% endblock %}
-    </nav>
+
     {% endblock %}
+
     {% endif %}
 
     <div class="main" id="main">
-        {% if not is_popup and is_nav_sidebar_enabled %}
-        {% block nav-sidebar %}
-        {% include "admin/nav_sidebar.html" %}
-        {% endblock %}
-        {% endif %}
+
         <div id="content-start" class="content" tabindex="-1">
             {% block messages %}
             {% if messages %}
@@ -114,19 +104,18 @@
                 <div id="content-main">
                     {% block object-tools %}
                     {% for app in app_models %}
-                    <div class="app-users module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
                         <table>
                             <caption>
                                 <a href="#" class="section"
                                    title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>
                             </caption>
                             <tr class="model-user">
-
-                                <th scope="row"><a href="#" aria-current="page">{{ app.name }}</a>
+                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>
                                 </th>
                                 <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
                                 <!---<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> ---!>
-                                <td><a href="{{ model.admin_url }}" class="changelink">{% translate 'Change' %}</a>
+                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>
                                 </td>
 
                             </tr>
@@ -134,50 +123,13 @@
                         </table>
                     </div>
                     {% endfor %}
-
-                    <!---
-                    {% for app in app_list %}
-                        <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
-                            <table>
-                                <caption>
-                                    <a href="{{ app.app_url }}" class="section"
-                                       title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{
-                                        app.name }}</a>
-                                </caption>
-                                {% for model in app.models %}
-                                <tr class="model-{{ model.object_name|lower }}{% if model.admin_url in request.path|urlencode %} current-model{% endif %}">
-                                    <th scope="row"><a href="{{ model.admin_url }}" {% if model.admin_url in
-                                                       request.path|urlencode %} aria-current="page">321</a>
-                                    </th>
-                                    <th scope="row">{{ model.name }}</th>
-
-                                    {% if model.add_url %}
-                                    <td><a href="{{ model.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
-                                    {% else %}
-                                    <td></td>
-                                    {% endif %}
-
-                                    {% if model.admin_url and show_changelinks %}
-                                    {% if model.view_only %}
-                                    <td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td>
-                                    {% else %}
-                                    <td><a href="{{ model.admin_url }}" class="changelink">{% translate 'Change' %}</a>
-                                    </td>
-                                    {% endif %}
-                                    {% elif show_changelinks %}
-                                    <td></td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                        {% endfor %} ---!>
                 </div>
-
                 {% endblock %}
                 {{ content }}
                 {% endblock %}
-                {% block sidebar %}{% endblock %}
+                {% block sidebar %}
+                {% include "RRIT/logs.html" %}
+                {% endblock %}
                 <br class="clear">
             </div>
             <!-- END Content -->
