@@ -4,4 +4,31 @@
 {% endblock %}
 {% block nav-breadcrumbs %}
 {% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+        {% block nav-sidebar %}
+          {% include "RRIT/nav_sidebar.html" %}
+        {% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <!---
+    {% comment %} {% block object-tools %}
+   <ul class="object-tools">
+      {% block object-tools-items %}
+       {% change_list_object_tools %}
+       {% endblock %}
+   </ul>
+   {% endblock %}
+   {% if cl.formset and cl.formset.errors %}
+   <p class="errornote">
+       {% blocktranslate count counter=cl.formset.total_error_count %}Please correct the error below.{% plural %}Please
+       correct the errors below.{% endblocktranslate %}
+   </p>
+   {{ cl.formset.non_form_errors }}
+   {% endif %}
+   {% endcomment %}
+   ---------!>
 {% endblock %}

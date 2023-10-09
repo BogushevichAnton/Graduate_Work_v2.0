@@ -40,7 +40,7 @@
     <div id="header">
         <div id="branding">
             {% block branding %}
-            <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ title|default:_('Администрирование') }}</a></h1>
+            <h1 id="site-name"><a href="{% url 'admin:index' %}">Отслеживание происшествий ОАО "РЖД"</a></h1>
             {% endblock %}
         </div>
         {% block usertools %}
@@ -83,7 +83,9 @@
     {% endif %}
 
     <div class="main" id="main">
+        {% block nav-sidebar %}
 
+        {% endblock %}
         <div id="content-start" class="content" tabindex="-1">
             {% block messages %}
             {% if messages %}
@@ -110,7 +112,7 @@
                                 <a href="#" class="section"
                                    title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>
                             </caption>
-                            <tr class="model-user">
+                            <tr class="model-{{ app.app_label }}">
                                 <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>
                                 </th>
                                 <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>

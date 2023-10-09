@@ -1,0 +1,24 @@
+{% load i18n %}
+<button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar"
+        aria-label="{% translate 'Toggle navigation' %}"></button>
+<nav class="sticky" id="nav-sidebar" aria-label="{% translate 'Sidebar' %}">
+    <input type="search" id="nav-filter"
+           placeholder="{% translate 'Start typing to filter…' %}"
+           aria-label="{% translate 'Filter navigation items' %}">
+    {% for app in app_models %}
+    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+        <table>
+            <caption>
+                <a href="#" class="section"
+                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>
+            </caption>
+            <tr class="model-{{ app.app_label }} {% if action_model in app.app_label %} current-model {% endif %}">
+                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>
+                </th>
+                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
+            </tr>
+
+        </table>
+    </div>
+    {% endfor %}
+</nav>

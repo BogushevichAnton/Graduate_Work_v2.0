@@ -9,8 +9,7 @@ from django.apps import apps
 
 all_models = []
 
-
-def index(request):
+def get_sidebar():
     list = apps.get_models()
     app_models = []
     for model in list:
@@ -23,6 +22,10 @@ def index(request):
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
             }
             )
+    return app_models
+
+def index(request):
+    app_models = get_sidebar()
     # app_list = apps.get_models()
     return render(request, 'RRIT/index.html',
-                  {'app_models': app_models, 'title': 'Отслеживание происшествий ОАО "РЖД"'})
+                  {'app_models': app_models,})
