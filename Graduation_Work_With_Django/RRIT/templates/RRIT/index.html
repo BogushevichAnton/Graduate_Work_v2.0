@@ -16,8 +16,11 @@
     {% if LANGUAGE_BIDI %}
     <link rel="stylesheet" href="{% block stylesheet_rtl %}{% static 'admin/css/rtl.css' %}{% endblock %}">
     {% endif %}
-    {% block extrahead %} {% endblock %}
+    {% block extrahead %}
+
+
     <link rel="stylesheet" href="{% static 'admin/css/dashboard.css' %}">
+    {% endblock %}
     {% block responsive %}
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="{% static 'admin/css/responsive.css' %}">
@@ -29,7 +32,7 @@
     <meta name="robots" content="NONE,NOARCHIVE">
     {% endblock %}
 </head>
-<body class="dashboard" data-admin-utc-offset="{% now " Z" %}">
+<body class="{% block bodyclass %} dashboard {% endblock %}" data-admin-utc-offset="{% now " Z" %}">
 
 
 <!-- Container -->

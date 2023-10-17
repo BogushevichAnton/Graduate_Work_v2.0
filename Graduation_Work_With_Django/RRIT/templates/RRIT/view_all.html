@@ -1,5 +1,28 @@
 {% extends "RRIT/index.html" %}
-{% load i18n static %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+ {{ block.super }}
+  <link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+    <script src="{% url 'admin:jsi18n' %}"></script>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script src="{% static 'admin/js/filters.js' %}" defer></script>
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="/static/admin/js/jquery.init.js"></script>
+<script src="/static/admin/js/core.js"></script>
+<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script src="/static/admin/js/actions.js"></script>
+<script src="/static/admin/js/urlify.js"></script>
+<script src="/static/admin/js/prepopulate.js"></script>
+<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+<script src="/static/admin/js/filters.js" defer></script>
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
 {% block sidebar %}
 {% endblock %}
 {% block nav-breadcrumbs %}
@@ -8,27 +31,100 @@
 {% endblock %}
 
 
-        {% block nav-sidebar %}
-          {% include "RRIT/nav_sidebar.html" %}
-        {% endblock %}
-
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
 {% block content %}
+<h1>Выберите {{ eddit_name }} для изменения</h1>
 <div id="content-main">
-    <!---
-    {% comment %} {% block object-tools %}
-   <ul class="object-tools">
-      {% block object-tools-items %}
-       {% change_list_object_tools %}
-       {% endblock %}
-   </ul>
-   {% endblock %}
-   {% if cl.formset and cl.formset.errors %}
-   <p class="errornote">
-       {% blocktranslate count counter=cl.formset.total_error_count %}Please correct the error below.{% plural %}Please
-       correct the errors below.{% endblocktranslate %}
-   </p>
-   {{ cl.formset.non_form_errors }}
-   {% endif %}
-   {% endcomment %}
-   ---------!>
+    {% block coltype %}{% endblock %}
+    {% block object-tools %}
+    <ul class="object-tools">
+        <li>
+            <a href="#" class="addlink"> Добавить {{ eddit_name }}
+
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
+    <div class="module" id="changelist">
+        <div class="changelist-form-container">
+            <div id="toolbar">
+                <form id="changelist-search" action="{{ search_var }}" method="get">
+                        <div><!-- DIV needed for valid HTML -->
+                        <label for="searchbar"><img src="{% static "admin/img/search.svg" %}" alt="Search"></label>
+                        <input type="text" size="40" name="{{ search_var }}" value="{{ cl.query }}" id="searchbar"{% if cl.search_help_text %} aria-describedby="searchbar_helptext"{% endif %}>
+                        <input type="submit" value="{% translate 'Search' %}">
+                        {% if show_result_count %}
+                            <span class="small quiet">{% blocktranslate count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %} (<a href="?{% if cl.is_popup %}{{ is_popup_var }}=1{% endif %}">{% if cl.show_full_result_count %}{% blocktranslate with full_result_count=cl.full_result_count %}{{ full_result_count }} total{% endblocktranslate %}{% else %}{% translate "Show all" %}{% endif %}</a>)</span>
+                        {% endif %}
+                        {% for pair in cl.params.items %}
+                            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}">{% endif %}
+                        {% endfor %}
+                        </div>
+                        {% if cl.search_help_text %}
+                        <br class="clear">
+                        <div class="help" id="searchbar_helptext">{{ cl.search_help_text }}</div>
+                        {% endif %}
+
+                </form>
+            </div>
+
+            <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken"
+                                                                          value="I392hWKAYLrydLjSWmAs176fiTun39UOhMgEujVVvIbD1JY7g4aorJklbS6kxn8q">
+                <div class="actions">
+                    <label>Действие: <select name="action" required="">
+                        <option value="" selected="">---------</option>
+                        <option value="delete_selected">Удалить выбранные Инциденты</option>
+                    </select></label><input type="hidden" name="select_across" value="0" class="select-across">
+                    <button type="submit" class="button" title="Выполнить выбранное действие" name="index" value="0">
+                        Выполнить
+                    </button>
+                    <span class="action-counter" data-actions-icnt="1">Выбрано 0 объектов из 1 </span>
+                </div>
+                <div class="results">
+                    <table id="result_list">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="action-checkbox-column">
+                                <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+                                <div class="clear"></div>
+                            </th>
+
+                            {% for th in array_of_th %}
+                            <th scope="col" class="column-__str__">
+                                <div class="text"><span>{{ th }}</span></div>
+                                <div class="clear"></div>
+                            </th>
+                            {% endfor %}
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for data in array_of_data %}
+                        <tr>
+                            {% for key, value in data.items %}
+                                          <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ key }}"
+                                                               class="action-select"></td>
+                            {% for down_value in value%}
+                            {% for key1, value1 in down_value.items %}
+                            <th class="field-{{ key1 }}"><a href="/{{ action_model }}/{{action_models_s}}/{{ key }}/change/">
+                                {{ value1 }}
+                            </a></th>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="paginator">
+                    {{ count }} {{ eddit_name }}
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

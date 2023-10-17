@@ -56,7 +56,7 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True, verbose_name="e-mail")
     name = models.CharField(max_length=255, verbose_name="Имя")
     surname = models.CharField(max_length=255, verbose_name="Фамилия")
     lastname = models.CharField(max_length=255, verbose_name="Отчество")
@@ -67,6 +67,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'lastname']  # Email & Password are required by default.
+
+
 
     list_display = ('email', 'name',)
     search_fields = ('name', 'email')
