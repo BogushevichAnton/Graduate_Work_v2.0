@@ -70,8 +70,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 
-    list_display = ('email', 'name',)
-    search_fields = ('name', 'email')
+    list_display = ('id', 'email', 'name',)
+
+    search_fields = ['name', 'email']
 
     objects = UserManager()
 

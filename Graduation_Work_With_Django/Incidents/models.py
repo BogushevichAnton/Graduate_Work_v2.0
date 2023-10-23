@@ -7,6 +7,7 @@ class Incidents(models.Model):
     longitude = models.FloatField(verbose_name='Долгота')
 
     list_display = ('description', 'latitude', 'longitude')
+    search_fields = ['description', 'latitude']
     class Meta:
         verbose_name = "инцидент"
         verbose_name_plural = "Инциденты"
