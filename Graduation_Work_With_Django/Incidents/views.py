@@ -24,8 +24,8 @@ def incidents_all(request):
 
 
 def incidents_id(request, IncidentId):
-    print(request.GET)
-    return HttpResponse(f"Страница конкретного Incident <p>{IncidentId}</p>")
+    #print(request.GET)
+    return render(request, 'Incidents/index.html')
 
 def incidents_search(request):
     arg = request.GET.get('search')
@@ -43,6 +43,8 @@ def incidents_search(request):
                    'array_of_th': array_of_th,
                    'count': count,
                    })
+def incidents_add(request):
+    return render(request, 'Incidents/add.html')
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')

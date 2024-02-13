@@ -1,0 +1,53 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script src="{% static 'admin/js/filters.js' %}" defer></script>
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="/static/admin/js/jquery.init.js"></script>
+<script src="/static/admin/js/core.js"></script>
+<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script src="/static/admin/js/actions.js"></script>
+<script src="/static/admin/js/urlify.js"></script>
+<script src="/static/admin/js/prepopulate.js"></script>
+<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+<script src="/static/admin/js/filters.js" defer></script>
+<link rel="stylesheet" href="{% static "leaflet.css" %} " />
+<link rel="stylesheet" href="{% static "map.css" %} " />
+<script src="{% static "leaflet.js" %}"></script>
+<script src="{% static "map.js" %}"></script>
+
+
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
+{% block sidebar %}
+{% endblock %}
+{% block nav-breadcrumbs %}
+{% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
+{% block content %}
+<div id="map" style="position: fixed; width: 70%; height: 70%;" ></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let map = create_map([45.5, -90], 5);
+    });
+
+</script>
+
+{% endblock %}
