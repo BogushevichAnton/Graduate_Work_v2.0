@@ -1,8 +1,10 @@
-from django.http import HttpResponse, HttpResponseNotFound
+import json
+
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render
 from .models import *
 from RRIT.views import get_sidebar, get_settings, get_search
-
+from django.core.serializers import serialize
 
 def incidents_all(request):
     if request.GET.get('search'):
@@ -25,7 +27,14 @@ def incidents_all(request):
 
 def incidents_id(request, IncidentId):
     #print(request.GET)
-    return render(request, 'Incidents/index.html')
+    #здесь вывод 1-го
+
+    incident = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude')
+    list_data_json = json.dumps(list(incident))
+    #serialized_data = serialize("json", incident)
+    #incidents_result = json.loads(serialized_data)
+    return render(request, 'Incidents/index.html', {'data': list_data_json})
+
 
 def incidents_search(request):
     arg = request.GET.get('search')

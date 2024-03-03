@@ -41,13 +41,20 @@
 {% include "RRIT/nav_sidebar.html" %}
 {% endblock %}
 {% block content %}
-<div id="map" style="position: fixed; width: 70%; height: 70%;" ></div>
-
+{{data}}
+<div id="map" style="position: fixed; width: 70%; height: 70%;"  ></div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        let map = create_map([45.5, -90], 5);
+            //let value = JSON.stringify({{data}});
+            //console.log(value);
+            create_map([55.76414339215818, 37.625415458045055], 5);
+         map.on('click', function(e) {
+            console.log(e.latlng);
+            var marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
+            });
     });
 
 </script>
+<div style="display: none" id="jsonData" data-json="{{ data }}"></div>
 
 {% endblock %}
