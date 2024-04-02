@@ -17,6 +17,18 @@ function create_map(center, zoom){
     var description = jsonData.map((item) => item.description);
     console.log(description);
 
+    var redIcon = new L.Icon({
+          iconUrl: '/static/images/marker-icon-2x-red.png',
+          shadowUrl: '/static/images/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+
+    L.marker([55.7429063961456, 37.662975621024664], {icon: redIcon}).addTo(map);
+
     var marker = new L.Marker(center);
     marker.bindPopup(description.toString()).openPopup();
     marker.addTo(map);

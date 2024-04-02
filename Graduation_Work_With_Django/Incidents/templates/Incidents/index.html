@@ -42,13 +42,14 @@
 {% endblock %}
 {% block content %}
 {{data}}
-<div id="map" style="position: fixed; width: 70%; height: 70%;"  ></div>
+<div id="map" style="position: fixed; width: 45%; height: 70%;"  ></div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
             //let value = JSON.stringify({{data}});
             //console.log(value);
-            create_map([55.76414339215818, 37.625415458045055], 5);
+            create_map([55.760748705787165, 37.626156387675145], 5);
          map.on('click', function(e) {
+
             console.log(e.latlng);
             var marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
             });
