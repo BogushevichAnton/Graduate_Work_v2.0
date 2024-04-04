@@ -26,14 +26,30 @@ def incidents_all(request):
 
 
 def incidents_id(request, IncidentId):
-    #print(request.GET)
-    #здесь вывод 1-го
-
+    app_models = get_sidebar()
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+        Incidents)
+    incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
     incident = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude')
+    breadcrumb_ru += " › " + incident_breadcrumb.description
+
     list_data_json = json.dumps(list(incident))
+
     #serialized_data = serialize("json", incident)
+
     #incidents_result = json.loads(serialized_data)
-    return render(request, 'Incidents/index.html', {'data': list_data_json})
+
+    return render(request, 'Incidents/index.html', {'data': list_data_json ,
+                                                    'breadcrumb_ru': breadcrumb_ru,
+                                                    'function_name': function_name,
+                                                    'app_models': app_models,
+                                                    'action_model': action_model,
+                                                    'eddit_name': eddit_name,
+                                                    'action_models_s': action_models_s,
+                                                    'array_of_data': array_of_data,
+                                                    'count': count,
+                                                    'array_of_th': array_of_th,
+                                                    })
 
 
 def incidents_search(request):

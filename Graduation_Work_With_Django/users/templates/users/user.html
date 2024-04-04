@@ -1,0 +1,145 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="/static/admin/css/forms.css">
+{{ block.super }}
+
+{% endblock %}
+
+{% block extrahead %}
+
+{{ block.super }}
+
+{{ media.js }}
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block nav-breadcrumbs %}
+
+{% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
+{% block content %}
+<div id="content" class="colM">
+    <h1>Изменить пользователя</h1>
+    <h2>Богушевич Антон1 Максимович B_A_M2000@mail.ru</h2>
+    <div id="content-main">
+        <ul class="object-tools">
+            <li>
+                <a href="/admin/users/user/1/history/" class="historylink">История</a>
+            </li>
+        </ul>
+       <form method="post" id="user_form" novalidate><input type="hidden" name="csrfmiddlewaretoken"
+                                                             value="G3XKQFKx6t054ehhKR34o9lvNCfWz2cJWnIHzkqE1RSTzyMPCTxnqhDxcA5cZlt0">
+            <div>
+                <fieldset class="module aligned ">
+                    <div class="form-row field-email">
+                        <div>
+                            <div class="flex-container">
+                                <label class="required" for="id_email">E-mail:</label>
+                                <input type="email" name="email" value="B_A_M2000@mail.ru" class="vTextField"
+                                       maxlength="255" required id="id_email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-password">
+                        <div>
+                            <div class="flex-container">
+                                <label>Password:</label>
+                                <div disabled id="id_password">
+                                    <strong>алгоритм</strong>:
+                                    <bdi>pbkdf2_sha256</bdi>
+                                    <strong>итерации</strong>:
+                                    <bdi>600000</bdi>
+                                    <strong>соль</strong>:
+                                    <bdi>t17DxB****************</bdi>
+                                    <strong>хэш</strong>:
+                                    <bdi>sgeuBM**************************************</bdi>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="module aligned ">
+                    <h2>Р›РёС‡РЅС‹Рµ РґР°РЅРЅС‹Рµ</h2>
+                    <div class="form-row field-name">
+                        <div>
+                            <div class="flex-container">
+                                <label class="required" for="id_name">Имя:</label>
+                                <input type="text" name="name" value="Антон1" class="vTextField" maxlength="255"
+                                       required id="id_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-surname">
+                        <div>
+                            <div class="flex-container">
+                                <label class="required" for="id_surname">Фамилия:</label>
+                                <input type="text" name="surname" value="Богушевич" class="vTextField" maxlength="255"
+                                       required id="id_surname">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-lastname">
+                        <div>
+                            <div class="flex-container">
+                                <label class="required" for="id_lastname">Отчество:</label>
+                                <input type="text" name="lastname" value="Максимович" class="vTextField" maxlength="255"
+                                       required id="id_lastname">
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="module aligned ">
+                    <h2>РџСЂР°РІР° РґРѕСЃС‚СѓРїР°</h2>
+                    <div class="form-row field-groups">
+                        <div>
+                            <div class="flex-container">
+
+                                <label for="id_groups">Группы:</label>
+
+                                <div class="related-widget-wrapper" data-model-ref="группа">
+                                    <select name="groups" id="id_groups" multiple class="selectfilter"
+                                            data-field-name="группы" data-is-stacked="0">
+                                    </select>
+
+                                    <a class="related-widget-wrapper-link add-related" id="add_id_groups"
+                                       data-popup="yes"
+                                       href="/admin/auth/group/add/?_to_field=id&amp;_popup=1"
+                                       title="Добавить ещё один объект типа " группа""><img
+                                        src="/static/admin/img/icon-addlink.svg" alt="Добавить"></a>
+
+                                </div>
+                            </div>
+                            <div class="help" id="id_groups_helptext">
+                                <div>Группы, к которым принадлежит данный пользователь. Пользователь получит все права,
+                                    указанные в каждой из его/её групп. Удерживайте “Control“ (или “Command“ на Mac),
+                                    чтобы выбрать несколько значений.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit-row">
+                    <input type="submit" value="Сохранить" class="default" name="_save">
+                    <input type="submit" value="Сохранить и добавить другой объект" name="_addanother">
+                    <input type="submit" value="Сохранить и продолжить редактирование" name="_continue">
+                    <a href="/admin/users/user/1/delete/" class="deletelink">Удалить</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br class="clear">
+</div>
+{% endblock %}

@@ -21,8 +21,24 @@ def users_all(request):
                    })
 
 def user_id(request, UsersID):
-    print(request.GET)
-    return HttpResponse(f"Страница конкретного users <p>{UsersID}</p>")
+    app_models = get_sidebar()
+
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(User)
+    user = User.objects.get(pk = UsersID)
+
+    breadcrumb_ru += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
+    return render(request, 'users/user.html',
+                  {'function_name': function_name,
+                   # 'breadcrumbs': breadcrumbs,
+                   'breadcrumb_ru': breadcrumb_ru,
+                   'app_models': app_models,
+                   'action_model': action_model,
+                   'eddit_name': eddit_name,
+                   'action_models_s': action_models_s,
+                   'array_of_data': array_of_data,
+                   'count': count,
+                   'array_of_th': array_of_th,
+                   })
 
 
 def users_search(request):
