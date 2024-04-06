@@ -32,7 +32,7 @@
 {% block content %}
 <div id="content" class="colM">
     <h1>Изменить пользователя</h1>
-    <h2>Богушевич Антон1 Максимович B_A_M2000@mail.ru</h2>
+    <h2>{{ user.surname }} {{ user.name }} {{ user.lastname }} {{ user.email }}</h2>
     <div id="content-main">
         <ul class="object-tools">
             <li>
@@ -47,7 +47,7 @@
                         <div>
                             <div class="flex-container">
                                 <label class="required" for="id_email">E-mail:</label>
-                                <input type="email" name="email" value="B_A_M2000@mail.ru" class="vTextField"
+                                <input type="email" name="email" value="{{ user.email }}" class="vTextField"
                                        maxlength="255" required id="id_email">
                             </div>
                         </div>
@@ -71,12 +71,12 @@
                     </div>
                 </fieldset>
                 <fieldset class="module aligned ">
-                    <h2>Р›РёС‡РЅС‹Рµ РґР°РЅРЅС‹Рµ</h2>
+                    <h2>Личные данные</h2>
                     <div class="form-row field-name">
                         <div>
                             <div class="flex-container">
                                 <label class="required" for="id_name">Имя:</label>
-                                <input type="text" name="name" value="Антон1" class="vTextField" maxlength="255"
+                                <input type="text" name="name" value="{{ user.name }}" class="vTextField" maxlength="255"
                                        required id="id_name">
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div>
                             <div class="flex-container">
                                 <label class="required" for="id_surname">Фамилия:</label>
-                                <input type="text" name="surname" value="Богушевич" class="vTextField" maxlength="255"
+                                <input type="text" name="surname" value="{{ user.surname }}" class="vTextField" maxlength="255"
                                        required id="id_surname">
                             </div>
                         </div>
@@ -94,39 +94,9 @@
                         <div>
                             <div class="flex-container">
                                 <label class="required" for="id_lastname">Отчество:</label>
-                                <input type="text" name="lastname" value="Максимович" class="vTextField" maxlength="255"
+                                <input type="text" name="lastname" value="{{ user.lastname }}" class="vTextField" maxlength="255"
                                        required id="id_lastname">
 
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="module aligned ">
-                    <h2>РџСЂР°РІР° РґРѕСЃС‚СѓРїР°</h2>
-                    <div class="form-row field-groups">
-                        <div>
-                            <div class="flex-container">
-
-                                <label for="id_groups">Группы:</label>
-
-                                <div class="related-widget-wrapper" data-model-ref="группа">
-                                    <select name="groups" id="id_groups" multiple class="selectfilter"
-                                            data-field-name="группы" data-is-stacked="0">
-                                    </select>
-
-                                    <a class="related-widget-wrapper-link add-related" id="add_id_groups"
-                                       data-popup="yes"
-                                       href="/admin/auth/group/add/?_to_field=id&amp;_popup=1"
-                                       title="Добавить ещё один объект типа " группа""><img
-                                        src="/static/admin/img/icon-addlink.svg" alt="Добавить"></a>
-
-                                </div>
-                            </div>
-                            <div class="help" id="id_groups_helptext">
-                                <div>Группы, к которым принадлежит данный пользователь. Пользователь получит все права,
-                                    указанные в каждой из его/её групп. Удерживайте “Control“ (или “Command“ на Mac),
-                                    чтобы выбрать несколько значений.
-                                </div>
                             </div>
                         </div>
                     </div>

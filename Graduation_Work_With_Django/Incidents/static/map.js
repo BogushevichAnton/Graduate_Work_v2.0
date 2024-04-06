@@ -15,7 +15,15 @@ function create_map(center, zoom){
     console.log(jsonData);
 
     var description = jsonData.map((item) => item.description);
+
     console.log(description);
+
+    for (let i = 0; i < jsonData.length; i++) { // выведет 0, затем 1, затем 2
+        var marker = new L.Marker([jsonData[i].latitude, jsonData[i].longitude]);
+        marker.bindPopup(jsonData[i].description.toString()).openPopup();
+        marker.addTo(map);
+    }
+
 
     var redIcon = new L.Icon({
           iconUrl: '/static/images/marker-icon-2x-red.png',
@@ -27,11 +35,11 @@ function create_map(center, zoom){
         });
 
 
-    L.marker([55.7429063961456, 37.662975621024664], {icon: redIcon}).addTo(map);
+    //L.marker([55.7429063961456, 37.662975621024664], {icon: redIcon}).addTo(map);
 
-    var marker = new L.Marker(center);
-    marker.bindPopup(description.toString()).openPopup();
-    marker.addTo(map);
+//    var marker = new L.Marker(center);
+//    marker.bindPopup(description.toString()).openPopup();
+//    marker.addTo(map);
 
        var featureGroup = L.featureGroup([railwayLayer, baseMap]);
        featureGroup.addTo(map);

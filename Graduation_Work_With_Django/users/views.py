@@ -28,16 +28,14 @@ def user_id(request, UsersID):
 
     breadcrumb_ru += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
     return render(request, 'users/user.html',
-                  {'function_name': function_name,
+                  {'user': user,
+                    'function_name': function_name,
                    # 'breadcrumbs': breadcrumbs,
                    'breadcrumb_ru': breadcrumb_ru,
                    'app_models': app_models,
                    'action_model': action_model,
                    'eddit_name': eddit_name,
                    'action_models_s': action_models_s,
-                   'array_of_data': array_of_data,
-                   'count': count,
-                   'array_of_th': array_of_th,
                    })
 
 
