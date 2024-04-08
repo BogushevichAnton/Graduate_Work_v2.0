@@ -12,10 +12,19 @@ def get_sidebar():
     list = apps.get_models()
     app_models = []
     for model in list:
-        if model._meta.app_label == 'users' or model._meta.app_label == 'Incidents':
+        if model._meta.app_label == 'Incidents':
             app_models.append({
                 'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.app_label,
+                'app_label': model._meta.object_name,
+                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
+            }
+            )
+        if model._meta.app_label == 'users':
+            app_models.append({
+                'name': model._meta.verbose_name_plural,
+                'app_label': model._meta.object_name,
                 'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
                 'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',

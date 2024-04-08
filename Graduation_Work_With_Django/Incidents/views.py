@@ -70,8 +70,9 @@ def incidents_map(request):
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
-    incidents = Incidents.objects.values('description', 'latitude', 'longitude')
+    incidents = Incidents.objects.values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
     list_data_json = json.dumps(list(incidents))
+
     return render(request, 'Incidents/map.html', {'data': list_data_json,
                                                     'breadcrumb_ru': breadcrumb_ru,
                                                     'function_name': function_name,
