@@ -52,36 +52,72 @@
             <div style="text-align: center;">Добавить новый инцидент</div>
             <div id="map"
                  style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;"></div>
+
         </div>
         <div class="col-sm">
             <div style="text-align: center;">Описание</div>
-            <label for="basic-url" class="form-label">Your vanity URL</label>
+            <label for="" class="form-label">Адрес</label>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" >
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-text">Адрес</span>
+                <input type="" id="address" class="form-control" placeholder="Адрес" readonly>
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-text">Координаты</span>
+                <input type="" id="lat" class="form-control" placeholder="Широта" readonly>
+                <input type="" id="lng" class="form-control" placeholder="Долгота" readonly>
             </div>
         </div>
     </div>
 </div>
 
-<!---<div class="container">
-  <div class="left">
-    <div style="margin-bottom: 10px; text-align: center;">Добавить новый инцидент</div>
-    <div id="map" style="width:750px; height: 450px;" ></div>
-  </div>
-
-  <div class="right">
-    <div style="margin-bottom: 10px; text-align: center;">Описание</div>
-      <form action="handler.php">
-          <p><>Адрес</p>
-          <p><input maxlength="25" value="Вася" class="textField"></p>
-      </form>
-  </div>
-</div>--!>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        let map = create_map([45.5, -90], 5);
+            create_map([55.760748705787165, 37.626156387675145], 5);
+             var marker = {};
+         map.on('click', function(e)
+         {
+
+                 if (marker != undefined) {
+                    map.removeLayer(marker);
+                 };
+               marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
+               var latHtml = document.getElementById('lat');
+               latHtml.value = e.latlng.lat;
+               var lonHtml = document.getElementById('lng');
+               lonHtml.value = e.latlng.lng;
+
+               var url = "http://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address";
+               var token = "48dd8e7ec5d6409bf6586b38ac4c36b98ea34426";
+               var query = { lat: e.latlng.lat, lon: e.latlng.lng };
+
+                var options = {
+                    method: "POST",
+                    mode: "cors",
+                    count: 1,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": "Token " + token
+                    },
+                    body: JSON.stringify(query),
+                    count: 1,
+                }
+
+                fetch(url, options)
+                .then(response => response.json())
+                .then(result => document.getElementById('address').value = result.suggestions[0].value)
+                .catch(error => console.log("error", error));
+
+               var addressHtml = document.getElementById('address');
+               addressHtml.value = '123';
+
+         });
     });
 
 
