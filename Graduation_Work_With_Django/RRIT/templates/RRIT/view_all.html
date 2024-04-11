@@ -115,6 +115,6 @@
             </form>
         </div>
     </div>
-    !Сделать проверку на Инциденты, только для них эта ссылка!<a href="/Incidents/Incident/map">Просмотреть все</a>
+    {% if action_model == 'Incidents'%}<a href="/Incidents/Incident/map">Просмотреть все</a>{% endif %}
 </div>
 {% endblock %}

@@ -30,11 +30,9 @@ def incidents_id(request, IncidentId):
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
     incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
-    incident = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude')
+    incident = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
     breadcrumb_ru += " › " + incident_breadcrumb.description
     list_data_json = json.dumps(list(incident))
-    #serialized_data = serialize("json", incident)
-    #incidents_result = json.loads(serialized_data)
     return render(request, 'Incidents/index.html', {'data': list_data_json ,
                                                     'breadcrumb_ru': breadcrumb_ru,
                                                     'function_name': function_name,
@@ -93,5 +91,22 @@ def incidents_add(request):
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')
 
+def incidents_specification(request):
+    app_models = get_sidebar()
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(Specifications)
+    action_models_s = 'Specification'
+    action_model = 'Specifications'
+    return render(request, 'RRIT/view_all.html',
+                  {'function_name': function_name,
+                   # 'breadcrumbs': breadcrumbs,
+                   'breadcrumb_ru': breadcrumb_ru,
+                   'app_models': app_models,
+                   'action_model': action_model,
+                   'eddit_name': eddit_name,
+                   'action_models_s': action_models_s,
+                   'array_of_data': array_of_data,
+                   'count': count,
+                   'array_of_th': array_of_th,
+                   })
 
 

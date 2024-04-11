@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.left {
+  margin: 5px;
+  width: 70%;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  width: 30%;
+}
+.textField {
+    width: 100%; /* Ширина поля */
+    padding: 10px; /* Поля */
+    box-sizing: border-box; /* Алгоритм расчёта ширины */
+    box-shadow: inset 0 1px 5px rgba(0,0,0,0.2); /* Тень внутри */
+    border: 1px solid #ccc; /* Параметры рамки */
+    color: #ff6d37; /* Цвет текста */
+}

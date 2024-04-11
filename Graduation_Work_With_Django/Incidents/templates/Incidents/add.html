@@ -3,8 +3,9 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+
 <script src="{% url 'admin:jsi18n' %}"></script>
+
 {% endblock %}
 
 {% block extrahead %}
@@ -20,15 +21,16 @@
 <script src="/static/admin/js/prepopulate.js"></script>
 <script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
 <script src="/static/admin/js/filters.js" defer></script>
-<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+
 
 <link rel="stylesheet" href="{% static "leaflet.css" %} " />
 
 <link rel="stylesheet" href="{% static "map.css" %} " />
+<!---<link rel="stylesheet" href="{% static "add.css" %} " />--!>
 <script src="{% static "leaflet.js" %}"></script>
 <script src="{% static "map.js" %}"></script>
 
-
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
 {% endblock %}
 
 {% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
@@ -44,23 +46,44 @@
 {% include "RRIT/nav_sidebar.html" %}
 {% endblock %}
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      <div style="text-align: center;">Добавить новый инцидент</div>
-        <div id="map" style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;" ></div>
+<div class="container1">
+    <div class="row1">
+        <div class="col-sm">
+            <div style="text-align: center;">Добавить новый инцидент</div>
+            <div id="map"
+                 style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;"></div>
+        </div>
+        <div class="col-sm">
+            <div style="text-align: center;">Описание</div>
+            <label for="basic-url" class="form-label">Your vanity URL</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+        </div>
     </div>
-    <div class="col-sm">
-      <div style="text-align: center;">Описание</div>
-    </div>
-  </div>
 </div>
+
+<!---<div class="container">
+  <div class="left">
+    <div style="margin-bottom: 10px; text-align: center;">Добавить новый инцидент</div>
+    <div id="map" style="width:750px; height: 450px;" ></div>
+  </div>
+
+  <div class="right">
+    <div style="margin-bottom: 10px; text-align: center;">Описание</div>
+      <form action="handler.php">
+          <p><>Адрес</p>
+          <p><input maxlength="25" value="Вася" class="textField"></p>
+      </form>
+  </div>
+</div>--!>
 
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         let map = create_map([45.5, -90], 5);
     });
+
 
 </script>
 

@@ -12,7 +12,7 @@ function create_map(center, zoom){
     }).addTo(map);
 
     var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
-
+    console.log(jsonData);
     var description = jsonData.map((item) => item.description);
 
         var redIcon = new L.Icon({
@@ -41,6 +41,7 @@ function create_map(center, zoom){
     });
 
     for (let i = 0; i < jsonData.length; i++) {
+
         switch (jsonData[i].specification__color) {
                 case 'green':
                     var marker = new L.Marker([jsonData[i].latitude, jsonData[i].longitude], {icon: greenIcon});
