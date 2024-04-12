@@ -50,14 +50,14 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: center;">Добавить новый инцидент</div>
-            <div id="map"
-                 style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;"></div>
-
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить новый инцидент</div>
+            <div id="map" style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;"></div>
         </div>
         <div class="col-sm">
-            <div style="text-align: center;">Характеристики инцидента</div>
-            <form action="">
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики инцидента</div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-error">{{ form.non_field_errors }}</div>
                 <div class="input-group mt-2">
                     <span class="input-group-text">Адрес</span>
                     <input type="" id="address" class="form-control" placeholder="Адрес" readonly="true">
@@ -65,26 +65,25 @@
                         его в поле выше
                     </div>
                 </div>
-
                 <div class="input-group mt-2">
                     <span class="input-group-text">Координаты</span>
-                    <input type="" id="lat" class="form-control" placeholder="Широта" readonly>
-                    <input type="" id="lng" class="form-control" placeholder="Долгота" readonly>
+                    {{ form.latitude }}
+                    {{ form.longitude }}
+
                 </div>
-
-
+                    <div class="form-error">{{ form.latitude.errors }}</div>
+                    <div class="form-error">{{ form.longitude.errors }}</div>
                 <div class="form-group mt-2">
-                    <label for="select">Выберите опасность инцидента (по умолчанию стоит низкая)</label>
-                    <select class="form-select mt-2" style="height: 100%;" id="select">
-                        <option class="form-control">Инцидент низкой опасности</option>
-                        <option class="form-control">Инцидент средней опасности</option>
-                        <option class="form-control">Инцидент высокой опасности</option>
-                    </select>
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Выберите опасность инцидента (по умолчанию стоит низкая)</span>
+                    {{ form.specification }}
+                    <div class="form-error">{{ form.specification.errors }}</div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Описание инцидента</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <div class="form-group mt-2">
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание инцидента</label>
+                    {{ form.description }}
+                    <div class="form-error">{{ form.description.errors }}</div>
                 </div>
+                <button type="submit"> Кинуть куда то</button>
             </form>
         </div>
 

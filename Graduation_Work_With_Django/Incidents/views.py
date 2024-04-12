@@ -1,7 +1,9 @@
 import json
 
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from .forms import AddPostForm
 from .models import *
 from RRIT.views import get_sidebar, get_settings, get_search
 from django.core.serializers import serialize
@@ -86,7 +88,17 @@ def incidents_map(request):
 
 
 def incidents_add(request):
-    return render(request, 'Incidents/add.html')
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = AddPostForm()
+    data = {
+        'form': form,
+    }
+    return render(request, 'Incidents/add.html', data)
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')
