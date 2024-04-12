@@ -961,7 +961,7 @@
       return this.each(function () {
         const data = Button.getOrCreateInstance(this);
 
-        if (config === 'toggle') {
+        if (config === 'toggle1') {
           data[config]();
         }
       });
@@ -1947,7 +1947,7 @@
           data._parent = data._getParent();
         }
 
-        config = 'toggle';
+        config = 'toggle1';
       } else {
         config = triggerData;
       }
@@ -2014,7 +2014,7 @@
   const Default$7 = {
     offset: [0, 2],
     boundary: 'clippingParents',
-    reference: 'toggle',
+    reference: 'toggle1',
     display: 'dynamic',
     popperConfig: null,
     autoClose: true

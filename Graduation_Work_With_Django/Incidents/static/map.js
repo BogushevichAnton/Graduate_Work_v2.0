@@ -1,6 +1,5 @@
 var map;
 function create_map(center, zoom){
-
     map = L.map('map').setView(center,zoom);
 
     var baseMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -11,7 +10,8 @@ function create_map(center, zoom){
         attribution:  '©OpenRailwayMap'
     }).addTo(map);
 
-    if (document.getElementById('#jsonData') != null){
+    if (document.querySelector('#jsonData') != null){
+
         var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
         var description = jsonData.map((item) => item.description);
     }
@@ -41,7 +41,7 @@ function create_map(center, zoom){
           shadowSize: [41, 41]
     });
 
-    if (document.getElementById('#jsonData') != null){
+    if (document.querySelector('#jsonData') != null){
     for (let i = 0; i < jsonData.length; i++) {
 
         switch (jsonData[i].specification__color) {
