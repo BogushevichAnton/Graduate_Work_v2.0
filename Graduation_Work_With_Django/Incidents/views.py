@@ -67,6 +67,7 @@ def incidents_search(request):
                    })
 
 
+
 def incidents_map(request):
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
@@ -89,7 +90,6 @@ def incidents_map(request):
 
 
 def incidents_add(request):
-
     if request.method == 'POST':
         form = AddPostForm(request.POST)
         if form.is_valid():
@@ -100,9 +100,6 @@ def incidents_add(request):
         function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
             Incidents)
         form = AddPostForm()
-    data = {
-        'form': form,
-    }
     return render(request, 'Incidents/add.html',  {'form': form,
                                                    'function_name': function_name,
                                                    'breadcrumb_ru': breadcrumb_ru,
@@ -115,6 +112,45 @@ def incidents_add(request):
                                                    'count': count,
      }
                   )
+
+def incidents_change(request, IncidentId):
+    incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
+    if request.method == 'POST':
+        form = AddPostForm(request.POST, instance=incident_breadcrumb)
+        if form.is_valid():
+            obj = form.save()
+            return redirect('Incidents_ID', obj.pk)
+    else:
+        app_models = get_sidebar()
+        function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+            Incidents)
+        incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
+        breadcrumb_ru += " › " + incident_breadcrumb.description
+        list_data_json = json.dumps(list(incident))
+        form = AddPostForm()
+        form.fields['address'].widget.attrs['value'] = incident_breadcrumb.address
+        form.fields['latitude'].widget.attrs['value'] = incident_breadcrumb.latitude
+        form.fields['longitude'].widget.attrs['value'] = incident_breadcrumb.longitude
+        form.fields['specification'].initial = incident_breadcrumb.specification.pk
+    return render(request, 'Incidents/change.html', {
+                                                    'form':form,
+                                                    'incident': incident_breadcrumb,
+                                                    'data': list_data_json ,
+                                                    'breadcrumb_ru': breadcrumb_ru,
+                                                    'function_name': function_name,
+                                                    'app_models': app_models,
+                                                    'action_model': action_model,
+                                                    'eddit_name': eddit_name,
+                                                    'action_models_s': action_models_s,
+                                                    'array_of_data': array_of_data,
+                                                    'count': count,
+                                                    'array_of_th': array_of_th,
+                                                    })
+
+def incidents_delete(request, IncidentId):
+    incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
+    incident_breadcrumb.delete()
+    return redirect('Incidents_all')
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')

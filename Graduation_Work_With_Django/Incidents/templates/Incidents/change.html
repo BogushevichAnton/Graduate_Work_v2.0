@@ -3,9 +3,8 @@
 
 {% block extrastyle %}
 {{ block.super }}
-
+<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
 <script src="{% url 'admin:jsi18n' %}"></script>
-
 {% endblock %}
 
 {% block extrahead %}
@@ -21,17 +20,16 @@
 <script src="/static/admin/js/prepopulate.js"></script>
 <script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
 <script src="/static/admin/js/filters.js" defer></script>
-
-
 <link rel="stylesheet" href="{% static "leaflet.css" %} " />
-
 <link rel="stylesheet" href="{% static "map.css" %} " />
-<!---<link rel="stylesheet" href="{% static "add.css" %} " />--!>
 <script src="{% static "leaflet.js" %}"></script>
 <script src="{% static "map.js" %}"></script>
+
 <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
 <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+
+
 {% endblock %}
 
 {% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
@@ -73,11 +71,12 @@
                     <span class="input-group-text">Координаты</span>
                     {{ form.latitude }}
                     {{ form.longitude }}
+
                 </div>
                     <div class="form-error">{{ form.latitude.errors }}</div>
                     <div class="form-error">{{ form.longitude.errors }}</div>
                 <div class="form-group mt-2">
-                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Выберите опасность инцидента (по умолчанию стоит низкая)</span>
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Выберите опасность инцидента</span>
                     {{ form.specification }}
                     <div class="form-error">{{ form.specification.errors }}</div>
                 </div>
@@ -87,19 +86,22 @@
                     <div class="form-error">{{ form.description.errors }}</div>
                 </div>
                 <div class="form-group mt-2">
-                <button type="submit" class="btn btn-success w-100" >Зафиксировать происшествие</button>
+                <button type="submit" class="btn btn-warning w-100" >Сохранить изменения</button>
                 </div>
             </form>
         </div>
 
     </div>
 </div>
+<div style="display: none" id="desc" data="{{incident.description}}"></div>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-                index = 0;
-                const selectElem = document.getElementById("select");
+document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('exampleFormControlTextarea1').value = document.getElementById('desc').getAttribute('data');
+                selectElem = document.getElementById("select");
+                index = selectElem.selectedIndex+1;
+                console.log(index);
                 selectElem.addEventListener("change", () => {
-                          index = selectElem.selectedIndex;
+                          index = selectElem.selectedIndex + 1;
                           console.log(index);
                 });
             create_map([55.760748705787165, 37.626156387675145], 5);
@@ -133,13 +135,13 @@
                                 });
                  var selectIcon;
                  switch(index) {
-                    case 0:
+                    case 1:
                         selectIcon = greenIcon;
                         break;
-                    case 1:
+                    case 2:
                         selectIcon = orangeIcon;
                         break;
-                    case 2:
+                    case 3:
                         selectIcon = redIcon;
                         break;
                  }
@@ -174,7 +176,6 @@
                 fetch(url, options)
                 .then(response => response.json())
                 .then(result => {
-                console.log(result.suggestions.length);
                 if (result.suggestions.length != 0){
                     document.getElementById('address').value = result.suggestions[0].value;
                     document.getElementById('errorAddress').style.display = 'none';
@@ -191,10 +192,7 @@
          });
     });
 
-
-
-
 </script>
-
+<div style="display: none" id="jsonData" data-json="{{ data }}"></div>
 
 {% endblock %}
