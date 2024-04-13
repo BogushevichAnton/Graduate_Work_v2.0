@@ -59,17 +59,20 @@
                 {% csrf_token %}
                 <div class="form-error">{{ form.non_field_errors }}</div>
                 <div class="input-group mt-2">
+
                     <span class="input-group-text">Адрес</span>
-                    <input type="" id="address" class="form-control" placeholder="Адрес" readonly="true">
+
+                    {{ form.address }}
                     <div style="display:none" id="errorAddress">Адрес не найден! Вам будет доступна возможность ввести
                         его в поле выше
                     </div>
                 </div>
+                <div class="form-error">{{ form.address.errors }}</div>
+
                 <div class="input-group mt-2">
                     <span class="input-group-text">Координаты</span>
                     {{ form.latitude }}
                     {{ form.longitude }}
-
                 </div>
                     <div class="form-error">{{ form.latitude.errors }}</div>
                     <div class="form-error">{{ form.longitude.errors }}</div>
@@ -83,7 +86,9 @@
                     {{ form.description }}
                     <div class="form-error">{{ form.description.errors }}</div>
                 </div>
-                <button type="submit"> Кинуть куда то</button>
+                <div class="form-group mt-2">
+                <button type="submit" class="btn btn-success w-100" >Зафиксировать происшествие</button>
+                </div>
             </form>
         </div>
 

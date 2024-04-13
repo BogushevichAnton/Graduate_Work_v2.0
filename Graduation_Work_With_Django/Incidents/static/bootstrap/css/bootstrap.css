@@ -252,19 +252,19 @@ svg {
   vertical-align: middle;
 }
 
-table {
-  caption-side: bottom;
+table1 {
+  caption1-side: bottom;
   border-collapse: collapse;
 }
 
-caption {
+caption1 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   color: #6c757d;
   text-align: left;
 }
 
-th {
+th1 {
   text-align: inherit;
   text-align: -webkit-match-parent;
 }
@@ -272,9 +272,9 @@ th {
 thead,
 tbody1,
 tfoot,
-tr,
-td,
-th {
+tr1,
+td1,
+th1 {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
@@ -568,7 +568,7 @@ progress {
   line-height: 1;
 }
 
-.figure-caption {
+.figure-caption1 {
   font-size: 0.875em;
   color: #6c757d;
 }
@@ -1908,198 +1908,198 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
-.table {
-  --bs-table-bg: transparent;
-  --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #212529;
-  --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-  --bs-table-active-color: #212529;
-  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #212529;
-  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+.table1 {
+  --bs-table1-bg: transparent;
+  --bs-table1-accent-bg: transparent;
+  --bs-table1-striped-color: #212529;
+  --bs-table1-striped-bg: rgba(0, 0, 0, 0.05);
+  --bs-table1-active-color: #212529;
+  --bs-table1-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table1-hover-color: #212529;
+  --bs-table1-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
   color: #212529;
   vertical-align: top;
   border-color: #dee2e6;
 }
-.table > :not(caption) > * > * {
+.table1 > :not(caption1) > * > * {
   padding: 0.5rem 0.5rem;
-  background-color: var(--bs-table-bg);
+  background-color: var(--bs-table1-bg);
   border-bottom-width: 1px;
-  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  box-shadow: inset 0 0 0 9999px var(--bs-table1-accent-bg);
 }
-.table > tbody1 {
+.table1 > tbody1 {
   vertical-align: inherit;
 }
-.table > thead {
+.table1 > thead {
   vertical-align: bottom;
 }
-.table > :not(:last-child) > :last-child > * {
+.table1 > :not(:last-child) > :last-child > * {
   border-bottom-color: currentColor;
 }
 
-.caption-top {
-  caption-side: top;
+.caption1-top {
+  caption1-side: top;
 }
 
-.table-sm > :not(caption) > * > * {
+.table1-sm > :not(caption1) > * > * {
   padding: 0.25rem 0.25rem;
 }
 
-.table-bordered > :not(caption) > * {
+.table1-bordered > :not(caption1) > * {
   border-width: 1px 0;
 }
-.table-bordered > :not(caption) > * > * {
+.table1-bordered > :not(caption1) > * > * {
   border-width: 0 1px;
 }
 
-.table-borderless > :not(caption) > * > * {
+.table1-borderless > :not(caption1) > * > * {
   border-bottom-width: 0;
 }
 
-.table-striped > tbody1 > tr:nth-of-type(odd) {
-  --bs-table-accent-bg: var(--bs-table-striped-bg);
-  color: var(--bs-table-striped-color);
+.table1-striped > tbody1 > tr1:nth-of-type(odd) {
+  --bs-table1-accent-bg: var(--bs-table1-striped-bg);
+  color: var(--bs-table1-striped-color);
 }
 
-.table-active {
-  --bs-table-accent-bg: var(--bs-table-active-bg);
-  color: var(--bs-table-active-color);
+.table1-active {
+  --bs-table1-accent-bg: var(--bs-table1-active-bg);
+  color: var(--bs-table1-active-color);
 }
 
-.table-hover > tbody1 > tr:hover {
-  --bs-table-accent-bg: var(--bs-table-hover-bg);
-  color: var(--bs-table-hover-color);
+.table1-hover > tbody1 > tr1:hover {
+  --bs-table1-accent-bg: var(--bs-table1-hover-bg);
+  color: var(--bs-table1-hover-color);
 }
 
-.table-primary {
-  --bs-table-bg: #cfe2ff;
-  --bs-table-striped-bg: #c5d7f2;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #bacbe6;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #bfd1ec;
-  --bs-table-hover-color: #000;
+.table1-primary {
+  --bs-table1-bg: #cfe2ff;
+  --bs-table1-striped-bg: #c5d7f2;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #bacbe6;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #bfd1ec;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #bacbe6;
 }
 
-.table-secondary {
-  --bs-table-bg: #e2e3e5;
-  --bs-table-striped-bg: #d7d8da;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #cbccce;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #d1d2d4;
-  --bs-table-hover-color: #000;
+.table1-secondary {
+  --bs-table1-bg: #e2e3e5;
+  --bs-table1-striped-bg: #d7d8da;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #cbccce;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #d1d2d4;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #cbccce;
 }
 
-.table-success {
-  --bs-table-bg: #d1e7dd;
-  --bs-table-striped-bg: #c7dbd2;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #bcd0c7;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #c1d6cc;
-  --bs-table-hover-color: #000;
+.table1-success {
+  --bs-table1-bg: #d1e7dd;
+  --bs-table1-striped-bg: #c7dbd2;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #bcd0c7;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #c1d6cc;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #bcd0c7;
 }
 
-.table-info {
-  --bs-table-bg: #cff4fc;
-  --bs-table-striped-bg: #c5e8ef;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #badce3;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #bfe2e9;
-  --bs-table-hover-color: #000;
+.table1-info {
+  --bs-table1-bg: #cff4fc;
+  --bs-table1-striped-bg: #c5e8ef;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #badce3;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #bfe2e9;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #badce3;
 }
 
-.table-warning {
-  --bs-table-bg: #fff3cd;
-  --bs-table-striped-bg: #f2e7c3;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #e6dbb9;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #ece1be;
-  --bs-table-hover-color: #000;
+.table1-warning {
+  --bs-table1-bg: #fff3cd;
+  --bs-table1-striped-bg: #f2e7c3;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #e6dbb9;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #ece1be;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #e6dbb9;
 }
 
-.table-danger {
-  --bs-table-bg: #f8d7da;
-  --bs-table-striped-bg: #eccccf;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #dfc2c4;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #e5c7ca;
-  --bs-table-hover-color: #000;
+.table1-danger {
+  --bs-table1-bg: #f8d7da;
+  --bs-table1-striped-bg: #eccccf;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #dfc2c4;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #e5c7ca;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #dfc2c4;
 }
 
-.table-light {
-  --bs-table-bg: #f8f9fa;
-  --bs-table-striped-bg: #ecedee;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #dfe0e1;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #e5e6e7;
-  --bs-table-hover-color: #000;
+.table1-light {
+  --bs-table1-bg: #f8f9fa;
+  --bs-table1-striped-bg: #ecedee;
+  --bs-table1-striped-color: #000;
+  --bs-table1-active-bg: #dfe0e1;
+  --bs-table1-active-color: #000;
+  --bs-table1-hover-bg: #e5e6e7;
+  --bs-table1-hover-color: #000;
   color: #000;
   border-color: #dfe0e1;
 }
 
-.table-dark {
-  --bs-table-bg: #212529;
-  --bs-table-striped-bg: #2c3034;
-  --bs-table-striped-color: #fff;
-  --bs-table-active-bg: #373b3e;
-  --bs-table-active-color: #fff;
-  --bs-table-hover-bg: #323539;
-  --bs-table-hover-color: #fff;
+.table1-dark {
+  --bs-table1-bg: #212529;
+  --bs-table1-striped-bg: #2c3034;
+  --bs-table1-striped-color: #fff;
+  --bs-table1-active-bg: #373b3e;
+  --bs-table1-active-color: #fff;
+  --bs-table1-hover-bg: #323539;
+  --bs-table1-hover-color: #fff;
   color: #fff;
   border-color: #373b3e;
 }
 
-.table-responsive {
+.table1-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 575.98px) {
-  .table-responsive-sm {
+  .table1-responsive-sm {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
 @media (max-width: 767.98px) {
-  .table-responsive-md {
+  .table1-responsive-md {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
 @media (max-width: 991.98px) {
-  .table-responsive-lg {
+  .table1-responsive-lg {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
 @media (max-width: 1199.98px) {
-  .table-responsive-xl {
+  .table1-responsive-xl {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
 @media (max-width: 1399.98px) {
-  .table-responsive-xxl {
+  .table1-responsive-xxl {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -5897,7 +5897,7 @@ textarea.form-control-lg {
   opacity: 1;
 }
 
-.carousel-caption {
+.carousel-caption1 {
   position: absolute;
   right: 15%;
   bottom: 1.25rem;
@@ -5915,7 +5915,7 @@ textarea.form-control-lg {
 .carousel-dark .carousel-indicators [data-bs-target] {
   background-color: #000;
 }
-.carousel-dark .carousel-caption {
+.carousel-dark .carousel-caption1 {
   color: #000;
 }
 
@@ -6328,16 +6328,16 @@ textarea.form-control-lg {
   display: grid !important;
 }
 
-.d-table {
-  display: table !important;
+.d-table1 {
+  display: table1 !important;
 }
 
-.d-table-row1 {
-  display: table-row1 !important;
+.d-table1-row1 {
+  display: table1-row1 !important;
 }
 
-.d-table-cell {
-  display: table-cell !important;
+.d-table1-cell {
+  display: table1-cell !important;
 }
 
 .d-flex {
@@ -7533,16 +7533,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-sm-table {
-    display: table !important;
+  .d-sm-table1 {
+    display: table1 !important;
   }
 
-  .d-sm-table-row1 {
-    display: table-row1 !important;
+  .d-sm-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-sm-table-cell {
-    display: table-cell !important;
+  .d-sm-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-sm-flex {
@@ -8184,16 +8184,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-md-table {
-    display: table !important;
+  .d-md-table1 {
+    display: table1 !important;
   }
 
-  .d-md-table-row1 {
-    display: table-row1 !important;
+  .d-md-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-md-table-cell {
-    display: table-cell !important;
+  .d-md-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-md-flex {
@@ -8835,16 +8835,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-lg-table {
-    display: table !important;
+  .d-lg-table1 {
+    display: table1 !important;
   }
 
-  .d-lg-table-row1 {
-    display: table-row1 !important;
+  .d-lg-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-lg-table-cell {
-    display: table-cell !important;
+  .d-lg-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-lg-flex {
@@ -9486,16 +9486,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-xl-table {
-    display: table !important;
+  .d-xl-table1 {
+    display: table1 !important;
   }
 
-  .d-xl-table-row1 {
-    display: table-row1 !important;
+  .d-xl-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-xl-table-cell {
-    display: table-cell !important;
+  .d-xl-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-xl-flex {
@@ -10137,16 +10137,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-xxl-table {
-    display: table !important;
+  .d-xxl-table1 {
+    display: table1 !important;
   }
 
-  .d-xxl-table-row1 {
-    display: table-row1 !important;
+  .d-xxl-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-xxl-table-cell {
-    display: table-cell !important;
+  .d-xxl-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-xxl-flex {
@@ -10793,16 +10793,16 @@ textarea.form-control-lg {
     display: grid !important;
   }
 
-  .d-print-table {
-    display: table !important;
+  .d-print-table1 {
+    display: table1 !important;
   }
 
-  .d-print-table-row1 {
-    display: table-row1 !important;
+  .d-print-table1-row1 {
+    display: table1-row1 !important;
   }
 
-  .d-print-table-cell {
-    display: table-cell !important;
+  .d-print-table1-cell {
+    display: table1-cell !important;
   }
 
   .d-print-flex {

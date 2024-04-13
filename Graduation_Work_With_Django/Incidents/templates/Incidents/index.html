@@ -25,6 +25,10 @@
 <script src="{% static "leaflet.js" %}"></script>
 <script src="{% static "map.js" %}"></script>
 
+<script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+
 
 {% endblock %}
 
@@ -41,8 +45,46 @@
 {% include "RRIT/nav_sidebar.html" %}
 {% endblock %}
 {% block content %}
+<div class="container1">
+    <div class="row1">
+        <div class="col-sm">
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Происшествие</div>
+            <div id="map" style="width:750px; height: 450px; position:relative; text-align:center; margin-top: 10px;"></div>
+        </div>
+        <div class="col-sm">
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики происшествия</div>
 
-<div id="map" style="position: fixed; width: 45%; height: 70%;"  ></div>
+                <div class="input-group mt-2">
+                    <span class="input-group-text">Адрес</span>
+                    <input type="" class="form-control" id="address" placeholder="Адрес" value=" {{incident.address}} "readonly>
+
+                </div>
+
+                <div class="input-group mt-2">
+                    <span class="input-group-text">Координаты</span>
+                    <input type="" class="form-control" id="lat" placeholder="Широта" value="{{ incident.latitude }} "readonly>
+                    <input type="" class="form-control" id="lng" placeholder="Долгота" value="{{ incident.longitude }}"readonly>
+                </div>
+                <div class="form-group mt-2">
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Категория опасности происшествия</span>
+                    <input type="" class="form-control mt-1" id="select" placeholder="Спецификация" value="{{ incident.specification }}"readonly>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание происшествия</label>
+                    <textarea class="form-control mt-1" id="exampleFormControlTextarea1" rows="4" style="resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;" placeholder="Описание инцидента" maxlength="250" readonly > {{ incident.description }}</textarea>
+                </div>
+            <div class="row1 mt-2">
+                            <div class="col">
+                              <button type="submit" class="btn btn-warning w-100" >Изменить</button>
+                            </div>
+                            <div class="col">
+                              <button type="submit" class="btn btn-danger w-100" >Удалить</button>
+                            </div>
+                          </div>
+        </div>
+
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
             //let value = JSON.stringify({{data}});

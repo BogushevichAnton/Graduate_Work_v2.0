@@ -32,10 +32,11 @@ def incidents_id(request, IncidentId):
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
     incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
-    incident = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
+    incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
     breadcrumb_ru += " › " + incident_breadcrumb.description
     list_data_json = json.dumps(list(incident))
-    return render(request, 'Incidents/index.html', {'data': list_data_json ,
+    return render(request, 'Incidents/index.html', {'incident': incident_breadcrumb,
+                                                    'data': list_data_json ,
                                                     'breadcrumb_ru': breadcrumb_ru,
                                                     'function_name': function_name,
                                                     'app_models': app_models,
@@ -88,17 +89,32 @@ def incidents_map(request):
 
 
 def incidents_add(request):
+
     if request.method == 'POST':
         form = AddPostForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            obj = form.save()
+            return redirect('Incidents_ID', obj.pk)
     else:
+        app_models = get_sidebar()
+        function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+            Incidents)
         form = AddPostForm()
     data = {
         'form': form,
     }
-    return render(request, 'Incidents/add.html', data)
+    return render(request, 'Incidents/add.html',  {'form': form,
+                                                   'function_name': function_name,
+                                                   'breadcrumb_ru': breadcrumb_ru,
+                                                   'app_models': app_models,
+                                                   'action_model': action_model,
+                                                   'eddit_name': eddit_name,
+                                                   'action_models_s': action_models_s,
+                                                   'array_of_data': array_of_data,
+                                                   'array_of_th': array_of_th,
+                                                   'count': count,
+     }
+                  )
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')
