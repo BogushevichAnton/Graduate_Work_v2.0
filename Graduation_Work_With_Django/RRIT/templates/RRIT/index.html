@@ -50,9 +50,10 @@
         </div>
         {% block usertools %}
         <div id="user-tools">
+
             {% block welcome-msg %}
             Добро пожаловать,
-            <strong>123</strong>.
+            <strong>{{user.surname}} {{user.name}}</strong>.
             {% endblock %}
             {% block userlinks %}
             {% if site_url %}
@@ -132,7 +133,7 @@
                     {% endfor %}
                 </div>
                 {% endblock %}
-                {{ content }}
+
                 {% endblock %}
                 {% block sidebar %}
                 {% include "RRIT/logs.html" %}

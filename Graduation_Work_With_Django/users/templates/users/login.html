@@ -1,0 +1,41 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+{{ form.media }}
+
+{% endblock %}
+{% block extrahead %}<link rel="stylesheet" href="{% static "admin/css/login.css" %}">{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+
+
+
+
+{% block content %}
+{% block usertools %}
+{% endblock %}
+<div id="content-main">
+
+
+<form action="" method="post" id="">
+  {% csrf_token %}
+  <div class="form-row">
+    <label for="id_username" class="required">E-mail:</label>
+    {{form.email}}
+  </div>
+  <div class="form-row">
+    <label for="id_password" class="required">Пароль:</label>
+     {{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}">
+  </div>
+  <div class="submit-row">
+    <input type="submit" value="{% translate 'Log in' %}">
+  </div>
+</form>
+
+</div>
+{% block sidebar %}{% endblock %}
+{% endblock %}

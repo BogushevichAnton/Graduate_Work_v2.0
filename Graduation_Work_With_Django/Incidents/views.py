@@ -3,12 +3,15 @@ import json
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 
+from Graduation_Work_With_Django import settings
 from .forms import AddPostForm
 from .models import *
 from RRIT.views import get_sidebar, get_settings, get_search
 from django.core.serializers import serialize
 
 def incidents_all(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     if request.GET.get('search'):
         return incidents_search(request)
     else:
@@ -28,6 +31,8 @@ def incidents_all(request):
 
 
 def incidents_id(request, IncidentId):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
@@ -50,6 +55,8 @@ def incidents_id(request, IncidentId):
 
 
 def incidents_search(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_search(
         Incidents, arg)
@@ -69,6 +76,8 @@ def incidents_search(request):
 
 
 def incidents_map(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
@@ -90,6 +99,8 @@ def incidents_map(request):
 
 
 def incidents_add(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     if request.method == 'POST':
         form = AddPostForm(request.POST)
         if form.is_valid():
@@ -114,6 +125,8 @@ def incidents_add(request):
                   )
 
 def incidents_change(request, IncidentId):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
     if request.method == 'POST':
         form = AddPostForm(request.POST, instance=incident_breadcrumb)
@@ -148,6 +161,8 @@ def incidents_change(request, IncidentId):
                                                     })
 
 def incidents_delete(request, IncidentId):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
     incident_breadcrumb.delete()
     return redirect('Incidents_all')
@@ -156,6 +171,8 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница инцидентов не найдена')
 
 def incidents_specification(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(Specifications)
     action_models_s = 'Specification'

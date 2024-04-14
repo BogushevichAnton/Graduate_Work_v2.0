@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('RRIT.urls')),
     path('Incidents/', include('Incidents.urls')),
-    path('users/user/', include('users.urls')),
+    path('users/user/', include('users.urls', namespace="users")),
 ]
 
 handler404 = pageNotFound

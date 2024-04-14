@@ -1,7 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import context
 
+from Graduation_Work_With_Django import settings
 from Incidents.models import *
 from users.models import *
 from django.contrib import admin
@@ -24,7 +25,7 @@ def get_sidebar():
         if model._meta.app_label == 'users':
             app_models.append({
                 'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.object_name,
+                'app_label': model._meta.app_label,
                 'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
                 'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
@@ -95,6 +96,8 @@ def get_search(model, arg):
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
     # app_list = apps.get_models()
     return render(request, 'RRIT/index.html',
