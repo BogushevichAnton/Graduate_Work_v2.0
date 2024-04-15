@@ -24,7 +24,7 @@ def login_user(request):
     return render(request, 'users/login.html', {'form':form})
 def logout_user(request):
     logout(request)
-    return HttpResponse("logout")
+    return redirect('users:login')
 
 def users_all(request):
     if not request.user.is_authenticated:

@@ -97,7 +97,13 @@
                                                                class="action-select"></td>
                             {% for down_value in value%}
                             {% for key1, value1 in down_value.items %}
-                            <th class="field-{{ key1 }}"><a href="/{{ action_model }}/{{action_models_s}}/{{ key }}/">
+                            <th class="field-{{ key1 }}">
+                                {% if action_model == 'Specifications'%}
+<a href="/{{ start_model }}/{{action_models_s}}/{{ key }}/">
+                                {% else %}
+
+                                <a href="/{{ action_model }}/{{action_models_s}}/{{ key }}/">
+                                    {% endif %}
                                 {{ value1 }}
                             </a></th>
                             {% endfor %}
