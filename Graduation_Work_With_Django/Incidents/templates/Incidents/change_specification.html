@@ -45,32 +45,25 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: left; font-size: 1rem; font-weight: 400; line-height: 1.5;">Информация об спецификации происшествий № {{ specification.pk }}</div></div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Изменить спецификацию инцидентов</div></div>
     </div>
     </div>
-
 <fieldset class="module aligned ">
-<div class="form-row field-">
+    <form action="" method="post">
+                {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <div class="form-row field-">
                 <div>
                         <div class="flex-container">
-                                <label class="required" for="id_pattern">Характеристика инцидента</label>
-                                <input type="text" name="pattern" value="{{specification.pattern}}" required="" id="id_pattern" readonly class="vTextField">
+                                <label class="required" for="id_pattern">{{ f.label }}</label>
+                                {{ f }}
                         </div>
                 </div>
         </div>
-    <div class="form-row field-">
-                <div>
-                        <div class="flex-container">
-                                <label class="required" for="id_color">Цвет</label>
-                                <input type="text" name="pattern" value="{{specification.color}}" required="" id="id_color" readonly class="vTextField">
-                        </div>
-                </div>
-        </div>
+        {% endfor %}
+                <p><button type="submit" class="btn btn-success w-100">Сохранить изменения спецификации</button></p>
+
+        </form>
 </fieldset>
-           <div class="row1">
-                            <div class="col">
-                              <a type="submit" class="btn btn-primary" href="change/" style="color: white;">Изменить</a>
-                              <a type="submit" class="btn btn-danger" href="delete/" style="color: white;">Удалить</a>
-                            </div>
-           </div>
 {% endblock %}

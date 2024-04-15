@@ -201,11 +201,11 @@ def incidents_specification_add(request):
         form = AddSpecificationsForm(request.POST)
         if form.is_valid():
             obj = form.save()
-            return redirect('home')
+            return redirect('Specification_ID', obj.pk)
     else:
         app_models = get_sidebar()
         function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
-            Incidents)
+            Specifications)
         form = AddSpecificationsForm()
     action_model = 'Specifications'
     return render(request, 'Incidents/add_specification.html', {'form': form,
@@ -227,7 +227,7 @@ def incidents_specification_id(request, SpecificationsId):
     specification = Specifications.objects.get(pk=SpecificationsId)
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
-        Incidents)
+        Specifications)
     form = AddSpecificationsForm()
     action_model = 'Specifications'
     return render(request, 'Incidents/id_specification.html', { 'specification': specification,
@@ -241,5 +241,41 @@ def incidents_specification_id(request, SpecificationsId):
                                                   'array_of_th': array_of_th,
                                                   'count': count,
                                                   })
+def incidents_specification_change(request, SpecificationsId):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    specification = Specifications.objects.get(pk=SpecificationsId)
+    if request.method == 'POST':
+        form = AddSpecificationsForm(request.POST, instance=specification)
+        if form.is_valid():
+            obj = form.save()
+            return redirect('Specification_ID', obj.pk)
+    else:
+        app_models = get_sidebar()
+        function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+            Incidents)
+        form = AddSpecificationsForm()
+        form.fields['pattern'].widget.attrs['value'] = specification.pattern
+        form.fields['color'].widget.attrs['value'] = specification.color
+    action_model = 'Specifications'
+    return render(request, 'Incidents/change_specification.html', {'form': form,
+                                                                'function_name': function_name,
+                                                                'breadcrumb_ru': breadcrumb_ru,
+                                                                'app_models': app_models,
+                                                                'action_model': action_model,
+                                                                'eddit_name': eddit_name,
+                                                                'action_models_s': action_models_s,
+                                                                'array_of_data': array_of_data,
+                                                                'array_of_th': array_of_th,
+                                                                'count': count,
+                                                                }
+                  )
+def incidents_specification_delete(request, SpecificationsId):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    specification = Specifications.objects.get(pk=SpecificationsId)
+    specification.delete()
+    return redirect('Incidents_specification')
+
 
 

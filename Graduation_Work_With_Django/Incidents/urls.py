@@ -14,4 +14,6 @@ urlpatterns = [
     path('Specification/', incidents_specification, name='Incidents_specification'),
     path('Specification/add/', incidents_specification_add, name='Incidents_specification_add'),
     path('Specification/<int:SpecificationsId>/', incidents_specification_id, name='Specification_ID'),
+    path('Specification/<int:SpecificationsId>/change/', incidents_specification_change, name='Specification_change'),
+    path('Specification/<int:SpecificationsId>/delete/', incidents_specification_delete, name='Specification_delete'),
 ]
