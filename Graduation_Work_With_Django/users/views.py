@@ -32,7 +32,8 @@ def users_all(request):
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(User)
     return render(request, 'RRIT/view_all.html',
-                  {'function_name': function_name,
+                  { 'add': 'add/',
+                      'function_name': function_name,
                        'breadcrumb_ru': breadcrumb_ru,
                        'app_models': app_models,
                        'action_model': action_model,

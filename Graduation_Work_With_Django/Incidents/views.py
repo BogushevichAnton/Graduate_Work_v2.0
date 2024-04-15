@@ -18,7 +18,8 @@ def incidents_all(request):
         app_models = get_sidebar()
         function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(Incidents)
         return render(request, 'RRIT/view_all.html',
-                      {'function_name': function_name,
+                      {'add': 'add/',
+                        'function_name': function_name,
                        'breadcrumb_ru': breadcrumb_ru,
                        'app_models': app_models,
                        'action_model': action_model,
@@ -178,7 +179,9 @@ def incidents_specification(request):
     action_models_s = 'Specification'
     action_model = 'Specifications'
     return render(request, 'RRIT/view_all.html',
-                  {'function_name': function_name,
+                  {
+                      'add': 'add/',
+                      'function_name': function_name,
                    # 'breadcrumbs': breadcrumbs,
                    'breadcrumb_ru': breadcrumb_ru,
                    'app_models': app_models,
