@@ -3,6 +3,7 @@
 
 {% block extrastyle %}
 <link rel="stylesheet" href="/static/admin/css/forms.css">
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
 {{ block.super }}
 
 {% endblock %}
@@ -48,7 +49,7 @@
                             <div class="flex-container">
                                 <label class="required" for="id_email">E-mail:</label>
                                 <input type="email" name="email" value="{{ user.email }}" class="vTextField"
-                                       maxlength="255" required id="id_email">
+                                       maxlength="255" required id="id_email" readonly>
                             </div>
                         </div>
                     </div>
@@ -62,9 +63,9 @@
                                     <strong>итерации</strong>:
                                     <bdi>600000</bdi>
                                     <strong>соль</strong>:
-                                    <bdi>t17DxB****************</bdi>
+                                    <bdi>{{solt}}****************</bdi>
                                     <strong>хэш</strong>:
-                                    <bdi>sgeuBM**************************************</bdi>
+                                    <bdi>{{hash}}**************************************</bdi>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +78,7 @@
                             <div class="flex-container">
                                 <label class="required" for="id_name">Имя:</label>
                                 <input type="text" name="name" value="{{ user.name }}" class="vTextField" maxlength="255"
-                                       required id="id_name">
+                                       required id="id_name" readonly>
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                             <div class="flex-container">
                                 <label class="required" for="id_surname">Фамилия:</label>
                                 <input type="text" name="surname" value="{{ user.surname }}" class="vTextField" maxlength="255"
-                                       required id="id_surname">
+                                       required id="id_surname" readonly>
                             </div>
                         </div>
                     </div>
@@ -95,17 +96,15 @@
                             <div class="flex-container">
                                 <label class="required" for="id_lastname">Отчество:</label>
                                 <input type="text" name="lastname" value="{{ user.lastname }}" class="vTextField" maxlength="255"
-                                       required id="id_lastname">
+                                       required id="id_lastname" readonly>
 
                             </div>
                         </div>
                     </div>
                 </fieldset>
                 <div class="submit-row">
-                    <input type="submit" value="Сохранить" class="default" name="_save">
-                    <input type="submit" value="Сохранить и добавить другой объект" name="_addanother">
-                    <input type="submit" value="Сохранить и продолжить редактирование" name="_continue">
-                    <a href="/admin/users/user/1/delete/" class="deletelink">Удалить</a>
+                    <a type="submit" class="btn btn-primary" href="change/" style="color: white;">Изменить</a>
+                    <a type="submit" class="btn btn-danger" href="delete/" style="color: white; margin-left: auto;">Удалить</a>
                 </div>
             </div>
         </form>

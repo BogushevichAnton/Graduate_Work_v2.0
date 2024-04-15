@@ -51,8 +51,13 @@ def user_id(request, UsersID):
     user = User.objects.get(pk = UsersID)
 
     breadcrumb_ru += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
+    password_hash = user.password.split('$')
+    solt = password_hash[2][0:6]
+    hash = password_hash[3][0:6]
     return render(request, 'users/user.html',
-                  {'user': user,
+                  {'solt':solt,
+                   'hash':hash,
+                      'user': user,
                     'function_name': function_name,
                    # 'breadcrumbs': breadcrumbs,
                    'breadcrumb_ru': breadcrumb_ru,
