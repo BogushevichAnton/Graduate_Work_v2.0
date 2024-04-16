@@ -19,7 +19,7 @@ class Incidents(models.Model):
     description = models.CharField(max_length=250, verbose_name='Описание',)
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
-    specification = models.ForeignKey(Specifications, on_delete = models.SET_DEFAULT, default=1)
+    specification = models.ForeignKey(Specifications, on_delete = models.SET_DEFAULT, default=1, verbose_name='Спецификация происшествия')
 
     list_display = ('address','description', 'latitude', 'longitude', 'specification')
     search_fields = ['address', 'description']

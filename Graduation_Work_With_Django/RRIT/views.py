@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import context
@@ -42,10 +43,9 @@ def get_settings(model):
     breadcrumb_ru = Model_all.model._meta.verbose_name_plural
     array_of_th = []
     array_of_data = []
-    for data in Model_all:
-        for list in data.list_display:
-            if data._meta.get_field(list).verbose_name not in array_of_th:
-                array_of_th.append(data._meta.get_field(list).verbose_name)
+    for i in range(len(Model_all.model.list_display)):
+        array_of_th.append(Model_all.model._meta.get_field(Model_all.model.list_display[i]).verbose_name)
+
     for data in Model_all:
         help_array = []
         for list in data.list_display:
@@ -59,13 +59,15 @@ def get_settings(model):
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
 
 def get_search(model, arg):
-    result = []
-    for field_1 in model.search_fields:
-        kw = {field_1: arg}
-        model_search = model.objects.filter(**kw)
-        if model.objects.filter(**kw):
-            result.append(model_search)
-
+    if model._meta.object_name == 'User':
+        filter_model = model.objects.filter(
+            Q(email__icontains=arg) | Q(name__icontains=arg) | Q(surname__icontains=arg) | Q(lastname__icontains=arg))
+    elif model._meta.object_name == 'Incidents':
+        filter_model = model.objects.filter(
+            Q(address__icontains=arg) | Q(description__icontains=arg))
+    elif model._meta.object_name == 'Specifications':
+        filter_model = model.objects.filter(
+            Q(pattern__icontains=arg) | Q(color__icontains=arg))
     Model_all = model.objects.all()
     function_name = 'views_all'
     action_model = Model_all.model._meta.app_label
@@ -75,25 +77,29 @@ def get_search(model, arg):
     array_of_th = []
     array_of_data = []
 
-    for mod in result:
-        for help in mod:
-            for list in help.list_display:
-                if help._meta.get_field(list).verbose_name not in array_of_th:
-                    array_of_th.append(help._meta.get_field(list).verbose_name)
+    for i in range(len(Model_all.model.list_display)):
+        array_of_th.append(Model_all.model._meta.get_field(Model_all.model.list_display[i]).verbose_name)
 
-    for mod in result:
-        for help in mod:
-            help_array = []
-            for list in help.list_display:
-                help_array.append({
-                    list: getattr(help, list),
-                })
-            array_of_data.append({
-                help.id: help_array,
+    for mod in filter_model:
+        help_array = []
+        for list in mod.list_display:
+            help_array.append({
+                list: getattr(mod, list),
             })
+        array_of_data.append({
+            mod.id: help_array,
+        })
 
     count = len(array_of_data)
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
+
+
+
+
+
+
+
+
 
 def index(request):
     if not request.user.is_authenticated:

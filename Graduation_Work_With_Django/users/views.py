@@ -45,6 +45,8 @@ def users_all(request):
                        })
 
 def user_id(request, UsersID):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
 
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(User)
@@ -66,9 +68,16 @@ def user_id(request, UsersID):
                    'eddit_name': eddit_name,
                    'action_models_s': action_models_s,
                    })
-
+def user_delete(request, UsersID):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    user = User.objects.get(pk=UsersID)
+    user.delete()
+    return redirect('users:Users_all')
 
 def users_search(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_search(
         User, arg)

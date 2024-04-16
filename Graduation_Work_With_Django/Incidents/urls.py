@@ -11,7 +11,10 @@ urlpatterns = [
     path('Incident/?', incidents_search, name='Incidents_search'),
     path('Incident/add/', incidents_add, name='Incidents_add'),
     path('Incident/map/', incidents_map, name='Incidents_map'),
+
+
     path('Specification/', incidents_specification, name='Incidents_specification'),
+    path('Specification/?', incidents_specification_search, name='Specification_search'),
     path('Specification/add/', incidents_specification_add, name='Incidents_specification_add'),
     path('Specification/<int:SpecificationsId>/', incidents_specification_id, name='Specification_ID'),
     path('Specification/<int:SpecificationsId>/change/', incidents_specification_change, name='Specification_change'),
