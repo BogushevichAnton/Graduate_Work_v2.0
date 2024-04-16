@@ -1,4 +1,9 @@
 from django.db import models
+import datetime
+
+from users.models import User
+
+
 # Create your models here.
 
 class Specifications(models.Model):
@@ -20,8 +25,10 @@ class Incidents(models.Model):
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
     specification = models.ForeignKey(Specifications, on_delete = models.SET_DEFAULT, default=1, verbose_name='Спецификация происшествия')
+    time_create = models.DateTimeField(verbose_name='Дата и время обнаружения происшествия', default=datetime.datetime.now(), blank=True)
+    user_create = models.ForeignKey(User, on_delete = models.SET_DEFAULT, default=1, verbose_name='Обнаружитель происшествия', blank=True)
 
-    list_display = ('address','description', 'latitude', 'longitude', 'specification')
+    list_display = ('address','description', 'latitude', 'longitude', 'specification', 'user_create')
     search_fields = ['address', 'description']
     class Meta:
         verbose_name = "инцидент"

@@ -13,7 +13,6 @@ function create_map(center, zoom){
     if (document.querySelector('#jsonData') != null){
 
         var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
-        var description = jsonData.map((item) => item.description);
     }
 
         var redIcon = new L.Icon({
@@ -58,7 +57,13 @@ function create_map(center, zoom){
                     var marker = new L.Marker([jsonData[i].latitude, jsonData[i].longitude]);
                     break;
                 }
-        marker.bindPopup(jsonData[i].description.toString()).openPopup();
+        var description = jsonData[i].description;
+        var time_create = jsonData[i].time_create;
+        var specification = jsonData[i].specification__pattern;
+        var user_create = jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname;
+
+        var full_description = "<b>Описание: </b>" + description + '<br/>' + "<b>Дата и время обнаружения: </b>" + time_create + '<br/>'+ "<b>Спецификация происшествия: </b>" + specification + '<br/>'+ "<b>Обнаружитель происшествия: </b>" + user_create;
+        marker.bindPopup(full_description).openPopup();
         marker.addTo(map);
     }
     }

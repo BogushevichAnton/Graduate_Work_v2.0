@@ -35,7 +35,10 @@ def get_sidebar():
     return app_models
 
 def get_settings(model):
-    Model_all = model.objects.all()
+    if model._meta.object_name == 'Incidents':
+        Model_all = model.objects.all().order_by('-time_create')
+    else:
+        Model_all = model.objects.all()
     function_name = 'views_all'
     action_model = Model_all.model._meta.app_label
     action_models_s = Model_all.model._meta.app_label[:-1]
@@ -92,15 +95,6 @@ def get_search(model, arg):
 
     count = len(array_of_data)
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
-
-
-
-
-
-
-
-
-
 def index(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)

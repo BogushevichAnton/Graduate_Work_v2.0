@@ -57,9 +57,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, verbose_name="e-mail")
-    name = models.CharField(max_length=255, verbose_name="Имя")
-    surname = models.CharField(max_length=255, verbose_name="Фамилия")
-    lastname = models.CharField(max_length=255, verbose_name="Отчество")
+    name = models.CharField(max_length=50, verbose_name="Имя")
+    surname = models.CharField(max_length=50, verbose_name="Фамилия")
+    lastname = models.CharField(max_length=50, verbose_name="Отчество")
 
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
@@ -67,13 +67,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'lastname']  # Email & Password are required by default.
-
-
-
     list_display = ('id', 'email', 'name',)
-
     search_fields = ['name', 'email']
-
     objects = UserManager()
 
     def get_full_name(self):
@@ -87,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self):              # __unicode__ on Python 2
-         return self.surname +' ' + self.name  +' ' + self.lastname +' ' + self.email
+         return self.surname +' ' + self.name  +' ' + self.lastname
 
     class Meta:
         verbose_name = "пользователя"

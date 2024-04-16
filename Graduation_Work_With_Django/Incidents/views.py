@@ -1,13 +1,13 @@
 import json
+import locale
 
-from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 from Graduation_Work_With_Django import settings
 from .forms import AddIncidentsForm, AddSpecificationsForm
 from .models import *
 from RRIT.views import get_sidebar, get_settings, get_search
-from django.core.serializers import serialize
 
 def incidents_all(request):
     if not request.user.is_authenticated:
@@ -38,9 +38,13 @@ def incidents_id(request, IncidentId):
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
     incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
-    incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
+    incidents = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
     breadcrumb_ru += " › " + incident_breadcrumb.description
-    list_data_json = json.dumps(list(incident))
+    key1 = list(incidents)
+    for res in key1:
+        res['time_create'] = res['time_create'].strftime('%d %b. %Y  %H:%M')
+    list_data_json = json.dumps(key1)
+
     return render(request, 'Incidents/index.html', {'incident': incident_breadcrumb,
                                                     'data': list_data_json ,
                                                     'breadcrumb_ru': breadcrumb_ru,
@@ -77,13 +81,17 @@ def incidents_search(request):
 
 
 def incidents_map(request):
+    locale.setlocale(locale.LC_ALL, '')
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
-    incidents = Incidents.objects.values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
-    list_data_json = json.dumps(list(incidents))
+    incidents = Incidents.objects.values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
+    key1 = list(incidents)
+    for res in key1:
+        res['time_create'] = res['time_create'].strftime('%d %b. %Y  %H:%M')
+    list_data_json = json.dumps(key1)
 
     return render(request, 'Incidents/map.html', {'data': list_data_json,
                                                     'breadcrumb_ru': breadcrumb_ru,
@@ -104,6 +112,7 @@ def incidents_add(request):
         return redirect(settings.LOGIN_URL)
     if request.method == 'POST':
         form = AddIncidentsForm(request.POST)
+        form.instance.user_create = request.user
         if form.is_valid():
             obj = form.save()
             return redirect('Incidents_ID', obj.pk)
