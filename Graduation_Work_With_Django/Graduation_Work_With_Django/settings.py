@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'Incidents.apps.IncidentsConfig',
     'RRIT',
+    'Subdivisions',
 ]
 AUTH_USER_MODEL = 'users.User'
 

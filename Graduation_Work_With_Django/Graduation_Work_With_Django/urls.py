@@ -16,14 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from Subdivisions.views import *
 from Incidents.views import *
 from RRIT.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('RRIT.urls')),
     path('Incidents/', include('Incidents.urls')),
     path('users/user/', include('users.urls', namespace="users")),
+    path('Subdivisions/', include('Subdivisions.urls')),
 ]
 
 handler404 = pageNotFound

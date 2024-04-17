@@ -111,6 +111,8 @@
                 {% block content %}
                 <div id="content-main">
                     {% block object-tools %}
+
+
                     {% for app in app_models %}
                     <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
                         <table>
@@ -131,6 +133,9 @@
                         </table>
                     </div>
                     {% endfor %}
+
+
+
                 </div>
                 {% endblock %}
 
