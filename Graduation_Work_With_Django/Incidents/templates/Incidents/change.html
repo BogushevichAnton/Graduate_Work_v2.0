@@ -10,24 +10,18 @@
 {% block extrahead %}
 {{ block.super }}
 {{ media.js }}
-<script src="{% static 'admin/js/filters.js' %}" defer></script>
-<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
-<script src="/static/admin/js/jquery.init.js"></script>
-<script src="/static/admin/js/core.js"></script>
-<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script src="/static/admin/js/actions.js"></script>
-<script src="/static/admin/js/urlify.js"></script>
-<script src="/static/admin/js/prepopulate.js"></script>
-<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-<script src="/static/admin/js/filters.js" defer></script>
 <link rel="stylesheet" href="{% static "leaflet.css" %} " />
 <link rel="stylesheet" href="{% static "map.css" %} " />
+<link rel="stylesheet" href="{% static "MarkerCluster.css" %} " />
+<link rel="stylesheet" href="{% static "MarkerCluster.Default.css" %} " />
 <script src="{% static "leaflet.js" %}"></script>
-<script src="{% static "map.js" %}"></script>
+<script src="{% static "Incidents/js/map.js" %}"></script>
 
 <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-
+<script src="{% static "leaflet.markercluster-src.js" %}"></script>
+<script src="{% static "leaflet.markercluster.js" %}"></script>
 <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+
 
 
 {% endblock %}
@@ -48,11 +42,11 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить новый инцидент</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Изменить местоположение происшествия</div>
 <div id="map" style="width:750px; height: 493px; position:relative; text-align:center; margin-top: 10px;"></div>
         </div>
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики инцидента</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Изменить характеристики происшествия</div>
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="form-error">{{ form.non_field_errors }}</div>
@@ -173,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 let result1;
+
                 fetch(url, options)
                 .then(response => response.json())
                 .then(result => {
@@ -186,9 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('address').removeAttribute("readonly");
                 }
                 })
-                .catch(error => console.log("error", error));
-                //
-
+                .catch(error => {
+                    document.getElementById('errorAddress').style.display = '';
+                    document.getElementById('address').value = '';
+                    document.getElementById('address').removeAttribute("readonly");
+                    console.log("trigger up");
+                console.log("error", error)
+                });
          });
     });
 

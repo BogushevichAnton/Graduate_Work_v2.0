@@ -1,0 +1,83 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls admin_list %}
+{% load static %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "leaflet.css" %} " />
+<script src="{% static "leaflet.js" %}"></script>
+<script src="{% static "Subdivisions/js/map.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
+{% block sidebar %}
+{% endblock %}
+{% block nav-breadcrumbs %}
+{% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
+{% block content %}
+<div class="container1">
+    <div class="row1">
+        <div class="col-sm">
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Местоположение подразделения</div>
+            <div id="map" style="width:750px; height: 493px; position:relative; text-align:center; margin-top: 10px;"></div>
+        </div>
+        <div class="col-sm">
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики подразделения</div>
+
+                <div class="input-group mt-2">
+                    <span class="input-group-text">Адрес</span>
+                    <input type="" class="form-control" id="address" placeholder="Адрес" value=" {{subdivision.address}} "readonly>
+                </div>
+
+                <div class="input-group mt-2">
+                    <span class="input-group-text">Координаты</span>
+                    <input type="" class="form-control" id="lat" placeholder="Широта" value="{{ subdivision.latitude }} "readonly>
+                    <input type="" class="form-control" id="lng" placeholder="Долгота" value="{{ subdivision.longitude }}"readonly>
+                </div>
+            <div class="input-group mt-2">
+                    <span class="input-group-text">Aббревиатура</span>
+                    <input type="" class="form-control" id="abb" placeholder="Aббревиатура" value=" {{subdivision.abbreviation}} "readonly>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание подразделения</label>
+                    <textarea class="form-control mt-1" id="exampleFormControlTextarea1" rows="4" style="resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;" placeholder="Описание подразделения" maxlength="250" readonly > {{ subdivision.description }}</textarea>
+                </div>
+            <div class="row1 mt-2">
+                            <div class="col">
+                              <a type="submit" class="btn btn-primary w-100" href="change/" style="color: white;">Изменить</a>
+                            </div>
+                            <div class="col">
+                              <a type="submit" class="btn btn-danger w-100" href="delete/" style="color: white;">Удалить</a>
+                            </div>
+                          </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+            //let value = JSON.stringify({{data}});
+            //console.log(value);
+            create_map([55.760748705787165, 37.626156387675145], 13);
+         map.on('click', function(e) {
+            console.log(e.latlng);
+            });
+    });
+
+</script>
+<div style="display: none" id="jsonData" data-json="{{ data }}"></div>
+
+{% endblock %}

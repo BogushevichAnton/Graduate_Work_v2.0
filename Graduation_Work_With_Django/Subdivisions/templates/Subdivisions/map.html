@@ -12,16 +12,8 @@
 {{ media.js }}
 
 <link rel="stylesheet" href="{% static "leaflet.css" %} " />
-<link rel="stylesheet" href="{% static "map.css" %} " />
-<link rel="stylesheet" href="{% static "MarkerCluster.css" %} " />
-<link rel="stylesheet" href="{% static "MarkerCluster.Default.css" %} " />
 <script src="{% static "leaflet.js" %}"></script>
-<script src="{% static "Incidents/js/map.js" %}"></script>
-<script src="{% static "leaflet.markercluster-src.js" %}"></script>
-<script src="{% static "leaflet.markercluster.js" %}"></script>
-
-
-
+<script src="{% static "Subdivisions/js/map.js" %}"></script>
 
 {% endblock %}
 
@@ -44,11 +36,10 @@
     document.addEventListener('DOMContentLoaded', () => {
             //let value = JSON.stringify({{data}});
             //console.log(value);
-            create_map([55.760748705787165, 37.626156387675145], 5);
+            create_map([55.760748705787165, 37.626156387675145], 15);
          map.on('click', function(e) {
 
             console.log(e.latlng);
-            var marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
             });
     });
 

@@ -38,7 +38,7 @@ def incidents_id(request, IncidentId):
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
     incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
-    incidents = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
+    incidents = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
     breadcrumb_ru += " › " + incident_breadcrumb.description
     key1 = list(incidents)
     for res in key1:
@@ -87,7 +87,7 @@ def incidents_map(request):
     app_models = get_sidebar()
     function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
         Incidents)
-    incidents = Incidents.objects.values('description', 'latitude', 'longitude', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
+    incidents = Incidents.objects.values('description', 'latitude', 'longitude','address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
     key1 = list(incidents)
     for res in key1:
         res['time_create'] = res['time_create'].strftime('%d %b. %Y  %H:%M')
@@ -117,10 +117,11 @@ def incidents_add(request):
             obj = form.save()
             return redirect('Incidents_ID', obj.pk)
     else:
-        app_models = get_sidebar()
-        function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
-            Incidents)
+
         form = AddIncidentsForm()
+    app_models = get_sidebar()
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+        Incidents)
     return render(request, 'Incidents/add.html',  {'form': form,
                                                    'function_name': function_name,
                                                    'breadcrumb_ru': breadcrumb_ru,
@@ -144,17 +145,26 @@ def incidents_change(request, IncidentId):
             obj = form.save()
             return redirect('Incidents_ID', obj.pk)
     else:
-        app_models = get_sidebar()
-        function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
-            Incidents)
-        incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude', 'specification__pattern', 'specification__color')
-        breadcrumb_ru += " › " + incident_breadcrumb.description
-        list_data_json = json.dumps(list(incident))
         form = AddIncidentsForm()
         form.fields['address'].widget.attrs['value'] = incident_breadcrumb.address
         form.fields['latitude'].widget.attrs['value'] = incident_breadcrumb.latitude
         form.fields['longitude'].widget.attrs['value'] = incident_breadcrumb.longitude
         form.fields['specification'].initial = incident_breadcrumb.specification.pk
+    app_models = get_sidebar()
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+        Incidents)
+    incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude',
+                                                              'specification__pattern', 'specification__color',
+                                                              'time_create', 'user_create__surname', 'user_create__name',
+                                                              'user_create__lastname')
+    breadcrumb_ru += " › " + incident_breadcrumb.description
+
+    key1 = list(incident)
+    key1[0]['time_create'] = key1[0]['time_create'].strftime('%d %b. %Y  %H:%M')
+
+    list_data_json = json.dumps(key1)
+
+
     return render(request, 'Incidents/change.html', {
                                                     'form':form,
                                                     'incident': incident_breadcrumb,

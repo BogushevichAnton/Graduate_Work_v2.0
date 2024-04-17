@@ -10,21 +10,14 @@
 {% block extrahead %}
 {{ block.super }}
 {{ media.js }}
-<script src="{% static 'admin/js/filters.js' %}" defer></script>
-<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
-<script src="/static/admin/js/jquery.init.js"></script>
-<script src="/static/admin/js/core.js"></script>
-<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script src="/static/admin/js/actions.js"></script>
-<script src="/static/admin/js/urlify.js"></script>
-<script src="/static/admin/js/prepopulate.js"></script>
-<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-<script src="/static/admin/js/filters.js" defer></script>
 <link rel="stylesheet" href="{% static "leaflet.css" %} " />
 <link rel="stylesheet" href="{% static "map.css" %} " />
+<link rel="stylesheet" href="{% static "MarkerCluster.css" %} " />
+<link rel="stylesheet" href="{% static "MarkerCluster.Default.css" %} " />
 <script src="{% static "leaflet.js" %}"></script>
-<script src="{% static "map.js" %}"></script>
-
+<script src="{% static "Incidents/js/map.js" %}"></script>
+<script src="{% static "leaflet.markercluster-src.js" %}"></script>
+<script src="{% static "leaflet.markercluster.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
 <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />

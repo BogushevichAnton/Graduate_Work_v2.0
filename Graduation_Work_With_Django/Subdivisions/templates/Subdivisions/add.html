@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="{% static "map.css" %} " />
 <!---<link rel="stylesheet" href="{% static "add.css" %} " />--!>
 <script src="{% static "leaflet.js" %}"></script>
-<script src="{% static "Incidents/js/map.js" %}"></script>
+<script src="{% static "Subdivisions/js/map.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
 
@@ -38,18 +38,16 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить новый инцидент</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить новое подразделение</div>
 <div id="map" style="width:750px; height: 493px; position:relative; text-align:center; margin-top: 10px;"></div>
         </div>
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики инцидента</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики подразделения</div>
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="form-error">{{ form.non_field_errors }}</div>
                 <div class="input-group mt-2">
-
                     <span class="input-group-text">Адрес</span>
-
                     {{ form.address }}
                     <div style="display:none" id="errorAddress">Адрес не найден! Вам будет доступна возможность ввести
                         его в поле выше
@@ -64,18 +62,18 @@
                 </div>
                     <div class="form-error">{{ form.latitude.errors }}</div>
                     <div class="form-error">{{ form.longitude.errors }}</div>
-                <div class="form-group mt-2">
-                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Выберите опасность инцидента (по умолчанию стоит низкая)</span>
-                    {{ form.specification }}
-                    <div class="form-error">{{ form.specification.errors }}</div>
+                                <div class="input-group mt-2">
+                    <span class="input-group-text">Aббревиатура</span>
+                    {{ form.abbreviation }}
+                                                    <div class="form-error">{{ form.address.errors }}</div>
                 </div>
                 <div class="form-group mt-2">
-                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание инцидента</label>
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание подразделения</label>
                     {{ form.description }}
                     <div class="form-error">{{ form.description.errors }}</div>
                 </div>
                 <div class="form-group mt-2">
-                <button type="submit" class="btn btn btn-primary w-100" >Зафиксировать происшествие</button>
+                <button type="submit" class="btn btn btn-primary w-100" >Добавить подразделение</button>
                 </div>
             </form>
         </div>
@@ -86,56 +84,19 @@
     document.addEventListener('DOMContentLoaded', () => {
                 index = 0;
                 const selectElem = document.getElementById("select");
-                selectElem.addEventListener("change", () => {
-                          index = selectElem.selectedIndex;
-                          console.log(index);
-                });
-            create_map([55.760748705787165, 37.626156387675145], 5);
+            create_map([55.760748705787165, 37.626156387675145], 10);
              var marker = {};
          map.on('click', function(e)
          {
-                                     document.getElementById('address').setAttribute("readonly", '');
-                                     var redIcon = new L.Icon({
-                                      iconUrl: '/static/images/marker-icon-2x-red.png',
-                                      shadowUrl: '/static/images/marker-shadow.png',
-                                      iconSize: [25, 41],
-                                      iconAnchor: [12, 41],
-                                      popupAnchor: [1, -34],
-                                      shadowSize: [41, 41]
-                                });
-                                    var greenIcon = new L.Icon({
-                                      iconUrl: '/static/images/marker-icon-2x-green.png',
-                                      shadowUrl: '/static/images/marker-shadow.png',
-                                      iconSize: [25, 41],
-                                      iconAnchor: [12, 41],
-                                      popupAnchor: [1, -34],
-                                      shadowSize: [41, 41]
-                                });
-                                    var orangeIcon = new L.Icon({
-                                      iconUrl: '/static/images/marker-icon-2x-orange.png',
-                                      shadowUrl: '/static/images/marker-shadow.png',
-                                      iconSize: [25, 41],
-                                      iconAnchor: [12, 41],
-                                      popupAnchor: [1, -34],
-                                      shadowSize: [41, 41]
-                                });
-                 var selectIcon;
-                 switch(index) {
-                    case 0:
-                        selectIcon = greenIcon;
-                        break;
-                    case 1:
-                        selectIcon = orangeIcon;
-                        break;
-                    case 2:
-                        selectIcon = redIcon;
-                        break;
-                 }
+                 var Icon = new L.Icon({
+          iconUrl: '/static/Subdivisions/images/icons8-home-64.png',
+          iconSize: [30, 30],
+            });
                  if (marker != undefined) {
                     map.removeLayer(marker);
                  };
 
-               marker = L.marker(e.latlng, {icon: selectIcon}).addTo(map).on('click', e => e.target.remove());
+               marker = L.marker(e.latlng, {icon: Icon}).addTo(map).on('click', e => e.target.remove());
                var latHtml = document.getElementById('lat');
                latHtml.value = e.latlng.lat;
                var lonHtml = document.getElementById('lng');
