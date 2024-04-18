@@ -28,8 +28,8 @@ class Incidents(models.Model):
     time_create = models.DateTimeField(verbose_name='Дата и время обнаружения происшествия', default=datetime.datetime.now(), blank=True)
     user_create = models.ForeignKey(User, on_delete = models.SET_DEFAULT, default=1, verbose_name='Обнаружитель происшествия', blank=True)
 
-    list_display = ('address','description', 'latitude', 'longitude', 'specification', 'user_create')
-    search_fields = ['address', 'description']
+    list_display = ('address','description', 'specification', 'user_create')
+    search_fields = ['address', 'description','user_create']
     class Meta:
         verbose_name = "инцидент"
         verbose_name_plural = "Инциденты"

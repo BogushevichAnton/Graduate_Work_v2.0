@@ -37,7 +37,7 @@ def subdivision_id(request, Subdivision_ID):
     subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
     subdivisions = Subdivisions.objects.filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
 
-    breadcrumb_ru += " › " + subdivision_breadcrumb.description
+    breadcrumb_ru += " › " + subdivision_breadcrumb.abbreviation
     list_data_json = json.dumps(list(subdivisions))
     return render(request, 'Subdivisions/id.html', {'subdivision': subdivision_breadcrumb,
                                                                 'data': list_data_json,
@@ -99,3 +99,49 @@ def subdivisions_add(request):
                                                    'count': count,
      }
                   )
+
+def subdivision_change(request, Subdivision_ID):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
+    if request.method == 'POST':
+        form = AddSubdivisionsForm(request.POST, instance=subdivision_breadcrumb)
+        if form.is_valid():
+            obj = form.save()
+            return redirect('Subdivision_ID', obj.pk)
+    else:
+        form = AddSubdivisionsForm()
+        form.fields['address'].widget.attrs['value'] = subdivision_breadcrumb.address
+        form.fields['latitude'].widget.attrs['value'] = subdivision_breadcrumb.latitude
+        form.fields['longitude'].widget.attrs['value'] = subdivision_breadcrumb.longitude
+        form.fields['abbreviation'].widget.attrs['value'] = subdivision_breadcrumb.abbreviation
+    app_models = get_sidebar()
+    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(
+        Subdivisions)
+
+
+
+    subdivisions = Subdivisions.objects.filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
+
+    breadcrumb_ru += " › " + subdivision_breadcrumb.abbreviation
+    list_data_json = json.dumps(list(subdivisions))
+    return render(request, 'Subdivisions/change.html', {
+                                                    'form':form,
+                                                    'subdivision': subdivision_breadcrumb,
+                                                    'data': list_data_json,
+                                                    'breadcrumb_ru': breadcrumb_ru,
+                                                    'function_name': function_name,
+                                                    'app_models': app_models,
+                                                    'action_model': action_model,
+                                                    'eddit_name': eddit_name,
+                                                    'action_models_s': action_models_s,
+                                                    'array_of_data': array_of_data,
+                                                    'count': count,
+                                                    'array_of_th': array_of_th,
+                                                    })
+def subdivision_delete(request, Subdivision_ID):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
+    subdivision_breadcrumb.delete()
+    return redirect('Subdivisions_all')

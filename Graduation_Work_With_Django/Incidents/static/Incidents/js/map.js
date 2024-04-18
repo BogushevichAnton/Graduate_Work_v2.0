@@ -76,8 +76,16 @@ function create_map(center, zoom){
         var specification = jsonData[i].specification__pattern;
         var user_create = jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname;
 
-        var full_description = "<b>Описание: </b>" + description + '<br/>' + "<b>Адрес: </b>" + address + '<br/>' + "<b>Дата и время обнаружения: </b>" + time_create + '<br/>'+ "<b>Спецификация происшествия: </b>" + specification + '<br/>'+ "<b>Обнаружитель происшествия: </b>" + user_create;
-        marker.bindPopup(full_description).openPopup();
+        var full_description =
+        "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + description + "</td></tr id='tr'>"+
+        "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + time_create + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Адрес:</b></td><td id='td'>" + address + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Спецификация происшествия:</b></td><td id='td'>" + specification + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Обнаружитель:</b></td><td id='td'>" + user_create + "</td></tr id='tr'>";
+
+        marker.bindPopup(full_description, {
+    maxWidth : 270
+}).openPopup();
         marker.addTo(markers);
 
     }

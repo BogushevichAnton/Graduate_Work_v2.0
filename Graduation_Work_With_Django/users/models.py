@@ -6,9 +6,11 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Group, Permission
 
+from Subdivisions.models import Subdivisions
+
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, surname, lastname, password=None, is_admin=False, is_staff=False, is_active=True,):
+    def create_user(self, email, name, surname, lastname, password=None, is_admin=False, is_staff=False, is_active=True, ):
         if not email:
             raise ValueError("User must have an email")
         if not password:
@@ -25,6 +27,7 @@ class UserManager(BaseUserManager):
         user.name = name
         user.surname = surname
         user.lastname = lastname
+        user.fullname = surname + ' ' + name + ' ' + lastname
         user.set_password(password)  # change password to hash
         user.admin = is_admin
         user.staff = is_staff
@@ -60,15 +63,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=50, verbose_name="Имя")
     surname = models.CharField(max_length=50, verbose_name="Фамилия")
     lastname = models.CharField(max_length=50, verbose_name="Отчество")
-
+    subdivision = models.ForeignKey(Subdivisions, on_delete = models.SET_DEFAULT, default=1, verbose_name='Подразделение', blank=True)
+    fullname = models.CharField(max_length=255, verbose_name="Полное имя", default='Нет полного имени')
+    groups = models.ForeignKey(Group, verbose_name='Группы',related_name='user_set',related_query_name='user',)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'lastname']  # Email & Password are required by default.
-    list_display = ('id', 'email', 'name',)
-    search_fields = ['name', 'email']
+    list_display = ('id', 'email', 'name', 'surname', 'lastname', 'subdivision')
+    search_fields = ['email', 'name', 'surname', 'lastname', 'subdivision' ]
     objects = UserManager()
 
     def get_full_name(self):
@@ -82,7 +87,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self):              # __unicode__ on Python 2
-         return self.surname +' ' + self.name  +' ' + self.lastname
+         return self.surname +' ' + self.name  +' ' + self.lastname + ' Подразделение: ' + self.subdivision.abbreviation
 
     class Meta:
         verbose_name = "пользователя"
@@ -112,3 +117,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_active(self):
          # "Is the user active?"
          return self.active
+
+

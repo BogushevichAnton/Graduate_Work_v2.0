@@ -1,8 +1,9 @@
 var map;
 function create_map(center, zoom){
-
+    console.log(document.querySelector('#jsonData'));
     if (document.querySelector('#jsonData') != null ){
         var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
+        console.log(jsonData);
         if (jsonData.length == 1){
             center[0] = jsonData[0].latitude;
             center[1] = jsonData[0].longitude;
@@ -33,8 +34,16 @@ function create_map(center, zoom){
         var description = jsonData[i].description;
         var address = jsonData[i].address;
 
-        var full_description = "<b>Aббревиатура: </b>" + abbreviation + '<br/>' + "<b>Описание подразделения: </b>" + description + '<br/>'+ "<b>Адрес подразделения: </b>" + address;
-        marker.bindPopup(full_description).openPopup();
+        var full_description = "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Aббревиатура:</b></td><td id='td'>" + abbreviation + "</td></tr id='tr'>"+
+        "<tr id='tr' id='tr id='tr''><td id='td'><b>Описание подразделения:</b></td><td id='td'>" + description + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Адрес подразделения:</b></td><td id='td'>" + address + "</td></tr id='tr'>";
+
+
+
+
+        marker.bindPopup(full_description, {
+    maxWidth : 270
+}).openPopup();
         marker.addTo(map);
         }
     }

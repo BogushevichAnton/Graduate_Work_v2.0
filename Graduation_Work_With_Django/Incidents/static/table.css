@@ -1,0 +1,55 @@
+table#table-auto{
+    border-collapse: collapse;
+    border-color: white;
+    width: 270px;
+}
+ td#td, th#th{
+    border:none;
+    font-size: 12px;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    padding: 2px;
+    background-color: white;
+    color: black;
+}
+td#td{
+text-align: justify;
+}
+th#th{
+ font-weight: 700;
+ text-align: center;
+ background-color: white;
+ color: black;
+}
+
+thead#thead th#th,
+tfoot#tfoot td#td {
+    color: black;
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    background: white;
+}
+
+tfoot#tfoot td#td {
+    border-bottom: none;
+    border-top: 1px solid var(--hairline-color);
+}
+
+thead#thead th#th.required {
+    color: black;
+}
+
+tr#tr.alt {
+    background: white;
+}
+
+tr#tr:nth-child(odd), .row-form-errors {
+    background: white;
+}
+
+tr#tr:nth-child(even),
+tr#tr:nth-child(even) .errorlist,
+tr#tr:nth-child(odd) + .row-form-errors,
+tr#tr:nth-child(odd) + .row-form-errors .errorlist {
+    background: white;
+}
+

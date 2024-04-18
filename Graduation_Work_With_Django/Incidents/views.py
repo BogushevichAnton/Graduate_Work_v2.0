@@ -82,6 +82,8 @@ def incidents_search(request):
 
 def incidents_map(request):
     locale.setlocale(locale.LC_ALL, '')
+    key = request.user.get_user_permissions()
+    key1 = request.user.get_all_permissions()
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()

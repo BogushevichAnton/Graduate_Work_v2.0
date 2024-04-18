@@ -63,9 +63,12 @@ def get_settings(model):
             help_array.append({
                 list: getattr(data, list),
             })
+
         array_of_data.append({
             data.id: help_array,
         })
+    if model._meta.object_name == 'Incidents':
+        key = 1
     count = len(array_of_data)
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
 
@@ -75,7 +78,7 @@ def get_search(model, arg):
             Q(email__icontains=arg) | Q(name__icontains=arg) | Q(surname__icontains=arg) | Q(lastname__icontains=arg))
     elif model._meta.object_name == 'Incidents':
         filter_model = model.objects.filter(
-            Q(address__icontains=arg) | Q(description__icontains=arg))
+            Q(address__icontains=arg) | Q(description__icontains=arg) |Q(user_create__name=arg,user_create__surname=arg, user_create__lastname=arg, _connector=Q.OR) | Q(user_create__fullname__icontains=arg))
     elif model._meta.object_name == 'Specifications':
         filter_model = model.objects.filter(
             Q(pattern__icontains=arg) | Q(color__icontains=arg))
