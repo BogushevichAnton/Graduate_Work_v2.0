@@ -14,7 +14,7 @@
     <script src="{% static 'admin/js/nav_sidebar.js' %}" defer></script>
     <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
-<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
     {% block extrastyle %}{% endblock %}
     {% if LANGUAGE_BIDI %}
     <link rel="stylesheet" href="{% block stylesheet_rtl %}{% static 'admin/css/rtl.css' %}{% endblock %}">
@@ -48,7 +48,8 @@
         <div id="branding">
             {% block branding %}
             <img src="{% static '/images/logo.png' %}" width="100px" height="50px" alt="RZD">
-            <h1 id="site-name" style="margin: 5px"><a href="{% url 'home' %}">Отслеживание происшествий ОАО "РЖД"</a></h1>
+            <h1 id="site-name" style="margin: 5px"><a href="{% url 'home' %}">Отслеживание происшествий ОАО "РЖД"</a>
+            </h1>
             {% endblock %}
         </div>
         {% block usertools %}
@@ -108,43 +109,36 @@
                 {% block pretitle %}{% endblock %}
                 {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
                 {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
+
                 {% block content %}
                 <div id="content-main">
 
                     {% block object-tools %}
-<!--                    {% for app in app_models %}-->
-<!--                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">-->
-<!--                        <table>-->
-<!--                            <caption>-->
-<!--                                <a href="#" class="section"-->
-<!--                                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>-->
-<!--                            </caption>-->
-<!--                            <tr class="model-{{ app.app_label }}">-->
-<!--                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>-->
-<!--                                </th>-->
-<!--                                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>-->
-<!--                                &lt;!&ndash;-<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> -&#45;&#45;!>-->
-<!--                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                        </table>-->
-<!--                    </div>-->
-<!--                    {% endfor %}-->
+                    <!--                    {% for app in app_models %}-->
+                    <!--                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">-->
+                    <!--                        <table>-->
+                    <!--                            <caption>-->
+                    <!--                                <a href="#" class="section"-->
+                    <!--                                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>-->
+                    <!--                            </caption>-->
+                    <!--                            <tr class="model-{{ app.app_label }}">-->
+                    <!--                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>-->
+                    <!--                                </th>-->
+                    <!--                                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>-->
+                    <!--                                &lt;!&ndash;-<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> -&#45;&#45;!>-->
+                    <!--                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
+                    <!--                                </td>-->
+                    <!--                            </tr>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
+                    <!--                    {% endfor %}-->
 
 
-
-
-
-
-
-
-
-
-           {% for app in app_models %}
-                      <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+                    {% for app in app_models %}
+                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
                         <table>
 
-                    {% for  key, value in app.items %}
+                            {% for key, value in app.items %}
                             <caption>
                                 <a href="#" class="section"
                                    title="{% blocktranslate with name=key %}Models in the {{ key }} application{% endblocktranslate %}">
@@ -160,19 +154,19 @@
                             </caption>
                             {% for value1 in value %}
                             <tr class="model-{{ value1.app_label }}">
-                                <th scope="row"><a href="{{ value1.url_view }}" aria-current="page">{{ value1.name }}</a>
+                                <th scope="row"><a href="{{ value1.url_view }}" aria-current="page">{{ value1.name}}</a>
                                 </th>
                                 <td><a href="{{ value1.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
                                 <!---<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> ---!>
-                                <td><a href="{{ value1.change_url }}" class="changelink">{% translate 'Change' %}</a>
+                                <!--                                <td><a href="{{ value1.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
                                 </td>
                             </tr>
                             {% endfor %}
 
 
-                          {% endfor %}
-                                                           </table>
-                               </div>
+                            {% endfor %}
+                        </table>
+                    </div>
                     {% endfor %}
 
 

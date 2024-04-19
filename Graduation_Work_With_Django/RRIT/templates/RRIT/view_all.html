@@ -102,7 +102,7 @@
 <a href="/{{ start_model }}/{{action_models_s}}/{{ key }}/">
                                 {% else %}
 
-                                <a href="/{{ action_model }}/{{action_models_s}}/{{ key }}/">
+                                <a href="/{{ action_model }}/{{ key }}/">
                                     {% endif %}
                                 {{ value1 }}
                             </a></th>
@@ -121,7 +121,7 @@
             </form>
         </div>
     </div>
-    {% if action_model == 'Incidents'%}<a href="/Incidents/Incident/map">Просмотреть все</a>{% endif %}
-    {% if action_model == 'Subdivisions'%}<a href="/Subdivisions/Subdivision/map">Просмотреть все</a>{% endif %}
+    {% if action_model == 'Incidents'%}<a href="{% url 'Incidents_map'%}">Просмотреть все</a>{% endif %}
+    {% if action_model == 'Subdivisions'%}<a href="{% url 'Subdivision_map'%}">Просмотреть все</a>{% endif %}
 </div>
 {% endblock %}

@@ -25,10 +25,9 @@ def get_sidebar():
                             help_array.append({
                                 'name': model._meta.verbose_name_plural,
                                 'app_label': model._meta.object_name,
-                                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
-                                                                                  :-1] + '/' + 'change/',
+                                'url_view': '/' + model._meta.app_label + '/',
+                                'add_url': '/' + model._meta.app_label + '/add/',
+                                'change_url': '/' + model._meta.app_label + '/change/',
                             }
                             )
                         if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Specifications':
@@ -53,10 +52,9 @@ def get_sidebar():
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.app_label,
-                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
-                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
-                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[
-                                                                                      :-1] + '/' + 'change/',
+                                    'url_view': '/' + model._meta.app_label + '/',
+                                    'add_url': '/' + model._meta.app_label + '/' +  'add/',
+                                    'change_url': '/' + model._meta.app_label + '/' +  'change/',
                                 }
                                 )
                         if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
@@ -73,10 +71,9 @@ def get_sidebar():
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.object_name,
-                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
-                                                                                      :-1] + '/' + 'change/',
+                                    'url_view': '/' + model._meta.app_label + '/',
+                                    'add_url': '/' + model._meta.app_label + '/add/',
+                                    'change_url': '/' + model._meta.app_label + '/change/',
                                 })
             if {model1._meta.app_label:help_array} not in app_models:
                     app_models.append({model1._meta.app_label: help_array})
@@ -136,10 +133,12 @@ def get_sidebar():
     return app_models
 
 def get_settings(model):
+    app_models = get_sidebar()
     if model._meta.object_name == 'Incidents':
         Model_all = model.objects.all().order_by('-time_create')
     else:
         Model_all = model.objects.all()
+
     function_name = 'views_all'
     action_model = Model_all.model._meta.app_label
     action_models_s = Model_all.model._meta.app_label[:-1]
@@ -161,7 +160,18 @@ def get_settings(model):
             data.id: help_array,
         })
     count = len(array_of_data)
-    return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
+    data = {
+        'function_name': function_name,
+        'breadcrumb_ru': breadcrumb_ru,
+        'action_model': action_model,
+        'action_models_s': action_models_s,
+        'eddit_name': eddit_name,
+        'array_of_data': array_of_data,
+        'count': count,
+        'array_of_th': array_of_th,
+        'app_models':app_models,
+    }
+    return data
 
 def get_search(model, arg):
     if model._meta.object_name == 'User':
@@ -173,17 +183,8 @@ def get_search(model, arg):
     elif model._meta.object_name == 'Specifications':
         filter_model = model.objects.filter(
             Q(pattern__icontains=arg) | Q(color__icontains=arg))
-    Model_all = model.objects.all()
-    function_name = 'views_all'
-    action_model = Model_all.model._meta.app_label
-    action_models_s = Model_all.model._meta.app_label[:-1]
-    eddit_name = Model_all.model._meta.verbose_name
-    breadcrumb_ru = Model_all.model._meta.verbose_name_plural
-    array_of_th = []
     array_of_data = []
 
-    for i in range(len(Model_all.model.list_display)):
-        array_of_th.append(Model_all.model._meta.get_field(Model_all.model.list_display[i]).verbose_name)
 
     for mod in filter_model:
         help_array = []
@@ -195,8 +196,11 @@ def get_search(model, arg):
             mod.id: help_array,
         })
 
-    count = len(array_of_data)
-    return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
+    data = get_settings(model)
+    data['array_of_data'] = array_of_data
+
+    return data
+
 def index(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)

@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('RRIT.urls')),
     path('Incidents/', include('Incidents.urls')),
-    path('users/user/', include('users.urls', namespace="users")),
+    path('users/', include('users.urls', namespace="users")),
     path('Subdivisions/', include('Subdivisions.urls')),
 ]
 

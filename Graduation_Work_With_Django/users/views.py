@@ -29,45 +29,32 @@ def logout_user(request):
 def users_all(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    app_models = get_sidebar()
-    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(User)
-    return render(request, 'RRIT/view_all.html',
-                  { 'add': 'add/',
-                      'function_name': function_name,
-                       'breadcrumb_ru': breadcrumb_ru,
-                       'app_models': app_models,
-                       'action_model': action_model,
-                       'eddit_name': eddit_name,
-                       'action_models_s': action_models_s,
-                       'array_of_data': array_of_data,
-                       'array_of_th': array_of_th,
-                       'count': count,
-                       })
+    data = get_settings(User)
+    data1 = {
+        'add': 'add/',
+    }
+
+    data = data | data1
+    return render(request, 'RRIT/view_all.html',context=data)
 
 def user_id(request, UsersID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    app_models = get_sidebar()
-
-    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_settings(User)
     user = User.objects.get(pk = UsersID)
 
-    breadcrumb_ru += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
     password_hash = user.password.split('$')
     solt = password_hash[2][0:6]
     hash = password_hash[3][0:6]
-    return render(request, 'users/user.html',
-                  {'solt':solt,
-                   'hash':hash,
-                      'user': user,
-                    'function_name': function_name,
-                   # 'breadcrumbs': breadcrumbs,
-                   'breadcrumb_ru': breadcrumb_ru,
-                   'app_models': app_models,
-                   'action_model': action_model,
-                   'eddit_name': eddit_name,
-                   'action_models_s': action_models_s,
-                   })
+
+    data = get_settings(User)
+    data['breadcrumb_ru'] += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
+    data1 = {
+        'solt': solt,
+        'hash': hash,
+        'user': user,
+    }
+    data = data | data1
+    return render(request, 'users/user.html',context=data)
 def user_delete(request, UsersID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -79,20 +66,13 @@ def users_search(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th = get_search(
-        User, arg)
-    app_models = get_sidebar()
-    return render(request, 'RRIT/view_all.html',
-                  {'function_name': function_name,
-                   'breadcrumb_ru': breadcrumb_ru,
-                   'app_models': app_models,
-                   'action_model': action_model,
-                   'eddit_name': eddit_name,
-                   'action_models_s': action_models_s,
-                   'array_of_data': array_of_data,
-                   'array_of_th': array_of_th,
-                   'count': count,
-                   })
+    data = get_search(User,arg)
+    return render(request, 'RRIT/view_all.html',context=data)
+def users_positions(request):
+    return render(request, 'Position/position.html')
+
+
+
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница users не найдена')
