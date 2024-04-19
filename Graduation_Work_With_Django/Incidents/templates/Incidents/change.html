@@ -22,20 +22,13 @@
 <script src="{% static "leaflet.markercluster.js" %}"></script>
 <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
 <link rel="stylesheet" href="{% static "table.css" %} " />
-
-
-
 {% endblock %}
-
 {% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
 {% block sidebar %}
 {% endblock %}
 {% block nav-breadcrumbs %}
 {% include "RRIT/navigation.html" %}
-
 {% endblock %}
-
-
 {% block nav-sidebar %}
 {% include "RRIT/nav_sidebar.html" %}
 {% endblock %}

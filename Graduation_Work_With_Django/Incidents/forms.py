@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Incidents, Specifications, User
+from .models import Incidents, Specifications, User, Status
 
 
 class AddIncidentsForm(forms.ModelForm):
@@ -11,11 +11,13 @@ class AddIncidentsForm(forms.ModelForm):
                                                                       'id': 'select',
                                                                       }), initial=1)
 
-    user_responsible = forms.ModelChoiceField(queryset=User.objects.all().filter(position__positions = 'Начальник'),
+    user_responsible = forms.ModelChoiceField(queryset=User.objects.all().filter(position__positions = 'Начальник участка'),
                                            widget=forms.Select(attrs={'class': 'form-select mt-1',
                                                                       'style': 'height: 100%;',
                                                                       'id': 'select1',
                                                                       }), initial=1)
+
+
     class Meta:
         model = Incidents
         fields = '__all__'

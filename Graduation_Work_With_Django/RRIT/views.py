@@ -16,8 +16,9 @@ def get_sidebar():
     list = apps.get_models()
     app_models = []
     for model in list:
-        if model._meta.app_label == 'Incidents':
+        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
             app_models.append({
+                'app_head':model._meta.app_label,
                 'name': model._meta.verbose_name_plural,
                 'app_label': model._meta.object_name,
                 'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
@@ -25,8 +26,18 @@ def get_sidebar():
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
             }
             )
+        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
+            app_models.append({
+                'app_head': model._meta.app_label,
+                'name': model._meta.verbose_name_plural,
+                'app_label': model._meta.object_name,
+                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
+                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
+                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
+            })
         if model._meta.app_label == 'users' and model._meta.object_name == 'User':
             app_models.append({
+                'app_head': model._meta.app_label,
                 'name': model._meta.verbose_name_plural,
                 'app_label': model._meta.app_label,
                 'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
@@ -36,6 +47,7 @@ def get_sidebar():
             )
         if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
             app_models.append({
+                    'app_head': model._meta.app_label,
                     'name': model._meta.verbose_name_plural,
                     'app_label': model._meta.object_name,
                     'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
@@ -45,12 +57,14 @@ def get_sidebar():
             )
         if model._meta.app_label == 'Subdivisions':
             app_models.append({
+                'app_head': model._meta.app_label,
                 'name': model._meta.verbose_name_plural,
                 'app_label': model._meta.object_name,
                 'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
                 'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
             })
+
     return app_models
 
 def get_settings(model):

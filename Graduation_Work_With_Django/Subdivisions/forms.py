@@ -21,7 +21,7 @@ class AddSubdivisionsForm(forms.ModelForm):
                                                  'id': 'exampleFormControlTextarea1',
                                                  'rows': '4',
                                                  'style': 'resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;',
-                                                 'placeholder': 'Описание инцидента',
+                                                 'placeholder': 'Описание подразделения',
                                                  'maxlength': '250',
                                                  },
                                           ),
