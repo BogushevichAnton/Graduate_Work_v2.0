@@ -9,8 +9,23 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Group,
 from Subdivisions.models import Subdivisions
 
 
+
+class Positions(models.Model):
+    positions = models.CharField(max_length=255, verbose_name="Должность", default='Нет должности')
+
+    list_display = ('position', )
+    search_fields = ['position', ]
+
+    class Meta:
+        verbose_name = "Должность"
+        verbose_name_plural = "Должности"
+
+    def __str__(self):
+        return self.positions
+
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, surname, lastname, password=None, is_admin=False, is_staff=False, is_active=True, ):
+    def create_user(self, email, name, surname, lastname, password=None):
         if not email:
             raise ValueError("User must have an email")
         if not password:
@@ -29,22 +44,24 @@ class UserManager(BaseUserManager):
         user.lastname = lastname
         user.fullname = surname + ' ' + name + ' ' + lastname
         user.set_password(password)  # change password to hash
-        user.admin = is_admin
-        user.staff = is_staff
-        user.active = is_active
+
+        user.is_staff = True
+        user.is_active = True
+        user.is_superuser = True
+
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email,  name, surname, lastname, password=None):
-        user = self.create_user(
-            email,
-            name,
-            surname,
-            lastname,
-            password=password,
-            is_staff=True,
-        )
-        return user
+    #def create_staffuser(self, email,  name, surname, lastname, password=None):
+        #user = self.create_user(
+            #email,
+           # name,
+            #surname,
+            #lastname,
+            #password=password,
+            #is_staff=True,
+        #)
+        #return user
 
     def create_superuser(self, email, name, surname, lastname, password=None):
         user = self.create_user(
@@ -53,8 +70,6 @@ class UserManager(BaseUserManager):
             surname,
             lastname,
             password=password,
-            is_staff=True,
-            is_admin=True,
         )
         return user
 
@@ -65,14 +80,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     lastname = models.CharField(max_length=50, verbose_name="Отчество")
     subdivision = models.ForeignKey(Subdivisions, on_delete = models.SET_DEFAULT, default=1, verbose_name='Подразделение', blank=True)
     fullname = models.CharField(max_length=255, verbose_name="Полное имя", default='Нет полного имени')
-    groups = models.ForeignKey(Group, verbose_name='Группы',related_name='user_set',related_query_name='user',)
-    active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False)
-    admin = models.BooleanField(default=False)
+
+    position = models.ForeignKey(Positions, on_delete = models.SET_DEFAULT, default=1, verbose_name='Должность', blank=True)
+
+    is_staff = models.BooleanField(u'staff status', default=False,
+                                   help_text=u'Designates whether the user can log into this admin '
+                                             'site.')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'lastname']  # Email & Password are required by default.
-    list_display = ('id', 'email', 'name', 'surname', 'lastname', 'subdivision')
+    list_display = ('id', 'email', 'name', 'surname', 'lastname','position', 'subdivision')
     search_fields = ['email', 'name', 'surname', 'lastname', 'subdivision' ]
     objects = UserManager()
 
@@ -92,30 +109,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = "пользователя"
         verbose_name_plural = "Пользователи"
-
-    @staticmethod
-    def has_perm(perm, obj=None):
-        return True
-
-    @staticmethod
-    def has_module_perms(app_label):
-         # "Does the user have permissions to view the app `app_label`?"
-         # Simplest possible answer: Yes, always
-         return True
-
-    @property
-    def is_staff(self):
-         # "Is the user a member of staff?"
-         return self.staff
-
-    @property
-    def is_superuser(self):
-         # "Is the user a admin member?"
-         return self.admin
-
-    @property
-    def is_active(self):
-         # "Is the user active?"
-         return self.active
-
 

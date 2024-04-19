@@ -20,13 +20,18 @@ class Specifications(models.Model):
     def __str__(self):
         return self.pattern
 class Incidents(models.Model):
-    address = models.CharField(max_length=250, verbose_name='Адрес')
-    description = models.CharField(max_length=250, verbose_name='Описание',)
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    description = models.CharField(max_length=255, verbose_name='Описание',)
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
     specification = models.ForeignKey(Specifications, on_delete = models.SET_DEFAULT, default=1, verbose_name='Спецификация происшествия')
     time_create = models.DateTimeField(verbose_name='Дата и время обнаружения происшествия', default=datetime.datetime.now(), blank=True)
-    user_create = models.ForeignKey(User, on_delete = models.SET_DEFAULT, default=1, verbose_name='Обнаружитель происшествия', blank=True)
+
+    user_create = models.ForeignKey(User, on_delete = models.SET_DEFAULT, default=1, verbose_name='Обнаружитель происшествия', blank=True, related_name='user_create')
+    user_responsible = models.ForeignKey(User, on_delete = models.SET_DEFAULT, default=1, verbose_name='Ответственный за происшествие', blank=False, related_name='user_responsible')
+
+    taken_measures = models.CharField(max_length=255, verbose_name='Принятые меры по ликвидыции', null=True, blank=True)
+    #электрики сообщат о происшествии диспетчеру, диспетчер - создание заявки о происшествии
 
     list_display = ('address','description', 'specification', 'user_create')
     search_fields = ['address', 'description','user_create']

@@ -45,11 +45,6 @@
             //let value = JSON.stringify({{data}});
             //console.log(value);
             create_map([55.760748705787165, 37.626156387675145], 5);
-         map.on('click', function(e) {
-
-            console.log(e.latlng);
-            var marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
-            });
     });
 
 </script>

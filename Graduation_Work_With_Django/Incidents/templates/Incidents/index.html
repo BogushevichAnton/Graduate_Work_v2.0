@@ -59,22 +59,33 @@
                     <input type="" class="form-control" id="lat" placeholder="Широта" value="{{ incident.latitude }} "readonly>
                     <input type="" class="form-control" id="lng" placeholder="Долгота" value="{{ incident.longitude }}"readonly>
                 </div>
-                <div class="form-group mt-2">
-                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Категория опасности происшествия</span>
-                    <input type="" class="form-control mt-1" id="select" placeholder="Спецификация" value="{{ incident.specification }}"readonly>
-                </div>
-                <div class="form-group mt-2">
-                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание происшествия</label>
-                    <textarea class="form-control mt-1" id="exampleFormControlTextarea1" rows="4" style="resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;" placeholder="Описание инцидента" maxlength="250" readonly > {{ incident.description }}</textarea>
-                </div>
-                <div class="form-group mt-2">
+                            <div class="form-group mt-2">
                     <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Дата и время обнаружения происшествия</span>
                     <input type="" class="form-control mt-1" id="datetime" placeholder="Дата и время обнаружения происшествия" value="{{ incident.time_create }}"readonly>
                 </div>
                 <div class="form-group mt-2">
-                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Обнаружил происшествие</span>
-                    <input type="" class="form-control mt-1" id="user_create" placeholder="бнаружил происшествие" value="{{ incident.user_create }}"readonly>
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Категория опасности происшествия</span>
+                    <input type="" class="form-control mt-1" id="select" placeholder="Спецификация" value="{{ incident.specification }}"readonly>
                 </div>
+
+                <div class="form-group mt-2">
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Обнаружил происшествие</span>
+                    <input type="" class="form-control mt-1" id="user_create" placeholder="Обнаружил происшествие" value="{{ incident.user_create }}"readonly>
+                </div>
+               <div class="form-group mt-2">
+                    <span for="select" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Ответственный за происшествие</span>
+                    <input type="" class="form-control mt-1" id="user_responsible" placeholder="Ответственный за происшествие" value="{{ incident.user_responsible }}"readonly>
+                </div>
+               <div class="form-group mt-2">
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание происшествия</label>
+                    <textarea class="form-control mt-1" id="exampleFormControlTextarea1" rows="4" style="resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;" placeholder="Описание инцидента" maxlength="250" readonly > {{ incident.description }}</textarea>
+                </div>
+
+            <div class="form-group mt-2">
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Принятые меры по ликвидации происшествия</label>
+                    <textarea class="form-control mt-1" id="exampleFormControlTextarea2" rows="4" style="resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;" placeholder="Принятые меры по ликвидации происшествия" maxlength="255" readonly > {{ incident.taken_measures }}</textarea>
+                </div>
+
             <div class="row1 mt-2">
                             <div class="col">
                               <a type="submit" class="btn btn-primary w-100" href="change/" style="color: white;">Изменить</a>
@@ -92,11 +103,6 @@
             //let value = JSON.stringify({{data}});
             //console.log(value);
             create_map([55.760748705787165, 37.626156387675145], 5);
-         map.on('click', function(e) {
-
-            console.log(e.latlng);
-            var marker = L.marker(e.latlng).addTo(map).on('click', e => e.target.remove());
-            });
     });
 
 </script>

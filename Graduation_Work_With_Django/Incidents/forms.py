@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Incidents, Specifications
+from .models import Incidents, Specifications, User
 
 
 class AddIncidentsForm(forms.ModelForm):
@@ -11,6 +11,11 @@ class AddIncidentsForm(forms.ModelForm):
                                                                       'id': 'select',
                                                                       }), initial=1)
 
+    user_responsible = forms.ModelChoiceField(queryset=User.objects.all().filter(position__positions = 'Начальник'),
+                                           widget=forms.Select(attrs={'class': 'form-select mt-1',
+                                                                      'style': 'height: 100%;',
+                                                                      'id': 'select1',
+                                                                      }), initial=1)
     class Meta:
         model = Incidents
         fields = '__all__'
@@ -18,7 +23,7 @@ class AddIncidentsForm(forms.ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control',
                                               'id': 'address',
                                               'placeholder': 'Адрес',
-                                              'maxlength': '250',
+                                              'maxlength': '255',
                                               'readonly': 'readonly',
                                               'type': '',
                                               'value':'',
@@ -29,7 +34,17 @@ class AddIncidentsForm(forms.ModelForm):
                                                  'rows': '4',
                                                  'style': 'resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;',
                                                  'placeholder': 'Описание инцидента',
-                                                 'maxlength': '250',
+                                                 'maxlength': '255',
+                                                 },
+                                          ),
+
+            'taken_measures': forms.Textarea(attrs={'class': 'form-control mt-1',
+                                                 'id': 'exampleFormControlTextarea2',
+                                                 'rows': '4',
+                                                 'style': 'resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;',
+                                                 'placeholder': 'Принятые меры по ликвидации происшествия',
+                                                 'maxlength': '255',
+                                                'name':'taken_measures',
                                                  },
                                           ),
 

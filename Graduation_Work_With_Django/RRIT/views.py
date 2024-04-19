@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -23,7 +25,7 @@ def get_sidebar():
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
             }
             )
-        if model._meta.app_label == 'users':
+        if model._meta.app_label == 'users' and model._meta.object_name == 'User':
             app_models.append({
                 'name': model._meta.verbose_name_plural,
                 'app_label': model._meta.app_label,
@@ -31,6 +33,15 @@ def get_sidebar():
                 'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
                 'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
             }
+            )
+        if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
+            app_models.append({
+                    'name': model._meta.verbose_name_plural,
+                    'app_label': model._meta.object_name,
+                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
+                }
             )
         if model._meta.app_label == 'Subdivisions':
             app_models.append({
@@ -67,8 +78,6 @@ def get_settings(model):
         array_of_data.append({
             data.id: help_array,
         })
-    if model._meta.object_name == 'Incidents':
-        key = 1
     count = len(array_of_data)
     return function_name, breadcrumb_ru, action_model, action_models_s, eddit_name, array_of_data, count, array_of_th
 
@@ -113,3 +122,17 @@ def index(request):
     # app_list = apps.get_models()
     return render(request, 'RRIT/index.html',
                   {'app_models': app_models,})
+
+
+def permission_edit_required(perm, login_url=None, raise_exception=True):
+    def check_perms(user):
+        if isinstance(perm, str):
+            perms = (perm, )
+        else:
+            perms = perm
+        if user.has_perms(perms):
+            return True
+        if raise_exception and user.pk:
+            raise PermissionDenied
+        return False
+    return user_passes_test(check_perms, login_url=login_url)

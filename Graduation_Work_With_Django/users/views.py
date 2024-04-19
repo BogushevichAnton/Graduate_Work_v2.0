@@ -96,3 +96,5 @@ def users_search(request):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница users не найдена')
+
+

@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'Incidents.apps.IncidentsConfig',
+    'Incidents',
     'RRIT',
     'Subdivisions',
 ]
 AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

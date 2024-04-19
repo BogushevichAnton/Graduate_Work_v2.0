@@ -7,9 +7,12 @@ from django.shortcuts import render, redirect
 from Graduation_Work_With_Django import settings
 from .forms import AddIncidentsForm, AddSpecificationsForm
 from .models import *
-from RRIT.views import get_sidebar, get_settings, get_search
+from RRIT.views import get_sidebar, get_settings, get_search, permission_edit_required
 
+
+@permission_edit_required('Incidents.view_incidents')
 def incidents_all(request):
+    #key1 = permission_required(request.user)
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     if request.GET.get('search'):
@@ -44,7 +47,8 @@ def incidents_id(request, IncidentId):
     for res in key1:
         res['time_create'] = res['time_create'].strftime('%d %b. %Y  %H:%M')
     list_data_json = json.dumps(key1)
-
+    if not incident_breadcrumb.taken_measures:
+        incident_breadcrumb.taken_measures = 'Еще нет решения'
     return render(request, 'Incidents/index.html', {'incident': incident_breadcrumb,
                                                     'data': list_data_json ,
                                                     'breadcrumb_ru': breadcrumb_ru,
@@ -84,6 +88,9 @@ def incidents_map(request):
     locale.setlocale(locale.LC_ALL, '')
     key = request.user.get_user_permissions()
     key1 = request.user.get_all_permissions()
+    key2 = request.user.get_group_permissions()
+    key3 = request.user.get_group_permissions
+    key4 = request.user.has_perm('Incidents.add_incidents')
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     app_models = get_sidebar()
@@ -144,6 +151,7 @@ def incidents_change(request, IncidentId):
     if request.method == 'POST':
         form = AddIncidentsForm(request.POST, instance=incident_breadcrumb)
         if form.is_valid():
+
             obj = form.save()
             return redirect('Incidents_ID', obj.pk)
     else:
@@ -165,8 +173,6 @@ def incidents_change(request, IncidentId):
     key1[0]['time_create'] = key1[0]['time_create'].strftime('%d %b. %Y  %H:%M')
 
     list_data_json = json.dumps(key1)
-
-
     return render(request, 'Incidents/change.html', {
                                                     'form':form,
                                                     'incident': incident_breadcrumb,
