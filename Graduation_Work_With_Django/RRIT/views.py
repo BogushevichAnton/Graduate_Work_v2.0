@@ -15,55 +15,123 @@ all_models = []
 def get_sidebar():
     list = apps.get_models()
     app_models = []
-    for model in list:
-        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
-            app_models.append({
-                'app_head':model._meta.app_label,
-                'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.object_name,
-                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-            }
-            )
-        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
-            app_models.append({
-                'app_head': model._meta.app_label,
-                'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.object_name,
-                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
-                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
-                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
-            })
-        if model._meta.app_label == 'users' and model._meta.object_name == 'User':
-            app_models.append({
-                'app_head': model._meta.app_label,
-                'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.app_label,
-                'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
-                'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
-                'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
-            }
-            )
-        if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
-            app_models.append({
-                    'app_head': model._meta.app_label,
-                    'name': model._meta.verbose_name_plural,
-                    'app_label': model._meta.object_name,
-                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-                }
-            )
-        if model._meta.app_label == 'Subdivisions':
-            app_models.append({
-                'app_head': model._meta.app_label,
-                'name': model._meta.verbose_name_plural,
-                'app_label': model._meta.object_name,
-                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-            })
+    for model1 in list:
+        if model1._meta.app_label == 'Incidents' or model1._meta.app_label == 'users' or model1._meta.app_label == 'Subdivisions':
+            help_array = []
+            for model in list:
+                if model._meta.app_label == model1._meta.app_label:
+                    if model._meta.object_name not in help_array:
+                        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
+                            help_array.append({
+                                'name': model._meta.verbose_name_plural,
+                                'app_label': model._meta.object_name,
+                                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                  :-1] + '/' + 'change/',
+                            }
+                            )
+                        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Specifications':
+                            help_array.append({
+                                'name': model._meta.verbose_name_plural,
+                                'app_label': model._meta.object_name,
+                                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                  :-1] + '/' + 'change/',
+                            }
+                            )
+                        if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
+                                help_array.append({
+                                    'name': model._meta.verbose_name_plural,
+                                    'app_label': model._meta.object_name,
+                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
+                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
+                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
+                                })
+                        if model._meta.app_label == 'users' and model._meta.object_name == 'User':
+                                help_array.append({
+                                    'name': model._meta.verbose_name_plural,
+                                    'app_label': model._meta.app_label,
+                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
+                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
+                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[
+                                                                                      :-1] + '/' + 'change/',
+                                }
+                                )
+                        if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
+                                help_array.append({
+                                    'name': model._meta.verbose_name_plural,
+                                    'app_label': model._meta.object_name,
+                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                      :-1] + '/' + 'change/',
+                                }
+                                )
+                        if model._meta.app_label == 'Subdivisions':
+                                help_array.append({
+                                    'name': model._meta.verbose_name_plural,
+                                    'app_label': model._meta.object_name,
+                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                      :-1] + '/' + 'change/',
+                                })
+            if {model1._meta.app_label:help_array} not in app_models:
+                    app_models.append({model1._meta.app_label: help_array})
+
+
+
+    # for model in list:
+    #     if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
+    #         app_models.append({
+    #             'app_head':model._meta.app_label,
+    #             'name': model._meta.verbose_name_plural,
+    #             'app_label': model._meta.object_name,
+    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
+    #         }
+    #         )
+    #     if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
+    #         app_models.append({
+    #             'app_head': model._meta.app_label,
+    #             'name': model._meta.verbose_name_plural,
+    #             'app_label': model._meta.object_name,
+    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
+    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
+    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
+    #         })
+    #     if model._meta.app_label == 'users' and model._meta.object_name == 'User':
+    #         app_models.append({
+    #             'app_head': model._meta.app_label,
+    #             'name': model._meta.verbose_name_plural,
+    #             'app_label': model._meta.app_label,
+    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
+    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
+    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
+    #         }
+    #         )
+    #     if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
+    #         app_models.append({
+    #                 'app_head': model._meta.app_label,
+    #                 'name': model._meta.verbose_name_plural,
+    #                 'app_label': model._meta.object_name,
+    #                 'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+    #                 'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+    #                 'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
+    #             }
+    #         )
+    #     if model._meta.app_label == 'Subdivisions':
+    #         app_models.append({
+    #             'app_head': model._meta.app_label,
+    #             'name': model._meta.verbose_name_plural,
+    #             'app_label': model._meta.object_name,
+    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
+    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
+    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
+    #         })
 
     return app_models
 

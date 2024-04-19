@@ -112,25 +112,68 @@
                 <div id="content-main">
 
                     {% block object-tools %}
-                    {% for app in app_models %}
-                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+<!--                    {% for app in app_models %}-->
+<!--                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">-->
+<!--                        <table>-->
+<!--                            <caption>-->
+<!--                                <a href="#" class="section"-->
+<!--                                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>-->
+<!--                            </caption>-->
+<!--                            <tr class="model-{{ app.app_label }}">-->
+<!--                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>-->
+<!--                                </th>-->
+<!--                                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>-->
+<!--                                &lt;!&ndash;-<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> -&#45;&#45;!>-->
+<!--                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+
+
+
+
+
+
+
+
+
+
+           {% for app in app_models %}
+                      <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
                         <table>
+
+                    {% for  key, value in app.items %}
                             <caption>
                                 <a href="#" class="section"
-                                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>
+                                   title="{% blocktranslate with name=key %}Models in the {{ key }} application{% endblocktranslate %}">
+                                    {% if key == 'users'%}
+                                    пользователи
+                                    {% elif key == 'Incidents' %}
+                                    Происшествия
+                                    {% elif key == 'Subdivisions' %}
+                                    Подразделения
+                                    {% endif %}
+                                    {{ key }}
+                                </a>
                             </caption>
-                            <tr class="model-{{ app.app_label }}">
-                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>
+                            {% for value1 in value %}
+                            <tr class="model-{{ value1.app_label }}">
+                                <th scope="row"><a href="{{ value1.url_view }}" aria-current="page">{{ value1.name }}</a>
                                 </th>
-                                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
+                                <td><a href="{{ value1.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
                                 <!---<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> ---!>
-                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>
+                                <td><a href="{{ value1.change_url }}" class="changelink">{% translate 'Change' %}</a>
                                 </td>
                             </tr>
-                        </table>
-                    </div>
-                    {% endfor %}
+                            {% endfor %}
 
+
+                          {% endfor %}
+                                                           </table>
+                               </div>
+                    {% endfor %}
 
 
                 </div>
