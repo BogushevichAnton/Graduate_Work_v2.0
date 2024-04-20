@@ -1,15 +1,16 @@
 import json
 import locale
 
-from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotFound, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from Graduation_Work_With_Django import settings
 from .forms import AddIncidentsForm, AddSpecificationsForm
 from .models import *
 from RRIT.views import get_sidebar, get_settings, get_search, permission_edit_required
 
-
+@login_required
 @permission_edit_required('Incidents.view_incidents')
 def incidents_all(request):
     #key1 = permission_required(request.user)
@@ -18,16 +19,17 @@ def incidents_all(request):
     if request.GET.get('search'):
         return incidents_search(request)
     else:
-        data = get_settings(Incidents)
+        data = get_settings(Incidents, 1)
         return render(request, 'RRIT/view_all.html',context=data)
 
-
+@login_required
 def incidents_id(request, IncidentId):
-    if not request.user.is_authenticated:
-        return redirect(settings.LOGIN_URL)
     data = get_settings(Incidents)
-    incident_breadcrumb = Incidents.objects.get(pk = IncidentId)
-    incidents = Incidents.objects.filter(pk=IncidentId).values('description', 'latitude', 'longitude', 'address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
+    try:
+        incident_breadcrumb = Incidents.objects.select_related().get(pk = IncidentId)
+    except Incidents.DoesNotExist:
+        raise Http404("No MyModel matches the given query.")
+    incidents = Incidents.objects.filter(pk=IncidentId).select_related().values('description', 'latitude', 'longitude', 'address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
     data['breadcrumb_ru'] += " › " + incident_breadcrumb.description
     key1 = list(incidents)
     for res in key1:
@@ -42,17 +44,14 @@ def incidents_id(request, IncidentId):
     data = data | data1
     return render(request, 'Incidents/index.html', context=data)
 
-
+@login_required
 def incidents_search(request):
-    if not request.user.is_authenticated:
-        return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    data = get_search(Incidents, arg)
-
+    data = get_search(Incidents, arg, 1)
     return render(request, 'RRIT/view_all.html', context=data)
 
 
-
+@login_required
 def incidents_map(request):
     locale.setlocale(locale.LC_ALL, '')
     key = request.user.get_user_permissions()
@@ -63,7 +62,7 @@ def incidents_map(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     data = get_settings(Incidents)
-    incidents = Incidents.objects.values('description', 'latitude', 'longitude','address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
+    incidents = Incidents.objects.select_related().values('description', 'latitude', 'longitude','address', 'specification__pattern', 'specification__color', 'time_create', 'user_create__surname', 'user_create__name','user_create__lastname')
     key1 = list(incidents)
     for res in key1:
         res['time_create'] = res['time_create'].strftime('%d %b. %Y  %H:%M')
@@ -75,7 +74,7 @@ def incidents_map(request):
     return render(request, 'Incidents/map.html', context=data)
 
 
-
+@login_required
 def incidents_add(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -98,7 +97,7 @@ def incidents_add(request):
 def incidents_change(request, IncidentId):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
+    incident_breadcrumb = Incidents.objects.select_related().get(pk=IncidentId)
     if request.method == 'POST':
         form = AddIncidentsForm(request.POST, instance=incident_breadcrumb)
         if form.is_valid():
@@ -111,7 +110,7 @@ def incidents_change(request, IncidentId):
         form.fields['latitude'].widget.attrs['value'] = incident_breadcrumb.latitude
         form.fields['longitude'].widget.attrs['value'] = incident_breadcrumb.longitude
         form.fields['specification'].initial = incident_breadcrumb.specification.pk
-    incident = Incidents.objects.filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude',
+    incident = Incidents.objects.select_related().filter(pk=IncidentId).values('address', 'description', 'latitude', 'longitude',
                                                               'specification__pattern', 'specification__color',
                                                               'time_create', 'user_create__surname', 'user_create__name',
                                                               'user_create__lastname')
@@ -132,7 +131,7 @@ def incidents_change(request, IncidentId):
 def incidents_delete(request, IncidentId):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    incident_breadcrumb = Incidents.objects.get(pk=IncidentId)
+    incident_breadcrumb = Incidents.objects.select_related().get(pk=IncidentId)
     incident_breadcrumb.delete()
     return redirect('Incidents_all')
 
@@ -142,7 +141,7 @@ def pageNotFound(request, exception):
 def incidents_specification(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(Specifications)
+    data = get_settings(Specifications, 1)
     data['action_models_s'] = 'Specification'
     data['action_model'] = 'Specifications'
     data1 = {
@@ -174,7 +173,7 @@ def incidents_specification_add(request):
 def incidents_specification_id(request, SpecificationsId):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    specification = Specifications.objects.get(pk=SpecificationsId)
+    specification = Specifications.objects.select_related().get(pk=SpecificationsId)
     form = AddSpecificationsForm()
 
     data = get_settings(Specifications)
@@ -186,10 +185,11 @@ def incidents_specification_id(request, SpecificationsId):
     data = data | data1
 
     return render(request, 'Incidents/id_specification.html', context=data)
+@login_required
 def incidents_specification_change(request, SpecificationsId):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    specification = Specifications.objects.get(pk=SpecificationsId)
+    specification = Specifications.objects.select_related().get(pk=SpecificationsId)
     if request.method == 'POST':
         form = AddSpecificationsForm(request.POST, instance=specification)
         if form.is_valid():
@@ -220,7 +220,7 @@ def incidents_specification_search(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    data = get_search(Specifications, arg)
+    data = get_search(Specifications, arg, 1)
     data['action_model'] = 'Specifications'
     return render(request, 'RRIT/view_all.html',context=data)
 

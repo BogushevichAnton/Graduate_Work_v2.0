@@ -27,6 +27,8 @@ urlpatterns = [
     path('Incidents/', include('Incidents.urls')),
     path('users/', include('users.urls', namespace="users")),
     path('Subdivisions/', include('Subdivisions.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
-handler404 = pageNotFound
+handler404 = 'Incidents.views.pageNotFound'
+

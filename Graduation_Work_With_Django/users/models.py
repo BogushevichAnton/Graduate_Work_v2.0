@@ -107,6 +107,6 @@ class User(AbstractBaseUser, PermissionsMixin):
          return self.surname +' ' + self.name  +' ' + self.lastname + ' Подразделение: ' + self.subdivision.abbreviation
 
     class Meta:
-        verbose_name = "пользователя"
+        verbose_name = "Пользователя"
         verbose_name_plural = "Пользователи"
 

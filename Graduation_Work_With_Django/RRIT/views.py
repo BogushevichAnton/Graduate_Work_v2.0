@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponse
@@ -12,6 +12,18 @@ from django.contrib import admin
 from django.apps import apps
 
 all_models = []
+def permission_edit_required(perm, login_url=None, raise_exception=True):
+    def check_perms(user):
+        if isinstance(perm, str):
+            perms = (perm, )
+        else:
+            perms = perm
+        if user.has_perms(perms):
+            return True
+        if raise_exception and user.pk:
+            raise PermissionDenied
+        return False
+    return user_passes_test(check_perms, login_url=login_url)
 def get_sidebar():
     list = apps.get_models()
     app_models = []
@@ -132,48 +144,56 @@ def get_sidebar():
 
     return app_models
 
-def get_settings(model):
+def get_settings(model, sql=None):
     app_models = get_sidebar()
-    if model._meta.object_name == 'Incidents':
-        Model_all = model.objects.all().order_by('-time_create')
-    else:
-        Model_all = model.objects.all()
+
+    if sql:
+        if model._meta.object_name == 'Incidents':
+            Model_all = model.objects.all().order_by('-time_create').select_related()
+        else:
+            Model_all = model.objects.all().select_related()
 
     function_name = 'views_all'
-    action_model = Model_all.model._meta.app_label
-    action_models_s = Model_all.model._meta.app_label[:-1]
-    eddit_name = Model_all.model._meta.verbose_name
-    breadcrumb_ru = Model_all.model._meta.verbose_name_plural
+    action_model = model._meta.app_label
+    action_models_s = model._meta.app_label[:-1]
+    eddit_name = model._meta.app_label
+    breadcrumb_ru = model._meta.app_label
+    ru_name_single = model._meta.verbose_name
+    ru_name_all = model._meta.verbose_name_plural
     array_of_th = []
     array_of_data = []
-    for i in range(len(Model_all.model.list_display)):
-        array_of_th.append(Model_all.model._meta.get_field(Model_all.model.list_display[i]).verbose_name)
+    for i in range(len(model.list_display)):
+        array_of_th.append(model._meta.get_field(model.list_display[i]).verbose_name)
+    if 'Model_all' in locals():
+        for data in Model_all:
+            help_array = []
+            for list in data.list_display:
+                help_array.append({
+                    list: getattr(data, list),
+                })
 
-    for data in Model_all:
-        help_array = []
-        for list in data.list_display:
-            help_array.append({
-                list: getattr(data, list),
+            array_of_data.append({
+                data.id: help_array,
             })
-
-        array_of_data.append({
-            data.id: help_array,
-        })
-    count = len(array_of_data)
     data = {
+        'ru_name_single':ru_name_single,
+        'ru_name_all':ru_name_all,
         'function_name': function_name,
         'breadcrumb_ru': breadcrumb_ru,
         'action_model': action_model,
         'action_models_s': action_models_s,
         'eddit_name': eddit_name,
-        'array_of_data': array_of_data,
-        'count': count,
         'array_of_th': array_of_th,
         'app_models':app_models,
     }
+    if array_of_data:
+        data1 = {
+            'array_of_data': array_of_data,
+        }
+        data = data | data1
     return data
 
-def get_search(model, arg):
+def get_search(model, arg, sql=None):
     if model._meta.object_name == 'User':
         filter_model = model.objects.filter(
             Q(email__icontains=arg) | Q(name__icontains=arg) | Q(surname__icontains=arg) | Q(lastname__icontains=arg))
@@ -196,11 +216,11 @@ def get_search(model, arg):
             mod.id: help_array,
         })
 
-    data = get_settings(model)
+    data = get_settings(model, sql)
     data['array_of_data'] = array_of_data
 
     return data
-
+@login_required
 def index(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -210,15 +230,4 @@ def index(request):
                   {'app_models': app_models,})
 
 
-def permission_edit_required(perm, login_url=None, raise_exception=True):
-    def check_perms(user):
-        if isinstance(perm, str):
-            perms = (perm, )
-        else:
-            perms = perm
-        if user.has_perms(perms):
-            return True
-        if raise_exception and user.pk:
-            raise PermissionDenied
-        return False
-    return user_passes_test(check_perms, login_url=login_url)
+

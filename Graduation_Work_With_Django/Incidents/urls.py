@@ -20,3 +20,4 @@ urlpatterns = [
     path('Specification/<int:SpecificationsId>/change/', incidents_specification_change, name='Specification_change'),
     path('Specification/<int:SpecificationsId>/delete/', incidents_specification_delete, name='Specification_delete'),
 ]
+handler404 = 'Incidents.views.pageNotFound'

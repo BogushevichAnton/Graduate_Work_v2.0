@@ -12,7 +12,7 @@ def subdivisions_all(request):
         return
     else:
 
-        data = get_settings(Subdivisions)
+        data = get_settings(Subdivisions, 1 )
         data1 = {
             'add': 'add/',
         }
@@ -25,8 +25,8 @@ def subdivision_id(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     data = get_settings(Subdivisions)
-    subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
-    subdivisions = Subdivisions.objects.filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
+    subdivision_breadcrumb = Subdivisions.objects.select_related().get(pk = Subdivision_ID)
+    subdivisions = Subdivisions.objects.select_related().filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
     data['breadcrumb_ru'] += " › " + subdivision_breadcrumb.abbreviation
     list_data_json = json.dumps(list(subdivisions))
     data1 = {
@@ -42,7 +42,7 @@ def subdivisions_map(request):
     data = get_settings(Subdivisions)
     data['breadcrumb_ru'] += " › " +  'Карта подразделений'
 
-    subdivision_breadcrumb = Subdivisions.objects.values('description', 'latitude', 'longitude', 'address', 'abbreviation')
+    subdivision_breadcrumb = Subdivisions.objects.select_related().values('description', 'latitude', 'longitude', 'address', 'abbreviation')
     list_data_json = json.dumps(list(subdivision_breadcrumb))
     data1 = {
         'data':list_data_json,
@@ -70,7 +70,7 @@ def subdivisions_add(request):
 def subdivision_change(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
+    subdivision_breadcrumb = Subdivisions.objects.select_related().get(pk = Subdivision_ID)
     if request.method == 'POST':
         form = AddSubdivisionsForm(request.POST, instance=subdivision_breadcrumb)
         if form.is_valid():
@@ -83,7 +83,7 @@ def subdivision_change(request, Subdivision_ID):
         form.fields['longitude'].widget.attrs['value'] = subdivision_breadcrumb.longitude
         form.fields['abbreviation'].widget.attrs['value'] = subdivision_breadcrumb.abbreviation
 
-    subdivisions = Subdivisions.objects.filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
+    subdivisions = Subdivisions.objects.select_related().filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
 
     list_data_json = json.dumps(list(subdivisions))
     data = get_settings(Subdivisions)
@@ -98,6 +98,6 @@ def subdivision_change(request, Subdivision_ID):
 def subdivision_delete(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    subdivision_breadcrumb = Subdivisions.objects.get(pk = Subdivision_ID)
+    subdivision_breadcrumb = Subdivisions.objects.select_related().get(pk = Subdivision_ID)
     subdivision_breadcrumb.delete()
     return redirect('Subdivisions_all')

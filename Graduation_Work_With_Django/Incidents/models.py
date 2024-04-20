@@ -14,7 +14,7 @@ class Specifications(models.Model):
     search_fields = ['pattern', 'color']
 
     class Meta:
-        verbose_name = "Спецификация инцидентов"
+        verbose_name = "Спецификацию происшествия"
         verbose_name_plural = "Спецификации инцидентов"
 
     def __str__(self):
@@ -57,8 +57,8 @@ class Incidents(models.Model):
     list_display = ('address','description', 'specification', 'user_create', 'status')
     search_fields = ['address', 'description','user_create']
     class Meta:
-        verbose_name = "инцидент"
-        verbose_name_plural = "Инциденты"
+        verbose_name = "Происшествие"
+        verbose_name_plural = "Происшествия"
 
     def __str__(self):
         return self.address

@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
@@ -29,19 +31,16 @@ def logout_user(request):
 def users_all(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(User)
+    data = get_settings(User,1)
     data1 = {
         'add': 'add/',
     }
 
     data = data | data1
     return render(request, 'RRIT/view_all.html',context=data)
-
+@login_required
 def user_id(request, UsersID):
-    if not request.user.is_authenticated:
-        return redirect(settings.LOGIN_URL)
-    user = User.objects.get(pk = UsersID)
-
+    user = User.objects.get(pk=UsersID)
     password_hash = user.password.split('$')
     solt = password_hash[2][0:6]
     hash = password_hash[3][0:6]
@@ -51,14 +50,14 @@ def user_id(request, UsersID):
     data1 = {
         'solt': solt,
         'hash': hash,
-        'user': user,
+        'user': request.user,
     }
     data = data | data1
     return render(request, 'users/user.html',context=data)
 def user_delete(request, UsersID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    user = User.objects.get(pk=UsersID)
+    user = User.objects.select_related().get(pk=UsersID)
     user.delete()
     return redirect('users:Users_all')
 
@@ -70,10 +69,6 @@ def users_search(request):
     return render(request, 'RRIT/view_all.html',context=data)
 def users_positions(request):
     return render(request, 'Position/position.html')
-
-
-
-
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница users не найдена')
 

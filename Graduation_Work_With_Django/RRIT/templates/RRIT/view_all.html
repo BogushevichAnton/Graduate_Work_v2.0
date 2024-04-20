@@ -35,13 +35,13 @@
 {% include "RRIT/nav_sidebar.html" %}
 {% endblock %}
 {% block content %}
-<h1>Выберите {{ eddit_name }} для изменения</h1>
+<h1>Выберите {{ru_name_single}} для изменения</h1>
 <div id="content-main">
     {% block coltype %}{% endblock %}
     {% block object-tools %}
     <ul class="object-tools">
         <li>
-            <a href="{{ add }}" class="addlink"> Добавить {{ eddit_name }}
+            <a href="add/" class="addlink"> Добавить {{ru_name_single}}
 
             </a>
         </li>
@@ -69,7 +69,7 @@
                     </button>
                     <span class="action-counter" data-actions-icnt="1">Выбрано 0 объектов из 1 </span>
                 </div>
-                {% if count %}
+                {% if array_of_data|length %}
                 <div class="results">
                     <table id="result_list">
                         <thead>
@@ -116,7 +116,8 @@
                 </div>
                 {% endif %}
                 <p class="paginator">
-                    {{ count }} {{ eddit_name }}
+
+                    {{array_of_data|length}} {{ ru_name_all }}
                 </p>
             </form>
         </div>
