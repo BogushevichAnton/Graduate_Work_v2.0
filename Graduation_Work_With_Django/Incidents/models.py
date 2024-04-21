@@ -18,12 +18,12 @@ class Specifications(models.Model):
         verbose_name_plural = "Спецификации происшествий"
 
         permissions = [
-            ("specification_add", "Добавление спецификации происшествия"),
-            ("specification_change", "Изменение спецификации происшествия"),
-            ("specification_delete", "Удаление спецификации происшествия"),
-            ("specification_id", "Просмотр спецификации происшествия"),
+            ("Incidents.specification_add", "Добавление спецификации происшествия"),
+            ("Incidents.specification_change", "Изменение спецификации происшествия"),
+            ("Incidents.specification_delete", "Удаление спецификации происшествия"),
+            ("Incidents.specification_id", "Просмотр спецификации происшествия"),
 
-            ("specification_all", "Просмотр всех спецификаций в таблице"),
+            ("Incidents.specification_all", "Просмотр всех спецификаций в таблице"),
         ]
 
     def __str__(self):
@@ -40,12 +40,12 @@ class Status(models.Model):
         verbose_name = "Статус происшествия"
         verbose_name_plural = "Статусы происшествий"
         permissions = [
-            ("status_add", "Добавление статуса происшествия"),
-            ("status_change", "Изменение статуса происшествия"),
-            ("status_delete", "Удаление статуса происшествия"),
-            ("status_id", "Просмотр статуса происшествия"),
+            ("Incidents.status_add", "Добавление статуса происшествия"),
+            ("Incidents.status_change", "Изменение статуса происшествия"),
+            ("Incidents.status_delete", "Удаление статуса происшествия"),
+            ("Incidents.status_id", "Просмотр статуса происшествия"),
 
-            ("status_all", "Просмотр всех статусов в таблице"),
+            ("Incidents.status_all", "Просмотр всех статусов в таблице"),
         ]
 
     def __str__(self):
@@ -83,13 +83,13 @@ class Incidents(models.Model):
         verbose_name = "Происшествие"
         verbose_name_plural = "Происшествия"
         permissions = [
-            ("incidents_add", "Добавление происшествий"),
-            ("incidents_change", "Изменение происшествий"),
-            ("incidents_delete", "Удаление происшествий"),
-            ("incidents_id", "Просмотр происшествия"),
-            ("incidents_map", "Просмотр всех происшествий на карте"),
+            ("Incidents.incidents_add", "Добавление происшествий"),
+            ("Incidents.incidents_change", "Изменение происшествий"),
+            ("Incidents.incidents_delete", "Удаление происшествий"),
+            ("Incidents.incidents_id", "Просмотр происшествия"),
+            ("Incidents.incidents_map", "Просмотр всех происшествий на карте"),
 
-            ("incidents_all", "Просмотр всех происшествий в таблице"),
+            ("Incidents.incidents_all", "Просмотр всех происшествий в таблице"),
         ]
 
     def __str__(self):

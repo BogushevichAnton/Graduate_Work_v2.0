@@ -18,136 +18,260 @@ def permission_edit_required(perm, login_url=None, raise_exception=True):
             raise PermissionDenied
         return False
     return user_passes_test(check_perms, login_url=login_url)
-def get_sidebar():
+def get_sidebar(request):
+
     list1 = apps.get_models()
     app_models = []
-    #есть список моделей
+    array_of_permissions_help = []   #есть список моделей
+    array_of_permissions=[]
+    for model1 in list1:
+
+        if model1._meta.app_label == 'Incidents' or model1._meta.app_label == 'users' or model1._meta.app_label == 'Subdivisions':
+            for key in model1._meta.permissions:
+                array_of_permissions_help.append(model1._meta.app_label + '.' + key[0])
+            for help in array_of_permissions_help:
+                if help in request.user.get_group_permissions() and help not in array_of_permissions:
+                    array_of_permissions.append(help)
+    array_of_permissions_help = []
+    array_of_event = {'add', 'change', 'delete', 'id', 'all', 'map'}
     for model1 in list1:
         if model1._meta.app_label == 'Incidents' or model1._meta.app_label == 'users' or model1._meta.app_label == 'Subdivisions':
-            array_of_permissions = [list(row) for row in model1._meta.permissions]
-            for value in array_of_permissions:
-                value[0] = model1._meta.app_label + '.' + value[0]
             help_array = []
             for model in list1:
                 if model._meta.app_label == model1._meta.app_label:
                     if model._meta.object_name not in help_array:
                         if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
-                            help_array.append({
-                                'name': model._meta.verbose_name_plural,
-                                'app_label': model._meta.object_name,
-                                'url_view': '/' + model._meta.app_label + '/',
-                                'add_url': '/' + model._meta.app_label + '/add/',
-                                'change_url': '/' + model._meta.app_label + '/change/',
-                            }
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map=''
+                            view_model = ''
+                            if request.user.has_perm('Incidents.Incidents.incidents_add'):
+                                add_url = '/' + model._meta.app_label + '/add/'
+                            if request.user.has_perm('Incidents.Incidents.incidents_change'):
+                                change_url = '/' + model._meta.app_label + '/change/'
+                            if request.user.has_perm('Incidents.Incidents.incidents_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('Incidents.Incidents.incidents_id'):
+                                id='id/'
+                            if request.user.has_perm('Incidents.Incidents.incidents_map'):
+                                map='map/'
+                            if request.user.has_perm('Incidents.Incidents.incidents_all'):
+                                url_view = '/' + model._meta.app_label + '/'
+                            if add_url=='' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
+                                help_array.append({
+                                    'name': model._meta.verbose_name_plural,
+                                    'app_label': model._meta.object_name,
+                                    'url_view': url_view,
+                                    'add_url': add_url,
+                                    'change_url': change_url,
+                                    'delete_url':delete_url,
+                                    'id': id,
+                                    'map': map,
+                                    'view_model':view_model
+                                }
                             )
                         if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Specifications':
-                            help_array.append({
+
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map=''
+                            view_model = ''
+                            if request.user.has_perm('Specifications.Incidents.incidents_add'):
+                                add_url = '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/'
+                            if request.user.has_perm('Specifications.Incidents.incidents_change'):
+                                change_url = '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                  :-1] + '/' + 'change/'
+                            if request.user.has_perm('Specifications.Incidents.incidents_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('Specifications.Incidents.incidents_id'):
+                                id='id/'
+                            if request.user.has_perm('Specifications.Incidents.incidents_map'):
+                                map='map/'
+                            if request.user.has_perm('Specifications.Incidents.incidents_all'):
+                                url_view = '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/'
+                            if add_url == '' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
+                                help_array.append({
                                 'name': model._meta.verbose_name_plural,
                                 'app_label': model._meta.object_name,
-                                'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                                'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                                'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
-                                                                                  :-1] + '/' + 'change/',
+                                'url_view': url_view,
+                                'add_url': add_url,
+                                'change_url': change_url,
+                                'delete_url': delete_url,
+                                'id': id,
+                                'map': map,
+                                'view_model': view_model
                             }
                             )
                         if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map = ''
+                            view_model = ''
+                            if request.user.has_perm('Status.Incidents.incidents_add'):
+                                add_url = '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/'
+                            if request.user.has_perm('Status.Incidents.incidents_change'):
+                                change_url = '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/'
+                            if request.user.has_perm('Status.Incidents.incidents_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('Status.Incidents.incidents_id'):
+                                id = 'id/'
+                            if request.user.has_perm('Status.Incidents.incidents_map'):
+                                map = 'map/'
+                            if request.user.has_perm('Status.Incidents.incidents_all'):
+                                url_view = '/' + model._meta.app_label + '/' + model._meta.object_name + '/'
+
+                            if add_url == '' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.object_name,
-                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
-                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
-                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
+                                    'url_view': url_view,
+                                    'add_url': add_url,
+                                    'change_url': change_url,
+                                'delete_url': delete_url,
+                                'id': id,
+                                'map': map,
+                                'view_model':view_model
                                 })
+
+
                         if model._meta.app_label == 'users' and model._meta.object_name == 'User':
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map = ''
+                            view_model = ''
+                            if request.user.has_perm('users.users.user_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('users.users.user_id'):
+                                id = 'id/'
+                            if request.user.has_perm('users.users.user_all'):
+                                url_view = '/' + model._meta.app_label + '/'
+                            if add_url == '' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.app_label,
-                                    'url_view': '/' + model._meta.app_label + '/',
-                                    'add_url': '/' + model._meta.app_label + '/' +  'add/',
-                                    'change_url': '/' + model._meta.app_label + '/' +  'change/',
+                                    'url_view': url_view,
+                                    'add_url': add_url,
+                                    'change_url': change_url,
+                                'delete_url': delete_url,
+                                'id': id,
+                                'map': map,
+                                'view_model': view_model
                                 }
                                 )
+
                         if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map = ''
+                            view_model = ''
+                            if request.user.has_perm('users.users.position_add'):
+                                add_url = '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/'
+                            if request.user.has_perm('Status.Incidents.position_change'):
+                                change_url = '/' + model._meta.app_label + '/' + model._meta.object_name[
+                                                                                      :-1] + '/' + 'change/'
+                            if request.user.has_perm('users.users.position_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('users.users.position_id'):
+                                id = 'id/'
+                            if request.user.has_perm('users.users.position_all'):
+                                url_view = '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/'
+                            if add_url == '' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.object_name,
-                                    'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-                                    'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-                                    'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[
-                                                                                      :-1] + '/' + 'change/',
+                                    'url_view': url_view,
+                                    'add_url': add_url,
+                                    'change_url': change_url,
+                                'delete_url': delete_url,
+                                'id': id,
+                                'map': map,
+                                'view_model': view_model
                                 }
                                 )
+
+
                         if model._meta.app_label == 'Subdivisions':
+                            add_url = ''
+                            change_url = ''
+                            delete_url = ''
+                            url_view = ''
+                            id = ''
+                            map = ''
+                            view_model = ''
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_add'):
+                                add_url = '/' + model._meta.app_label + '/add/'
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_change'):
+                                change_url = '/' + model._meta.app_label + '/change/'
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_delete'):
+                                delete_url = 'delete/'
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_id'):
+                                id = 'id/'
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_map'):
+                                map = 'map/'
+                            if request.user.has_perm('Subdivisions.Subdivisions.subdivision_all'):
+                                url_view = '/' + model._meta.app_label + '/'
+                            if add_url == '' and change_url == '' and url_view == '':
+                                view_model = ''
+                            else:
+                                view_model = '1'
+                            if view_model != '':
                                 help_array.append({
                                     'name': model._meta.verbose_name_plural,
                                     'app_label': model._meta.object_name,
-                                    'url_view': '/' + model._meta.app_label + '/',
-                                    'add_url': '/' + model._meta.app_label + '/add/',
-                                    'change_url': '/' + model._meta.app_label + '/change/',
+                                    'url_view': url_view,
+                                    'add_url': add_url,
+                                    'change_url': change_url,
+                                'delete_url': delete_url,
+                                'id': id,
+                                'map': map,
+                                'view_model': view_model
                                 })
-            if {model1._meta.app_label:help_array} not in app_models:
+            if {model1._meta.app_label:help_array} not in app_models and len(help_array) != 0:
                     app_models.append({model1._meta.app_label: help_array})
-
-
-
-    # for model in list:
-    #     if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
-    #         app_models.append({
-    #             'app_head':model._meta.app_label,
-    #             'name': model._meta.verbose_name_plural,
-    #             'app_label': model._meta.object_name,
-    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-    #         }
-    #         )
-    #     if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Status':
-    #         app_models.append({
-    #             'app_head': model._meta.app_label,
-    #             'name': model._meta.verbose_name_plural,
-    #             'app_label': model._meta.object_name,
-    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name + '/',
-    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'add/',
-    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name + '/' + 'change/',
-    #         })
-    #     if model._meta.app_label == 'users' and model._meta.object_name == 'User':
-    #         app_models.append({
-    #             'app_head': model._meta.app_label,
-    #             'name': model._meta.verbose_name_plural,
-    #             'app_label': model._meta.app_label,
-    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/',
-    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'add/',
-    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.app_label[:-1] + '/' + 'change/',
-    #         }
-    #         )
-    #     if model._meta.app_label == 'users' and model._meta.object_name == 'Positions':
-    #         app_models.append({
-    #                 'app_head': model._meta.app_label,
-    #                 'name': model._meta.verbose_name_plural,
-    #                 'app_label': model._meta.object_name,
-    #                 'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-    #                 'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-    #                 'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-    #             }
-    #         )
-    #     if model._meta.app_label == 'Subdivisions':
-    #         app_models.append({
-    #             'app_head': model._meta.app_label,
-    #             'name': model._meta.verbose_name_plural,
-    #             'app_label': model._meta.object_name,
-    #             'url_view': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/',
-    #             'add_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'add/',
-    #             'change_url': '/' + model._meta.app_label + '/' + model._meta.object_name[:-1] + '/' + 'change/',
-    #         })
-
+    check = list(app_models)
     return app_models
 
-def get_settings(model, sql=None):
-    app_models = get_sidebar()
+def get_settings(request, model, sql=None):
+    app_models = get_sidebar(request)
 
     if sql:
         if model._meta.object_name == 'Incidents':
-            Model_all = model.objects.all().order_by('-time_create').select_related()
+            Model_all = model.objects.all().order_by('-time_create').select_related('specification', 'status', 'user_create', 'user_responsible')
         else:
             Model_all = model.objects.all().select_related()
 
@@ -191,24 +315,24 @@ def get_settings(model, sql=None):
         data = data | data1
     return data
 
-def get_search(model, arg, sql=None):
+def get_search(request, model, arg, sql=None):
     if model._meta.object_name == 'User':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(email__icontains=arg) | Q(name__icontains=arg) | Q(surname__icontains=arg) | Q(lastname__icontains=arg))
     elif model._meta.object_name == 'Incidents':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(address__icontains=arg) | Q(description__icontains=arg) |Q(user_create__name=arg,user_create__surname=arg, user_create__lastname=arg, _connector=Q.OR) | Q(user_create__fullname__icontains=arg))
     elif model._meta.object_name == 'Specifications':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(pattern__icontains=arg) | Q(color__icontains=arg))
     elif model._meta.object_name == 'Positions':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(positions__icontains=arg))
     elif model._meta.object_name == 'Subdivisions':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(abbreviation__icontains=arg) | Q(description__icontains=arg) | Q(address__icontains=arg))
     elif model._meta.object_name == 'Status':
-        filter_model = model.objects.filter(
+        filter_model = model.objects.select_related().filter(
             Q(status__icontains=arg) | Q(description__icontains=arg))
 
     array_of_data = []
@@ -224,7 +348,7 @@ def get_search(model, arg, sql=None):
             mod.id: help_array,
         })
 
-    data = get_settings(model, sql)
+    data = get_settings(request, model, sql)
     data['array_of_data'] = array_of_data
 
     return data
@@ -232,7 +356,7 @@ def get_search(model, arg, sql=None):
 def index(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    app_models = get_sidebar()
+    app_models = get_sidebar(request)
     # app_list = apps.get_models()
     return render(request, 'RRIT/index.html',
                   {'app_models': app_models,})
@@ -240,6 +364,6 @@ def index(request):
 
 
 def handler403(request, exception):
-    app_models = get_sidebar()
+    app_models = get_sidebar(request)
     return render(request, 'errors/403.html', {'app_models':app_models}, status=403)
 

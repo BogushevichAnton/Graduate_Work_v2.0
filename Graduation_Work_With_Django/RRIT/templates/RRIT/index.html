@@ -3,7 +3,7 @@
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <html lang="{{ LANGUAGE_CODE|default:" ru-ru" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
 <head>
-    <title>{% block title %} {{ title }} {% endblock %}</title>
+    <title></title>
     <link rel="stylesheet" href="{% block stylesheet %}{% static 'admin/css/base.css' %}{% endblock %}">
 
     {% block dark-mode-vars %}
@@ -41,7 +41,6 @@
 
 <!-- Container -->
 <div id="container">
-    {% if not is_popup %}
     <!-- Header -->
     {% block header %}
     <div id="header">
@@ -60,9 +59,7 @@
             <strong>{{user.surname}} {{user.name}}</strong>.
             {% endblock %}
             {% block userlinks %}
-            {% if site_url %}
-            <a href="{{ site_url }}">{% translate 'View site' %}</a> /
-            {% endif %}
+
             {% if user.is_active and user.is_staff %}
             {% url 'django-admindocs-docroot' as docsroot %}
             {% if docsroot %}
@@ -87,8 +84,6 @@
 
     {% endblock %}
 
-    {% endif %}
-
     <div class="main" id="main">
         {% block nav-sidebar %}
 
@@ -107,32 +102,11 @@
             <!-- Content -->
             <div id="content" class="{% block coltype %}colM{% endblock %}">
                 {% block pretitle %}{% endblock %}
-                {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
-                {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
 
                 {% block content %}
                 <div id="content-main">
 
                     {% block object-tools %}
-                    <!--                    {% for app in app_models %}-->
-                    <!--                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">-->
-                    <!--                        <table>-->
-                    <!--                            <caption>-->
-                    <!--                                <a href="#" class="section"-->
-                    <!--                                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>-->
-                    <!--                            </caption>-->
-                    <!--                            <tr class="model-{{ app.app_label }}">-->
-                    <!--                                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>-->
-                    <!--                                </th>-->
-                    <!--                                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>-->
-                    <!--                                &lt;!&ndash;-<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> -&#45;&#45;!>-->
-                    <!--                                <td><a href="{{ app.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
-                    <!--                                </td>-->
-                    <!--                            </tr>-->
-                    <!--                        </table>-->
-                    <!--                    </div>-->
-                    <!--                    {% endfor %}-->
-
 
                     {% for app in app_models %}
                     <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
@@ -144,30 +118,41 @@
                                 <a href="#" class="section"
                                    title="{% blocktranslate with name=key %}Models in the {{ key }} application{% endblocktranslate %}">
                                     {% if key == 'users'%}
-                                    пользователи
+                                    Пользователи
                                     {% elif key == 'Incidents' %}
                                     Происшествия
                                     {% elif key == 'Subdivisions' %}
                                     Подразделения
                                     {% endif %}
-                                    {{ key }}
                                 </a>
                             </caption>
                             {% for value1 in value %}
-                            <tr class="model-{{ value1.app_label }}">
-                                <th scope="row"><a href="{{ value1.url_view }}" aria-current="page">{{ value1.name}}</a>
+
+                            {% if value1.url_view == '' and value1.add_url == '' %}
+                            {% else %}
+                            <tr class="model-{{ value1.app_label }}  {% if action_model in value1.app_label %} current-model {% endif %}">
+                                <th scope="row">
+                                {% if value1.url_view == ''  %}
+                                {{ value1.name}}
+                                    {% else %}
+                                <a href="{{ value1.url_view }}" aria-current="page">{{ value1.name}}</a>
+                                  {% endif %}
                                 </th>
+
+                                {% if value1.add_url == ''   %}
+                                <td><a href="" class="addlink"></a></td>
+                                {% else %}
                                 <td><a href="{{ value1.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
-                                <!---<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> ---!>
-                                <!--                                <td><a href="{{ value1.change_url }}" class="changelink">{% translate 'Change' %}</a>-->
-                                </td>
+                                {% endif %}
                             </tr>
+                            {% endif %}
                             {% endfor %}
 
 
                             {% endfor %}
                         </table>
                     </div>
+
                     {% endfor %}
 
 

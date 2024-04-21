@@ -30,11 +30,11 @@ def logout_user(request):
     logout(request)
     return redirect('users:login')
 @login_required
-@permission_edit_required('users.user_all')
+@permission_edit_required('users.users.user_all')
 def users_all(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(User,1)
+    data = get_settings(request, User,1)
     data1 = {
         'add': 'add/',
     }
@@ -42,24 +42,24 @@ def users_all(request):
     data = data | data1
     return render(request, 'RRIT/view_all.html',context=data)
 @login_required
-@permission_edit_required('users.user_id')
+@permission_edit_required('users.users.user_id')
 def user_id(request, UsersID):
     user = User.objects.get(pk=UsersID)
     password_hash = user.password.split('$')
     solt = password_hash[2][0:6]
     hash = password_hash[3][0:6]
 
-    data = get_settings(User)
+    data = get_settings(request, User)
     data['breadcrumb_ru'] += " › " + user.surname + " " + user.name + ' ' + user.lastname + " " + user.email
     data1 = {
         'solt': solt,
         'hash': hash,
-        'user': request.user,
+        'user': user,
     }
     data = data | data1
     return render(request, 'users/user.html',context=data)
 @login_required
-@permission_edit_required('users.user_delete')
+@permission_edit_required('users.users.user_delete')
 def user_delete(request, UsersID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -67,16 +67,16 @@ def user_delete(request, UsersID):
     user.delete()
     return redirect('users:Users_all')
 @login_required
-@permission_edit_required('users.user_all')
+@permission_edit_required('users.users.user_all')
 def users_search(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    data = get_search(User,arg)
+    data = get_search(request,User,arg)
     return render(request, 'RRIT/view_all.html',context=data)
 
 @login_required
-@permission_edit_required('users.position_add')
+@permission_edit_required('users.users.position_add')
 def users_positions_add(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -86,7 +86,7 @@ def users_positions_add(request):
             obj = form.save()
             return redirect('users:Positions_id', obj.pk)
     else:
-        data = get_settings(Positions)
+        data = get_settings(request, Positions)
         form = PositionForm()
     data['action_model'] = 'Positions'
     data1 = {
@@ -94,22 +94,22 @@ def users_positions_add(request):
         }
     data = data | data1
 
-    return render(request, 'Incidents/add_specification.html', context=data )
+    return render(request, 'Position/add_position.html', context=data )
 @login_required
-@permission_edit_required('users.position_all')
+@permission_edit_required('users.users.position_all')
 def users_positions_search(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    data = get_search(Positions, arg, 1)
+    data = get_search(request,Positions, arg, 1)
     data['action_model'] = 'Positions'
     return render(request, 'RRIT/view_all.html',context=data)
 @login_required
-@permission_edit_required('users.position_all')
+@permission_edit_required('users.users.position_all')
 def users_positions(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(Positions,1)
+    data = get_settings(request, Positions,1)
     data['action_models_s'] = 'Position'
     data['action_model'] = 'Positions'
     data1 = {
@@ -121,13 +121,13 @@ def users_positions(request):
 
 
 @login_required
-@permission_edit_required('users.position_id')
+@permission_edit_required('users.users.position_id')
 def users_positions_id(request, PositionID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     position = Positions.objects.select_related().get(pk=PositionID)
 
-    data = get_settings(Positions)
+    data = get_settings(request, Positions)
     data['action_model'] = 'Positions'
     data1 = {
         'position':position,
@@ -135,7 +135,7 @@ def users_positions_id(request, PositionID):
     data = data | data1
     return render(request, 'Position/id_position.html',context=data)
 @login_required
-@permission_edit_required('users.position_change')
+@permission_edit_required('users.users.position_change')
 def users_positions_change(request, PositionID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -149,7 +149,7 @@ def users_positions_change(request, PositionID):
         form = PositionForm()
         form.fields['positions'].widget.attrs['value'] = position.positions
 
-    data = get_settings(Positions)
+    data = get_settings(request, Positions)
     data['action_model'] = 'Positions'
     data1 = {
         'form': form,
@@ -158,7 +158,7 @@ def users_positions_change(request, PositionID):
     data = data | data1
     return render(request, 'Position/change_position.html', context=data)
 @login_required
-@permission_edit_required('users.position_delete')
+@permission_edit_required('users.users.position_delete')
 def users_positions_delete(request, PositionID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)

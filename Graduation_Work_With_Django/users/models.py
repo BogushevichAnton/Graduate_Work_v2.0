@@ -21,12 +21,12 @@ class Positions(models.Model):
         verbose_name_plural = "Должности"
 
         permissions = [
-            ("position_add", "Добавление должностей"),
-            ("position_change", "Изменение должностей"),
-            ("position_delete", "Удаление должностей"),
-            ("position_id", "Просмотр должности"),
+            ("users.position_add", "Добавление должностей"),
+            ("users.position_change", "Изменение должностей"),
+            ("users.position_delete", "Удаление должностей"),
+            ("users.position_id", "Просмотр должности"),
 
-            ("position_all", "Просмотр всех должностей в таблице"),
+            ("users.position_all", "Просмотр всех должностей в таблице"),
         ]
 
     def __str__(self):
@@ -121,9 +121,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Пользователи"
 
         permissions = [
-            ("user_id", "Просмотр пользователей"),
-            ("user_delete", "Удаление пользователей"),
+            ("users.user_id", "Просмотр пользователей"),
+            ("users.user_delete", "Удаление пользователей"),
 
-            ("user_all", "Просмотр всех пользователей в таблице"),
+            ("users.user_all", "Просмотр всех пользователей в таблице"),
         ]
 

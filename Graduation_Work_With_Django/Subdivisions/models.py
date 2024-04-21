@@ -15,13 +15,13 @@ class Subdivisions(models.Model):
         verbose_name_plural = "Подразделения"
 
         permissions = [
-            ("subdivision_add", "Добавление подразделения"),
-            ("subdivision_change", "Изменение подразделения"),
-            ("subdivision_delete", "Удаление подразделения"),
-            ("subdivision_id", "Просмотр подразделения"),
-            ("subdivision_map", "Просмотр всех подразделений на карте"),
+            ("Subdivisions.subdivision_add", "Добавление подразделения"),
+            ("Subdivisions.subdivision_change", "Изменение подразделения"),
+            ("Subdivisions.subdivision_delete", "Удаление подразделения"),
+            ("Subdivisions.subdivision_id", "Просмотр подразделения"),
+            ("Subdivisions.subdivision_map", "Просмотр всех подразделений на карте"),
 
-            ("subdivision_all", "Просмотр всех подразделений в таблице"),
+            ("Subdivisions.subdivision_all", "Просмотр всех подразделений в таблице"),
         ]
 
     def __str__(self):

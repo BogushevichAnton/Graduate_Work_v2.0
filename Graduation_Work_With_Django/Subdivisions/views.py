@@ -6,7 +6,7 @@ from Subdivisions.models import Subdivisions
 from django.contrib.auth.decorators import login_required
 import json
 @login_required
-@permission_edit_required('Subdivisions.subdivision_all')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_all')
 def subdivisions_all(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -14,7 +14,7 @@ def subdivisions_all(request):
         return
     else:
 
-        data = get_settings(Subdivisions, 1 )
+        data = get_settings(request, Subdivisions, 1 )
         data1 = {
             'add': 'add/',
         }
@@ -23,11 +23,11 @@ def subdivisions_all(request):
 
 
 @login_required
-@permission_edit_required('Subdivisions.subdivision_id')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_id')
 def subdivision_id(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(Subdivisions)
+    data = get_settings(request, Subdivisions)
     subdivision_breadcrumb = Subdivisions.objects.select_related().get(pk = Subdivision_ID)
     subdivisions = Subdivisions.objects.select_related().filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
     data['breadcrumb_ru'] += " › " + subdivision_breadcrumb.abbreviation
@@ -39,11 +39,11 @@ def subdivision_id(request, Subdivision_ID):
     data = data | data1
     return render(request, 'Subdivisions/id.html',context=data)
 @login_required
-@permission_edit_required('Subdivisions.subdivision_map')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_map')
 def subdivisions_map(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
-    data = get_settings(Subdivisions)
+    data = get_settings(request, Subdivisions)
     data['breadcrumb_ru'] += " › " +  'Карта подразделений'
 
     subdivision_breadcrumb = Subdivisions.objects.select_related().values('description', 'latitude', 'longitude', 'address', 'abbreviation')
@@ -54,7 +54,7 @@ def subdivisions_map(request):
     data = data | data1
     return render(request, 'Subdivisions/map.html', context=data)
 @login_required
-@permission_edit_required('Subdivisions.subdivision_add')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_add')
 def subdivisions_add(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -65,14 +65,14 @@ def subdivisions_add(request):
             return redirect('Subdivision_ID', obj.pk)
     else:
         form = AddSubdivisionsForm()
-    data = get_settings(Subdivisions)
+    data = get_settings(request, Subdivisions)
     data1 = {
         'form':form,
     }
     data = data | data1
     return render(request, 'Subdivisions/add.html',context=data)
 @login_required
-@permission_edit_required('Subdivisions.subdivision_change')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_change')
 def subdivision_change(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -92,7 +92,7 @@ def subdivision_change(request, Subdivision_ID):
     subdivisions = Subdivisions.objects.select_related().filter(pk=Subdivision_ID).values('description', 'latitude', 'longitude', 'address','abbreviation')
 
     list_data_json = json.dumps(list(subdivisions))
-    data = get_settings(Subdivisions)
+    data = get_settings(request, Subdivisions)
     data['breadcrumb_ru'] += " › " + subdivision_breadcrumb.abbreviation
     data1 = {
         'subdivision':subdivision_breadcrumb,
@@ -102,12 +102,12 @@ def subdivision_change(request, Subdivision_ID):
     data = data | data1
     return render(request, 'Subdivisions/change.html',context=data)
 @login_required
-@permission_edit_required('Subdivisions.subdivision_all')
+@permission_edit_required('Subdivisions.Subdivisions.subdivision_all')
 def subdivisions_search(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
     arg = request.GET.get('search')
-    data = get_search(Subdivisions, arg, 1)
+    data = get_search(request,Subdivisions, arg, 1)
     data['action_model'] = 'Subdivisions'
     return render(request, 'RRIT/view_all.html',context=data)
 @login_required

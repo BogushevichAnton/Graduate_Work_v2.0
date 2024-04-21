@@ -6,44 +6,17 @@
            placeholder="{% translate 'Start typing to filter…' %}"
            aria-label="{% translate 'Filter navigation items' %}">
 
-
-
-
-<!--        {% for app in app_models %}-->
-<!--    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">-->
-<!--        <table>-->
-<!--            <caption>-->
-<!--                <a href="#" class="section"-->
-<!--                   title="{% blocktranslate with name=app.name %}Models in the {{ 123 }} application{% endblocktranslate %}">{{ app.name }}</a>-->
-<!--            </caption>-->
-<!--            <tr class="model-{{ app.app_label }} {% if action_model in app.app_label %} current-model {% endif %}">-->
-<!--                <th scope="row"><a href="{{ app.url_view }}" aria-current="page">{{ app.name }}</a>-->
-<!--                </th>-->
-<!--                <td><a href="{{ app.add_url }}" class="addlink">{% translate 'Add' %}</a></td>-->
-<!--            </tr>-->
-
-<!--        </table>-->
-<!--    </div>-->
-<!--    {% endfor %}-->
-
-
-
-
-
-
-
-
-
-    {% for app in app_models %}
-                      <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+{% for app in app_models %}
+                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
                         <table>
 
-                    {% for  key, value in app.items %}
+                            {% for key, value in app.items %}
                             <caption>
+
                                 <a href="#" class="section"
                                    title="{% blocktranslate with name=key %}Models in the {{ key }} application{% endblocktranslate %}">
                                     {% if key == 'users'%}
-                                    пользователи
+                                    Пользователи
                                     {% elif key == 'Incidents' %}
                                     Происшествия
                                     {% elif key == 'Subdivisions' %}
@@ -52,19 +25,33 @@
                                 </a>
                             </caption>
                             {% for value1 in value %}
-                            <tr class="model-{{ value1.app_label }} {% if action_model in value1.app_label %} current-model {% endif %}">
-                                <th scope="row"><a href="{{ value1.url_view }}" aria-current="page">{{ value1.name }}</a>
-                                </th>
-                                <td><a href="{{ value1.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
-                                <!---<td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a></td> ---!>
 
+                            {% if value1.url_view == '' and value1.add_url == '' %}
+                            {% else %}
+                            <tr class="model-{{ value1.app_label }}  {% if action_model in value1.app_label %} current-model {% endif %}">
+
+                                <th scope="row">
+                                {% if value1.url_view == ''  %}
+                                {{ value1.name}}
+                                    {% else %}
+                                <a href="{{ value1.url_view }}" aria-current="page">{{ value1.name}}</a>
+                                  {% endif %}
+                                </th>
+
+                                {% if value1.add_url == ''   %}
+                                <td><a href="" class=""></a></td>
+                                {% else %}
+                                <td><a href="{{ value1.add_url }}" class="addlink">{% translate 'Add' %}</a></td>
+                                {% endif %}
                             </tr>
+                            {% endif %}
                             {% endfor %}
 
 
-                          {% endfor %}
-                                                           </table>
-                               </div>
+                            {% endfor %}
+                        </table>
+                    </div>
+
                     {% endfor %}
 
 </nav>
