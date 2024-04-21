@@ -11,18 +11,6 @@
 {% block extrahead %}
 {{ block.super }}
 {{ media.js }}
-<script src="{% static 'admin/js/filters.js' %}" defer></script>
-<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
-<script src="/static/admin/js/jquery.init.js"></script>
-<script src="/static/admin/js/core.js"></script>
-<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script src="/static/admin/js/actions.js"></script>
-<script src="/static/admin/js/urlify.js"></script>
-<script src="/static/admin/js/prepopulate.js"></script>
-<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-<script src="/static/admin/js/filters.js" defer></script>
-
-
 <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
 <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
@@ -45,7 +33,7 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: left; font-size: 1rem; font-weight: 400; line-height: 1.5;">Информация об спецификации происшествий № {{ specification.pk }}</div></div>
+            <div style="text-align: left; font-size: 1rem; font-weight: 400; line-height: 1.5;">Информация об статусе происшествий '{{ status.status}}'</div></div>
     </div>
     </div>
 
@@ -53,16 +41,16 @@
 <div class="form-row field-">
                 <div>
                         <div class="flex-container">
-                                <label class="required" for="id_pattern">Характеристика инцидента</label>
-                                <input type="text" name="pattern" value="{{specification.pattern}}" required="" id="id_pattern" readonly class="vTextField">
+                                <label class="required" for="id_status">Статус происшествия</label>
+                                <input type="text" name="pattern" value="{{status.status}}" required="" id="id_status" readonly class="vTextField">
                         </div>
                 </div>
         </div>
     <div class="form-row field-">
                 <div>
                         <div class="flex-container">
-                                <label class="required" for="id_color">Цвет</label>
-                                <input type="text" name="pattern" value="{{specification.color}}" required="" id="id_color" readonly class="vTextField">
+                                <label class="required" for="id_description">Описание статуса происшествия</label>
+                                <input type="text" name="pattern" value="{{status.description}}" required="" id="id_description" readonly class="vTextField">
                         </div>
                 </div>
         </div>

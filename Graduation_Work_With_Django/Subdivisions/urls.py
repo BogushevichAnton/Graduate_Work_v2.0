@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('<int:Subdivision_ID>/change/', subdivision_change, name='Subdivision_change'),
     path('<int:Subdivision_ID>/delete/', subdivision_delete, name='Subdivision_delete'),
+    path('?', subdivisions_search, name='Subdivisions_search'),
     # http://127.0.0.1:8000/Subdisions/Subdivision/id/
     #path('Subdivision/<int:SubdivisionId>/change/', subdivision_change, name='Subdivision_delete'),
     # http://127.0.0.1:8000/Incidents/id/change

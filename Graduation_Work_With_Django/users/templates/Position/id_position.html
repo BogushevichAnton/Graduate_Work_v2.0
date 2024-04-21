@@ -1,0 +1,56 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<script src="{% url 'admin:jsi18n' %}"></script>
+
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
+<script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
+{% block sidebar %}
+{% endblock %}
+{% block nav-breadcrumbs %}
+{% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
+{% block content %}
+<div class="container1">
+    <div class="row1">
+        <div class="col-sm">
+            <div style="text-align: left; font-size: 1rem; font-weight: 400; line-height: 1.5;">Информация об должности {{ position.positions }}</div></div>
+    </div>
+    </div>
+
+<fieldset class="module aligned ">
+<div class="form-row field-">
+                <div>
+                        <div class="flex-container">
+                                <label class="required" for="id_pattern">Наименование должности</label>
+                                <input type="text" name="pattern" value="{{ position.positions }}" required="" id="id_pattern" readonly class="vTextField">
+                        </div>
+                </div>
+        </div>
+</fieldset>
+                <div class="submit-row">
+                    <a type="submit" class="btn btn-primary" href="change/" style="color: white;">Изменить</a>
+                    <a type="submit" class="btn btn-danger" href="delete/" style="color: white; margin-left: auto;">Удалить</a>
+                </div>
+
+
+{% endblock %}

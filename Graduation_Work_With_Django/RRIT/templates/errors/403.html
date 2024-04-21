@@ -1,0 +1,46 @@
+{% extends "RRIT/index.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<script src="{% url 'admin:jsi18n' %}"></script>
+
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<link rel="stylesheet" href="{% static "leaflet.css" %} " />
+
+<link rel="stylesheet" href="{% static "map.css" %} " />
+<!---<link rel="stylesheet" href="{% static "add.css" %} " />--!>
+<script src="{% static "leaflet.js" %}"></script>
+<script src="{% static "Incidents/js/map.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %} " />
+
+{% endblock %}
+
+{% block bodyclass %} app-{{ action_model }} model-{{ action_models_s }} change-list{% endblock %}
+{% block sidebar %}
+{% endblock %}
+{% block nav-breadcrumbs %}
+{% include "RRIT/navigation.html" %}
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+{% include "RRIT/nav_sidebar.html" %}
+{% endblock %}
+{% block content %}
+<div class="container">
+<div style="display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;">
+    <p class="text-center fs-5" style="">У вас нет прав доступа к этой странице. Обратитесь к администратору.</p>
+</div>
+</div>
+{% endblock %}

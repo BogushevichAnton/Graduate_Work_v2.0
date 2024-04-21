@@ -55,8 +55,24 @@
                   <tbody>
                     <tr>
                       <th>{{ incident.time_create }}</th>
-                      <td>{{ incident.status }}</td>
+                      <td>Происшествие обнаружено и создана заявка</td>
                     </tr>
+                    {% if incident.time_start%}
+
+                     <tr>
+                      <th>{{ incident.time_start }}</th>
+                      <td>Выдвинуты меры по ликвидации происшествия</td>
+                    </tr>
+
+                    {% endif %}
+                    {% if incident.time_end%}
+
+                     <tr>
+                      <th>{{ incident.time_end }}</th>
+                      <td>Происшествие было ликвидировано</td>
+                    </tr>
+
+                    {% endif %}
                     <tr>
                   </tbody>
                 </table>
@@ -99,8 +115,14 @@
                 </div>
 
 
-
-            <div class="row1 mt-2">
+            {% if incident.status.status in 'Завершено'%}
+ <div class="row1 mt-2">
+     <div class="col">
+         <a type="submit" class="btn btn-danger w-100" href="delete/" style="color: white;">Удалить</a>
+                         </div>
+                          </div>
+            {% else %}
+                        <div class="row1 mt-2">
                             <div class="col">
                               <a type="submit" class="btn btn-primary w-100" href="change/" style="color: white;">Изменить</a>
                             </div>
@@ -108,6 +130,9 @@
                               <a type="submit" class="btn btn-danger w-100" href="delete/" style="color: white;">Удалить</a>
                             </div>
                           </div>
+
+            {% endif %}
+
         </div>
 
     </div>

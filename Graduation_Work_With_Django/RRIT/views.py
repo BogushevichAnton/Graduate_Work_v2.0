@@ -1,14 +1,8 @@
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import context
-
 from Graduation_Work_With_Django import settings
-from Incidents.models import *
-from users.models import *
-from django.contrib import admin
 from django.apps import apps
 
 all_models = []
@@ -25,12 +19,16 @@ def permission_edit_required(perm, login_url=None, raise_exception=True):
         return False
     return user_passes_test(check_perms, login_url=login_url)
 def get_sidebar():
-    list = apps.get_models()
+    list1 = apps.get_models()
     app_models = []
-    for model1 in list:
+    #есть список моделей
+    for model1 in list1:
         if model1._meta.app_label == 'Incidents' or model1._meta.app_label == 'users' or model1._meta.app_label == 'Subdivisions':
+            array_of_permissions = [list(row) for row in model1._meta.permissions]
+            for value in array_of_permissions:
+                value[0] = model1._meta.app_label + '.' + value[0]
             help_array = []
-            for model in list:
+            for model in list1:
                 if model._meta.app_label == model1._meta.app_label:
                     if model._meta.object_name not in help_array:
                         if model._meta.app_label == 'Incidents' and model._meta.object_name == 'Incidents':
@@ -203,6 +201,16 @@ def get_search(model, arg, sql=None):
     elif model._meta.object_name == 'Specifications':
         filter_model = model.objects.filter(
             Q(pattern__icontains=arg) | Q(color__icontains=arg))
+    elif model._meta.object_name == 'Positions':
+        filter_model = model.objects.filter(
+            Q(positions__icontains=arg))
+    elif model._meta.object_name == 'Subdivisions':
+        filter_model = model.objects.filter(
+            Q(abbreviation__icontains=arg) | Q(description__icontains=arg) | Q(address__icontains=arg))
+    elif model._meta.object_name == 'Status':
+        filter_model = model.objects.filter(
+            Q(status__icontains=arg) | Q(description__icontains=arg))
+
     array_of_data = []
 
 
@@ -230,4 +238,8 @@ def index(request):
                   {'app_models': app_models,})
 
 
+
+def handler403(request, exception):
+    app_models = get_sidebar()
+    return render(request, 'errors/403.html', {'app_models':app_models}, status=403)
 

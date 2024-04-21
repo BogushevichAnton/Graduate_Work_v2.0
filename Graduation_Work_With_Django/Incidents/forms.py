@@ -17,7 +17,6 @@ class AddIncidentsForm(forms.ModelForm):
                                                                       'id': 'select1',
                                                                       }), initial=1)
 
-
     class Meta:
         model = Incidents
         fields = '__all__'
@@ -31,11 +30,13 @@ class AddIncidentsForm(forms.ModelForm):
                                               'value':'',
                                               }
                                        ),
+
+
             'description': forms.Textarea(attrs={'class': 'form-control mt-1',
                                                  'id': 'exampleFormControlTextarea1',
                                                  'rows': '4',
                                                  'style': 'resize:none; font-size: 1rem; font-weight: 400; line-height: 1.5;',
-                                                 'placeholder': 'Описание инцидента',
+                                                 'placeholder': 'Описание происшествия',
                                                  'maxlength': '255',
                                                  },
                                           ),
@@ -49,6 +50,11 @@ class AddIncidentsForm(forms.ModelForm):
                                                 'name':'taken_measures',
                                                  },
                                           ),
+
+            'complete': forms.CheckboxInput(attrs={
+                'class': 'form-check-input',
+
+            }),
 
             'latitude': forms.TextInput(attrs={'class': 'form-control',
                                                'type': '',
@@ -64,6 +70,7 @@ class AddIncidentsForm(forms.ModelForm):
                                                 'readonly': 'readonly',
                                                 'value': '',
                                                 }),
+
         }
         labels = {
             'description': '',
@@ -95,7 +102,7 @@ class AddSpecificationsForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'pattern': forms.TextInput(attrs={
-                                              'placeholder': 'Характеристика инцидента',
+                                              'placeholder': 'Характеристика происшествия',
                                               'maxlength': '100',
                                                 'class': 'vTextField',
                                               }
@@ -117,5 +124,37 @@ class AddSpecificationsForm(forms.ModelForm):
             'color': {
                 'max_length': "Максимальное количество символов - 20.",
                 'required': "Обязательное поле - Цвет."
+            },
+        }
+
+
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = '__all__'
+        widgets = {
+            'status': forms.TextInput(attrs={
+                                              'placeholder': 'Статус происшествия',
+                                              'maxlength': '100',
+                                                'class': 'vTextField',
+                                              }
+                                       ),
+            'description': forms.TextInput(attrs={
+                                              'placeholder': 'Описание статуса происшествия',
+                                              'maxlength': '100',
+                                                'class': 'vTextField',
+                                              }
+                                       ),
+        }
+        labels = {
+        }
+        error_messages = {
+            'status': {
+                'max_length': "Максимальное количество символов - 100.",
+                'required': "Обязательное поле - Статус происшествия."
+            },
+            'description': {
+                'max_length': "Максимальное количество символов - 100.",
+                'required': "Обязательное поле - Описание статуса происшествия."
             },
         }

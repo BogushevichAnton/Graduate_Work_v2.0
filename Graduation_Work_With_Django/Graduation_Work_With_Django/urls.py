@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Subdivisions.views import *
-from Incidents.views import *
-from RRIT.views import *
 
+handler403 = 'RRIT.views.handler403'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +27,4 @@ urlpatterns = [
     path('Subdivisions/', include('Subdivisions.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
-
-handler404 = 'Incidents.views.pageNotFound'
 

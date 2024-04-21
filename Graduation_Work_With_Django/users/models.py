@@ -11,14 +11,23 @@ from Subdivisions.models import Subdivisions
 
 
 class Positions(models.Model):
-    positions = models.CharField(max_length=255, verbose_name="Должность", default='Нет должности')
+    positions = models.CharField(max_length=255, verbose_name="Наименование должности")
 
-    list_display = ('position', )
-    search_fields = ['position', ]
+    list_display = ('positions', )
+    search_fields = ['positions', ]
 
     class Meta:
         verbose_name = "Должность"
         verbose_name_plural = "Должности"
+
+        permissions = [
+            ("position_add", "Добавление должностей"),
+            ("position_change", "Изменение должностей"),
+            ("position_delete", "Удаление должностей"),
+            ("position_id", "Просмотр должности"),
+
+            ("position_all", "Просмотр всех должностей в таблице"),
+        ]
 
     def __str__(self):
         return self.positions
@@ -81,7 +90,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     subdivision = models.ForeignKey(Subdivisions, on_delete = models.SET_DEFAULT, default=1, verbose_name='Подразделение', blank=True)
     fullname = models.CharField(max_length=255, verbose_name="Полное имя", default='Нет полного имени')
 
-    position = models.ForeignKey(Positions, on_delete = models.SET_DEFAULT, default=1, verbose_name='Должность', blank=True)
+    position = models.ForeignKey(Positions, on_delete = models.SET_DEFAULT, verbose_name='Должность', blank=True, default=10)
+    # default - должность с наименованием "нет должности"
 
     is_staff = models.BooleanField(u'staff status', default=False,
                                    help_text=u'Designates whether the user can log into this admin '
@@ -109,4 +119,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = "Пользователя"
         verbose_name_plural = "Пользователи"
+
+        permissions = [
+            ("user_id", "Просмотр пользователей"),
+            ("user_delete", "Удаление пользователей"),
+
+            ("user_all", "Просмотр всех пользователей в таблице"),
+        ]
 

@@ -8,11 +8,21 @@ class Subdivisions(models.Model):
     longitude = models.FloatField(verbose_name='Долгота', null=False)
 
     list_display = ('abbreviation', 'description', 'address')
-    search_fields = ['abbreviation', 'description']
+    search_fields = ['abbreviation', 'description', 'address']
 
     class Meta:
         verbose_name = "Подразделение"
         verbose_name_plural = "Подразделения"
+
+        permissions = [
+            ("subdivision_add", "Добавление подразделения"),
+            ("subdivision_change", "Изменение подразделения"),
+            ("subdivision_delete", "Удаление подразделения"),
+            ("subdivision_id", "Просмотр подразделения"),
+            ("subdivision_map", "Просмотр всех подразделений на карте"),
+
+            ("subdivision_all", "Просмотр всех подразделений в таблице"),
+        ]
 
     def __str__(self):
         return self.abbreviation

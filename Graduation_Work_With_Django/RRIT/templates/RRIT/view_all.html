@@ -98,10 +98,14 @@
                             {% for down_value in value%}
                             {% for key1, value1 in down_value.items %}
                             <th class="field-{{ key1 }}">
+
                                 {% if action_model == 'Specifications'%}
 <a href="/{{ start_model }}/{{action_models_s}}/{{ key }}/">
-                                {% else %}
-
+                                {% elif action_model == 'Positions' %}
+<a href="/{{ start_model }}/{{action_models_s}}/{{ key }}/">
+                                    {% elif action_model == 'Status' %}
+<a href="/{{ start_model }}/{{action_models_s}}/{{ key }}/">
+    {%else%}
                                 <a href="/{{ action_model }}/{{ key }}/">
                                     {% endif %}
                                 {{ value1 }}

@@ -81,7 +81,17 @@
                     <label for="exampleFormControlTextarea2" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Принятые меры по ликвидации происшествия</label>
                     {{ form.taken_measures }}
                 </div>
-
+                {% if status_help in "В работе" %}
+                <div class="form-group mt-2">
+                                <div class="form-check">
+                                  {{ form.complete }}
+                                  <label class="form-check-label"   for="id_complete">
+                                    Происшествие ликвидировано
+                                  </label>
+                                </div>
+                          </div>
+                {% else %}
+                {% endif %}
                 <div class="form-group mt-2">
                 <button type="submit" class="btn btn-primary w-100" >Сохранить изменения</button>
                 </div>
@@ -92,6 +102,8 @@
 </div>
 <div style="display: none" id="desc" data="{{incident.description}}"></div>
 <div style="display: none" id="desc1" data="{{incident.taken_measures}}"></div>
+
+<div style="display: none" id="time_create" data="{{status_help}}"></div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('exampleFormControlTextarea1').value = document.getElementById('desc').getAttribute('data');

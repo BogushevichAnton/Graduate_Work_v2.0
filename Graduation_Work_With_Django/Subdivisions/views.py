@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from Graduation_Work_With_Django import settings
-from RRIT.views import get_sidebar, get_settings, get_search
+from RRIT.views import get_settings, get_search, permission_edit_required
 from Subdivisions.forms import AddSubdivisionsForm
 from Subdivisions.models import Subdivisions
+from django.contrib.auth.decorators import login_required
 import json
-
+@login_required
+@permission_edit_required('Subdivisions.subdivision_all')
 def subdivisions_all(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -20,7 +22,8 @@ def subdivisions_all(request):
         return render(request, 'RRIT/view_all.html',context=data )
 
 
-
+@login_required
+@permission_edit_required('Subdivisions.subdivision_id')
 def subdivision_id(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -35,7 +38,8 @@ def subdivision_id(request, Subdivision_ID):
     }
     data = data | data1
     return render(request, 'Subdivisions/id.html',context=data)
-
+@login_required
+@permission_edit_required('Subdivisions.subdivision_map')
 def subdivisions_map(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -49,7 +53,8 @@ def subdivisions_map(request):
     }
     data = data | data1
     return render(request, 'Subdivisions/map.html', context=data)
-
+@login_required
+@permission_edit_required('Subdivisions.subdivision_add')
 def subdivisions_add(request):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -66,7 +71,8 @@ def subdivisions_add(request):
     }
     data = data | data1
     return render(request, 'Subdivisions/add.html',context=data)
-
+@login_required
+@permission_edit_required('Subdivisions.subdivision_change')
 def subdivision_change(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
@@ -95,6 +101,17 @@ def subdivision_change(request, Subdivision_ID):
     }
     data = data | data1
     return render(request, 'Subdivisions/change.html',context=data)
+@login_required
+@permission_edit_required('Subdivisions.subdivision_all')
+def subdivisions_search(request):
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGIN_URL)
+    arg = request.GET.get('search')
+    data = get_search(Subdivisions, arg, 1)
+    data['action_model'] = 'Subdivisions'
+    return render(request, 'RRIT/view_all.html',context=data)
+@login_required
+@permission_edit_required('Subdivisions.subdivision_delete')
 def subdivision_delete(request, Subdivision_ID):
     if not request.user.is_authenticated:
         return redirect(settings.LOGIN_URL)
