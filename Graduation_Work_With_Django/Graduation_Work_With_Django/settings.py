@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'Incidents',
     'RRIT',
     'Subdivisions',
-    'debug_toolbar',
+    #'debug_toolbar',
 ]
 AUTH_USER_MODEL = 'users.User'
 
@@ -73,7 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'Graduation_Work_With_Django.urls'

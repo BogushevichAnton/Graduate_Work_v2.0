@@ -116,7 +116,7 @@ def incidents_change(request, IncidentId):
                 obj.taken_measures = taken_measures
             if request.POST.get('complete', '') != '':
                 obj.time_end = datetime.datetime.now()
-                obj.status = Status.objects.select_related().get(status='Завершено')
+                obj.status = Status.objects.select_related().get(status='Ликвидировано')
                 obj.save()
 
             obj.save()

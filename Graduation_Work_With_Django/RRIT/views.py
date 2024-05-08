@@ -25,7 +25,6 @@ def get_sidebar(request):
     array_of_permissions_help = []   #есть список моделей
     array_of_permissions=[]
     for model1 in list1:
-
         if model1._meta.app_label == 'Incidents' or model1._meta.app_label == 'users' or model1._meta.app_label == 'Subdivisions':
             for key in model1._meta.permissions:
                 array_of_permissions_help.append(model1._meta.app_label + '.' + key[0])

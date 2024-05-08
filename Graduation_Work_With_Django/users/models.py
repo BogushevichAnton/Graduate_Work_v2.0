@@ -123,7 +123,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         permissions = [
             ("users.user_id", "Просмотр пользователей"),
             ("users.user_delete", "Удаление пользователей"),
-
             ("users.user_all", "Просмотр всех пользователей в таблице"),
         ]
 
