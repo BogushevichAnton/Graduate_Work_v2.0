@@ -229,7 +229,7 @@ def incidents_specification_change(request, SpecificationsId):
         'specification': specification,
     }
     data = data | data1
-    return render(request, 'Incidents.Specifications/change_specification.html', context=data)
+    return render(request, 'Specifications/change_specification.html', context=data)
 @login_required
 @permission_edit_required('Incidents.Incidents.specification_delete')
 def incidents_specification_delete(request, SpecificationsId):

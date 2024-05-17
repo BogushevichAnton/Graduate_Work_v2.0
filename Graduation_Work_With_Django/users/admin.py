@@ -19,6 +19,8 @@ class CustomUserAdmin(UserAdmin):
     change_user_password_template = 'admin/auth/user/change_password.html'
     fieldsets =(
         (None, {"classes": ("wide",), 'fields': ('email', 'password')}),
+        ('Должность', {'fields': ('position',)}),
+        ('Подразделение', {'fields': ('subdivision',)}),
         ('Личная информация', {'fields': ('name', 'surname', 'lastname')}),
         ('Группы', {'fields': ('groups',)}),
         ('Права доступа', {'fields': ('user_permissions',)}),

@@ -38,11 +38,11 @@
 <div class="container1">
     <div class="row1">
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить новый инцидент</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Добавить происшествие</div>
 <div id="map" style="width:750px; height: 493px; position:relative; text-align:center; margin-top: 10px;"></div>
         </div>
         <div class="col-sm">
-            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики инцидента</div>
+            <div style="text-align: center; font-size: 1rem; font-weight: 400; line-height: 1.5;">Характеристики происшествия</div>
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="form-error">{{ form.non_field_errors }}</div>
@@ -79,7 +79,7 @@
 
 
                 <div class="form-group mt-2">
-                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание инцидента</label>
+                    <label for="exampleFormControlTextarea1" style="font-size: 1rem; font-weight: 400; line-height: 1.5;">Описание происшествия</label>
                     {{ form.description }}
                     <div class="form-error">{{ form.description.errors }}</div>
                 </div>

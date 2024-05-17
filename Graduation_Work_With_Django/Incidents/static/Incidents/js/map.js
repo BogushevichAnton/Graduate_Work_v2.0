@@ -15,15 +15,12 @@ function create_map(center, zoom){
 
     }
     map = L.map('map').setView(center,zoom);
-
     var baseMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:  ''
      }).addTo(map);
-
     var railwayLayer = L.tileLayer('http://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png', {
-        attribution:  '©OpenRailwayMap'
+        attribution:  'РЖД'
     }).addTo(map);
-
     if (document.querySelector('#jsonData') != null){
         var redIcon = new L.Icon({
           iconUrl: '/static/images/marker-icon-2x-red.png',
@@ -50,10 +47,8 @@ function create_map(center, zoom){
           shadowSize: [41, 41]
     });
     }
-
     if (document.querySelector('#jsonData') != null){
     var markers = L.markerClusterGroup();
-
     for (let i = 0; i < jsonData.length; i++) {
 
         switch (jsonData[i].specification__color) {
@@ -75,25 +70,20 @@ function create_map(center, zoom){
         var address = jsonData[i].address;
         var specification = jsonData[i].specification__pattern;
         var user_create = jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname;
-
         var full_description =
         "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + description + "</td></tr id='tr'>"+
         "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + time_create + "</td></tr id='tr'>"+
         "<tr id='tr'><td id='td'><b>Адрес:</b></td><td id='td'>" + address + "</td></tr id='tr'>"+
         "<tr id='tr'><td id='td'><b>Спецификация происшествия:</b></td><td id='td'>" + specification + "</td></tr id='tr'>"+
         "<tr id='tr'><td id='td'><b>Обнаружитель:</b></td><td id='td'>" + user_create + "</td></tr id='tr'>";
-
         marker.bindPopup(full_description, {
     maxWidth : 270
 }).openPopup();
         marker.addTo(markers);
-
     }
         map.addLayer(markers);
         markers.addTo(map);
     }
-
-
        var featureGroup = L.featureGroup([railwayLayer, baseMap]);
        featureGroup.addTo(map);
        L.control.scale().addTo(map);
