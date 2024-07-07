@@ -22,4 +22,12 @@ Go to the site and enter your username and password.
 <img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/76194140-89ce-4f31-b4b3-62313ea06037">
 </p>
 
+### map
+Emergency situations will be classified by color (markers on the map), depending on the severity of the incident.
+<p align="center">
+<img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/897b1041-f062-40ca-bc16-92dbff4dd56a">
+</p>
+
+___
+
 
