@@ -36,7 +36,11 @@ Emergency situations will be classified by color (markers on the map), depending
 ### Leaflet.markercluster
 The site implements Leaflet Clusters.
 ```js
+ map = L.map('map').setView(center,zoom);
  var markers = L.markerClusterGroup();
+ var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
+ for (let i = 0; i < jsonData.length; i++) {
+ var marker = new L.Marker([jsonData[i].latitude, jsonData[i].longitude]);
  var full_description =
         "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + jsonData[i].description + "</td></tr id='tr'>"+
         "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + jsonData[i].time_create + "</td></tr id='tr'>"+
@@ -47,6 +51,7 @@ The site implements Leaflet Clusters.
         maxWidth : 270
  }).openPopup(); 
  marker.addTo(markers);
+ }
  map.addLayer(markers);
  ```
 <p align="center">
