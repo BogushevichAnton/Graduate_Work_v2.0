@@ -37,6 +37,12 @@ Emergency situations will be classified by color (markers on the map), depending
 The site implements Leaflet Clusters.
 ```js
  var markers = L.markerClusterGroup();
+ var full_description =
+        "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + jsonData[i].description + "</td></tr id='tr'>"+
+        "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + jsonData[i].time_create + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Адрес:</b></td><td id='td'>" + jsonData[i].address + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Спецификация происшествия:</b></td><td id='td'>" + jsonData[i].specification__pattern + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Обнаружитель:</b></td><td id='td'>" + jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname + "</td></tr id='tr'>";
  marker.bindPopup(full_description, {
         maxWidth : 270
  }).openPopup(); 

@@ -65,17 +65,12 @@ function create_map(center, zoom){
                     var marker = new L.Marker([jsonData[i].latitude, jsonData[i].longitude]);
                     break;
                 }
-        var description = jsonData[i].description;
-        var time_create = jsonData[i].time_create;
-        var address = jsonData[i].address;
-        var specification = jsonData[i].specification__pattern;
-        var user_create = jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname;
         var full_description =
-        "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + description + "</td></tr id='tr'>"+
-        "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + time_create + "</td></tr id='tr'>"+
-        "<tr id='tr'><td id='td'><b>Адрес:</b></td><td id='td'>" + address + "</td></tr id='tr'>"+
-        "<tr id='tr'><td id='td'><b>Спецификация происшествия:</b></td><td id='td'>" + specification + "</td></tr id='tr'>"+
-        "<tr id='tr'><td id='td'><b>Обнаружитель:</b></td><td id='td'>" + user_create + "</td></tr id='tr'>";
+        "<table id='table-auto'>" + "<thead id='thead'><tr id='tr' ><th id='th'>Поле объекта</th><th id='th'>Значения</th></tr id='tr'></thead><tbody><tr id='tr'><td id='td'><b>Описание:</b></td><td id='td'>" + jsonData[i].description + "</td></tr id='tr'>"+
+        "<tr id='tr' id='tr id='tr''><td id='td'><b>Дата обнаружения:</b></td><td id='td'>" + jsonData[i].time_create + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Адрес:</b></td><td id='td'>" + jsonData[i].address + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Спецификация происшествия:</b></td><td id='td'>" + jsonData[i].specification__pattern + "</td></tr id='tr'>"+
+        "<tr id='tr'><td id='td'><b>Обнаружитель:</b></td><td id='td'>" + jsonData[i].user_create__surname + ' '+ jsonData[i].user_create__name +' '+ jsonData[i].user_create__lastname + "</td></tr id='tr'>";
         marker.bindPopup(full_description, {
     maxWidth : 270
 }).openPopup();
