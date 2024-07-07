@@ -18,7 +18,6 @@ Take a backup of the database from the __DB__ folder.
 To authorize, you need to create a user using the `python manage.py createsuperuser` command.
 Go to the site and enter your username and password.
 
-![LogIN](https://github.com/nemooo-trash/images_git/blob/master/images/login.png)
 
 
 
