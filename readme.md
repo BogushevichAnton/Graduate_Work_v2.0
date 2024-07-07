@@ -24,10 +24,38 @@ Go to the site and enter your username and password.
 
 ### map
 Emergency situations will be classified by color (markers on the map), depending on the severity of the incident.
+
+
 <p align="center">
 <img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/963c090c-5f59-4058-9b61-a881dedbb2fc">
 </p>
 
+
+
+
+### Leaflet.markercluster
+The site implements Leaflet Clusters.
+```js
+ var markers = L.markerClusterGroup();
+ marker.bindPopup(full_description, {
+        maxWidth : 270
+ }).openPopup(); 
+ marker.addTo(markers);
+ map.addLayer(markers);
+ ```
+<p align="center">
+<img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/91980fd7-2a80-45c9-a9c8-9243b383f5e9">
+</p>
+
+### Descriptions of incidents
+Description of incidents on the map.
+<p align="center">
+<img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/aae24494-f4d0-4eb4-b11a-5419897f139a">
+</p>
+
+<p align="center">
+<img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/0f5647cb-0651-4281-ae12-80480510256f">
+</p>
 ___
 
 
