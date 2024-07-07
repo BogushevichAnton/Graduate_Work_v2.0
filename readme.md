@@ -56,6 +56,7 @@ Description of incidents on the map.
 <p align="center">
 <img src="https://github.com/nemooo-trash/Graduate_Work_v2.0/assets/56976574/0f5647cb-0651-4281-ae12-80480510256f">
 </p>
+
 ___
 
 
